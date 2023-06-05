@@ -23,6 +23,10 @@ class ConferenceEditionIndexer
     public function reset()
     {
         $this->searchClient->deleteObjects(static::INDEX_NAME, []);
+
+        $this->searchClient->updateSortableAttributes('conference_editions', [
+            'date',
+        ]);
     }
 
     public function indexConferenceEdition(ConferenceEdition $conferenceEdition): void

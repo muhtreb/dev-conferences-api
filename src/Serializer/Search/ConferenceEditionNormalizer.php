@@ -21,6 +21,7 @@ class ConferenceEditionNormalizer implements NormalizerInterface
             'objectID' => $object->objectID,
             'name' => $object->name,
             'description' => $object->description,
+            'date' => $object->date,
         ];
     }
 

@@ -28,7 +28,10 @@ class SearchController extends AbstractController
                 'objectID',
             ],
             'hitsPerPage' => $request->query->getInt('limit', 30),
-            'page' => $request->query->getInt('page', 1)
+            'page' => $request->query->getInt('page', 1),
+            'sort' => [
+                'date:desc',
+            ],
         ]);
 
         $conferenceEditionIds = [];
