@@ -20,7 +20,7 @@ class IndexController extends AbstractController
     ): JsonResponse
     {
         $limit = $request->query->getInt('limit', 10);
-        $offset = $request->query->getInt('offset', 0);
+        $offset = $request->query->getInt('offset');
 
         $conferences = new ArrayCollection($conferenceRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
         return new JsonResponse($serializer->normalize($conferences));

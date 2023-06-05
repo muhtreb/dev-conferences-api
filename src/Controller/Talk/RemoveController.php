@@ -16,8 +16,8 @@ class RemoveController extends AbstractController
     #[Route(
         path: '/talks/{talk}',
         name: 'api_talk_remove',
-        methods: ['DELETE'],
-        requirements: ['talk' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}']
+        requirements: ['talk' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
+        methods: ['DELETE']
     )]
     public function __invoke(
         Talk $talk,

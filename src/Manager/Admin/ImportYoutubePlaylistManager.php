@@ -9,6 +9,7 @@ use App\Enum\YoutubePlaylistImportStatusEnum;
 use App\Helper\YoutubeApiHelper;
 use App\Repository\TalkRepository;
 use App\Repository\YoutubePlaylistImportRepository;
+use App\Service\Search\TalkIndexer;
 
 readonly class ImportYoutubePlaylistManager
 {
@@ -16,14 +17,21 @@ readonly class ImportYoutubePlaylistManager
         private YoutubeApiClient $youtubeApiClient,
         private YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
         private TalkRepository $talkRepository,
-        private YoutubeApiHelper $youtubeApiHelper
-    )
-    {
+        private YoutubeApiHelper $youtubeApiHelper,
+        private TalkIndexer $talkIndexer
+    ) {
     }
 
     public function processYoutubePlaylistImport(YoutubePlaylistImport $youtubePlaylistImport): void
     {
-        $playlistItems = $this->youtubeApiClient->getPlaylistItemsById($youtubePlaylistImport->getPlaylistId());
+        try {
+            $playlistItems = $this->youtubeApiClient->getPlaylistItemsById($youtubePlaylistImport->getPlaylistId());
+        } catch (\Exception) {
+            $youtubePlaylistImport->setStatus(YoutubePlaylistImportStatusEnum::Error);
+            $this->youtubePlaylistImportRepository->save($youtubePlaylistImport);
+            return;
+        }
+
         $position = 0;
 
         $talksToIndex = [];
@@ -58,7 +66,7 @@ readonly class ImportYoutubePlaylistManager
             $position++;
         }
 
-        //$this->talkIndexer->indexTalks($talksToIndex);
+        $this->talkIndexer->indexTalks($talksToIndex);
 
         $youtubePlaylistImport->setStatus(YoutubePlaylistImportStatusEnum::Success);
         $youtubePlaylistImport->setData($playlistItems);

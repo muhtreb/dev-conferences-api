@@ -23,6 +23,8 @@ security:
             pattern: ^/
             access_token:
                 token_handler: App\Security\AdminAccessTokenHandler
+                token_extractors:
+                    App\Security\AdminTokenExtractor
             logout:
                 path: api_security_logout
             provider: admin_api_user_provider
@@ -39,4 +41,5 @@ security:
         - { path: ^/speakers/fetch/ids, methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: ^/talks, methods: [ GET ], roles: PUBLIC_ACCESS }
         - { path: ^/talks/fetch/ids, methods: [ POST ], roles: PUBLIC_ACCESS }
-        - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(_(profiler|wdt)|css|images|js)/, role: PUBLIC_ACCESS }
+        - { path: ^/, role: ROLE_ADMIN }
