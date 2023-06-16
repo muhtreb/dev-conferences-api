@@ -7,10 +7,10 @@ namespace App\Serializer;
 use App\Entity\ConferenceEdition;
 use App\Repository\TalkRepository;
 use App\Repository\YoutubePlaylistImportRepository;
+use Cocur\Slugify\Slugify;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Cocur\Slugify\Slugify;
 
 class ConferenceEditionNormalizer implements NormalizerAwareInterface, NormalizerInterface
 {
@@ -67,5 +67,10 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof ConferenceEdition;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [ConferenceEdition::class];
     }
 }

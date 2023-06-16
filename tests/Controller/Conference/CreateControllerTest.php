@@ -10,7 +10,7 @@ class CreateControllerTest extends WebTestCase
     public function testCreateWithoutAuthentication(): void
     {
         $client = static::createClient();
-        $client->request('POST', '/api/conferences', content: json_encode([
+        $client->request('POST', '/conferences', content: json_encode([
             'name' => 'Conference 6',
         ]));
 
@@ -23,9 +23,9 @@ class CreateControllerTest extends WebTestCase
 
         $client->request(
             method: 'POST',
-            uri: '/api/conferences',
+            uri: '/conferences',
             server: [
-                'HTTP_Authorization' => 'Bearer token',
+                'HTTP_x-auth-token' => 'token',
             ],
             content: json_encode([
                 'name' => 'Conference 6',

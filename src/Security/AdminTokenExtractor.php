@@ -9,6 +9,6 @@ readonly class AdminTokenExtractor implements AccessTokenExtractorInterface
 {
     public function extractAccessToken(Request $request): ?string
     {
-        return $request->headers->get('X-AUTH-TOKEN');
+        return $request->headers->get('x-auth-token');
     }
 }

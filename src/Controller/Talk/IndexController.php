@@ -17,12 +17,9 @@ class IndexController extends AbstractController
         Request $request,
         TalkRepository $talkRepository,
         NormalizerInterface $serializer,
-    ): JsonResponse
-    {
-        $talkRepository->count([]);
-        $limit = 50;
-        $page = $request->query->get('page', 1);
-        $offset = ($page - 1) * $limit;
+    ): JsonResponse {
+        $limit = $request->query->getInt('limit', 10);
+        $offset = $request->query->getInt('offset');
         $talks = new ArrayCollection($talkRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
         return new JsonResponse($serializer->normalize($talks));
     }

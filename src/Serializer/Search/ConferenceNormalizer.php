@@ -28,4 +28,9 @@ class ConferenceNormalizer implements NormalizerInterface
     {
         return $data instanceof ConferenceDomainObject;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [ConferenceDomainObject::class];
+    }
 }

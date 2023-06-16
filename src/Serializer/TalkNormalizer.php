@@ -6,10 +6,10 @@ namespace App\Serializer;
 
 use App\Entity\Talk;
 use App\Repository\SpeakerRepository;
+use Cocur\Slugify\Slugify;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Cocur\Slugify\Slugify;
 
 class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
@@ -63,5 +63,10 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof Talk;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [Talk::class];
     }
 }

@@ -27,4 +27,9 @@ class TagNormalizer implements NormalizerInterface
     {
         return $data instanceof Tag;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [Tag::class];
+    }
 }

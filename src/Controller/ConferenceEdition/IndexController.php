@@ -7,6 +7,7 @@ use App\Repository\ConferenceEditionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -21,9 +22,12 @@ class IndexController extends AbstractController
         Conference $conference,
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $serializer,
-    ): JsonResponse
-    {
-        $conferenceEditions = new ArrayCollection($conferenceEditionRepository->findBy(['conference' => $conference]));
+        Request $request,
+    ): JsonResponse {
+        $limit = $request->query->getInt('limit', 10);
+        $offset = $request->query->getInt('offset');
+
+        $conferenceEditions = new ArrayCollection($conferenceEditionRepository->findBy(['conference' => $conference], ['name' => 'ASC'], $limit, $offset));
         return new JsonResponse($serializer->normalize($conferenceEditions, null, [
             'withTalks' => false,
             'withPlaylistImports' => false

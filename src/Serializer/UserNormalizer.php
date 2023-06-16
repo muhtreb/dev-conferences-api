@@ -12,8 +12,7 @@ class UserNormalizer implements NormalizerInterface
 {
     public function __construct(
         protected Security $security
-    )
-    {
+    ) {
     }
 
     /**
@@ -34,5 +33,10 @@ class UserNormalizer implements NormalizerInterface
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof User;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [UserNormalizer::class];
     }
 }

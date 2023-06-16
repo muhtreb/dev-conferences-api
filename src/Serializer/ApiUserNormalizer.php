@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Serializer;
 
 use App\Security\AdminApiUser;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ApiUserNormalizer implements NormalizerInterface
@@ -28,5 +27,10 @@ class ApiUserNormalizer implements NormalizerInterface
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof AdminApiUser;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [AdminApiUser::class];
     }
 }

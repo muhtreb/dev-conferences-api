@@ -6,6 +6,7 @@ use App\Repository\SpeakerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -15,9 +16,14 @@ class IndexController extends AbstractController
     public function __invoke(
         SpeakerRepository $speakerRepository,
         NormalizerInterface $serializer,
+        Request $request,
     ): JsonResponse
     {
-        $speakers = new ArrayCollection($speakerRepository->findAll());
+        $limit = $request->query->getInt('limit', 10);
+        $offset = $request->query->getInt('offset');
+
+        $speakers = new ArrayCollection($speakerRepository->findBy([], [], $limit, $offset));
+
         return new JsonResponse($serializer->normalize($speakers));
     }
 }

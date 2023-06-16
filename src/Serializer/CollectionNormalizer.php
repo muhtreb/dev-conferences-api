@@ -11,16 +11,21 @@ class CollectionNormalizer implements NormalizerAwareInterface, NormalizerInterf
 {
     use NormalizerAwareTrait;
 
-    public function supportsNormalization($data, $format = null, array $context = []): bool
-    {
-        return $data instanceof Collection;
-    }
-
     /**
      * @param Collection $object
      */
     public function normalize($object, ?string $format = null, array $context = []): array
     {
         return $object->map(fn($item) => $this->normalizer->normalize($item, $format, $context))->getValues();
+    }
+
+    public function supportsNormalization($data, $format = null, array $context = []): bool
+    {
+        return $data instanceof Collection;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [Collection::class];
     }
 }

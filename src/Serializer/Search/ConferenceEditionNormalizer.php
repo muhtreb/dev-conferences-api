@@ -29,4 +29,9 @@ class ConferenceEditionNormalizer implements NormalizerInterface
     {
         return $data instanceof ConferenceEditionDomainObject;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [ConferenceEditionDomainObject::class];
+    }
 }
