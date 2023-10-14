@@ -21,7 +21,7 @@ class SpeakerIndexer
     ) {
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->searchClient->deleteObjects(static::INDEX_NAME, []);
 
