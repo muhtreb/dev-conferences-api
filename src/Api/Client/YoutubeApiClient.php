@@ -6,15 +6,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class YoutubeApiClient
 {
-    protected HttpClientInterface $client;
-    protected string $googleApiKey;
+    private HttpClientInterface $client;
 
-    public function __construct(HttpClientInterface $client, string $googleApiKey)
+    public function __construct(HttpClientInterface $client, private readonly string $googleApiKey)
     {
         $this->client = $client->withOptions([
             'base_uri' => 'https://www.googleapis.com',
         ]);
-        $this->googleApiKey = $googleApiKey;
     }
 
     public function getPlaylistById(string $id): array

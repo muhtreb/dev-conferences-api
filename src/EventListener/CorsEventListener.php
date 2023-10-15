@@ -12,10 +12,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class CorsEventListener implements EventSubscriberInterface
 {
-    public function __construct(public string $websiteUrl)
-    {
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [

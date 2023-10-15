@@ -9,7 +9,7 @@ use App\Service\SearchClient;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class SpeakerIndexer
+readonly class SpeakerIndexer
 {
     private const INDEX_NAME = 'speakers';
 

@@ -20,7 +20,7 @@ class IndexConferenceEditionsCommand extends Command
     public function __construct(
         public ConferenceEditionRepository $conferenceEditionRepository,
         public NormalizerInterface $serializer,
-        protected ConferenceEditionIndexer $conferenceEditionIndexer
+        private readonly ConferenceEditionIndexer $conferenceEditionIndexer
     ) {
         parent::__construct();
     }

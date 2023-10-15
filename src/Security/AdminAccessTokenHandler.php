@@ -15,10 +15,10 @@ readonly class AdminAccessTokenHandler implements AccessTokenHandlerInterface
     {
     }
 
-    public function getUserBadgeFrom(string $token): UserBadge
+    public function getUserBadgeFrom(string $accessToken): UserBadge
     {
-        $accessToken = $this->repository->findOneBy(['token' => $token]);
-        if (null === $accessToken) {
+        $token = $this->repository->findOneBy(['token' => $accessToken]);
+        if (null === $token) {
             throw new BadCredentialsException('Invalid credentials.');
         }
 

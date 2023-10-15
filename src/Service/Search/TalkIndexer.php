@@ -8,7 +8,7 @@ use App\Service\SearchClient;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class TalkIndexer
+readonly class TalkIndexer
 {
     private const INDEX_NAME = 'talks';
 

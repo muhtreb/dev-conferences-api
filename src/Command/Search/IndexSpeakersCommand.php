@@ -27,7 +27,7 @@ class IndexSpeakersCommand extends Command
     {
         try {
             $this->speakerIndexer->reset();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // do nothing
         }
 

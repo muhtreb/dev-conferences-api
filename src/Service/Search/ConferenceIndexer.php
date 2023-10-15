@@ -8,7 +8,7 @@ use App\Service\SearchClient;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ConferenceIndexer
+readonly class ConferenceIndexer
 {
     private const INDEX_NAME = 'conferences';
 

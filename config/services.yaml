@@ -30,7 +30,5 @@ services:
             $apiKey: '%env(MEILISEARCH_API_KEY)%'
 
     App\EventListener\CorsEventListener:
-        arguments:
-            $websiteUrl: '%env(WEBSITE_URL)%'
         tags:
             - { name: kernel.event_subscriber }

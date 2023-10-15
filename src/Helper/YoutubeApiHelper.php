@@ -4,10 +4,6 @@ namespace App\Helper;
 
 class YoutubeApiHelper
 {
-    /**
-     * @param array $data
-     * @return bool
-     */
     public function isPublishedVideo(array $data): bool
     {
         return isset($data['contentDetails']['videoPublishedAt']);
@@ -52,7 +48,7 @@ class YoutubeApiHelper
         try {
             $dateInterval = new \DateInterval($duration);
             return ($dateInterval->days * 86400) + ($dateInterval->h * 3600) + ($dateInterval->i * 60) + $dateInterval->s;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }

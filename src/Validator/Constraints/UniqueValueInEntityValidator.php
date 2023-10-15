@@ -16,11 +16,6 @@ class UniqueValueInEntityValidator extends ConstraintValidator
     {
     }
 
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     * @return void
-     */
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueValueInEntity) {

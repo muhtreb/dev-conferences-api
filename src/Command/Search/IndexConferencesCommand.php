@@ -19,7 +19,7 @@ class IndexConferencesCommand extends Command
     public function __construct(
         public ConferenceRepository $conferenceRepository,
         public NormalizerInterface $serializer,
-        protected ConferenceIndexer $conferenceIndexer
+        private readonly ConferenceIndexer $conferenceIndexer
     )
     {
         parent::__construct();
