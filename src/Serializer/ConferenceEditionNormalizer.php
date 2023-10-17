@@ -68,9 +68,4 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
     {
         return $data instanceof ConferenceEdition;
     }
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [ConferenceEdition::class];
-    }
 }

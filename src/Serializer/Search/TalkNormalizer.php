@@ -31,9 +31,4 @@ class TalkNormalizer implements NormalizerInterface
     {
         return $data instanceof TalkDomainObject;
     }
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [TalkDomainObject::class];
-    }
 }

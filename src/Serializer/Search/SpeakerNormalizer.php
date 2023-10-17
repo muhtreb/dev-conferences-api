@@ -32,9 +32,4 @@ class SpeakerNormalizer implements NormalizerInterface
     {
         return $data instanceof SpeakerDomainObject;
     }
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [SpeakerDomainObject::class];
-    }
 }

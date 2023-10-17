@@ -54,9 +54,4 @@ class ConferenceNormalizer implements NormalizerAwareInterface, NormalizerInterf
     {
         return $data instanceof Conference;
     }
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [Conference::class];
-    }
 }

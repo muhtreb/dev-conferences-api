@@ -64,9 +64,4 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
     {
         return $data instanceof Talk;
     }
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [Talk::class];
-    }
 }
