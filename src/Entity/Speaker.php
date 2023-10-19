@@ -24,6 +24,9 @@ class Speaker
     #[ORM\Column(type: 'string', length: 255)]
     private string $lastName;
 
+    #[ORM\Column(type: 'text')]
+    private string $slug;
+
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
@@ -84,6 +87,17 @@ class Speaker
     public function setLastName(string $lastName): Speaker
     {
         $this->lastName = $lastName;
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): Speaker
+    {
+        $this->slug = $slug;
         return $this;
     }
 

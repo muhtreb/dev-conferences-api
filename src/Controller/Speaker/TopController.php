@@ -37,8 +37,8 @@ class TopController extends AbstractController
             return array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds);
         });
 
-        return new JsonResponse([
-            'data' => $serializer->normalize($speakers, null, ['withTalks' => false])
-        ]);
+        return new JsonResponse(
+            $serializer->normalize($speakers, null, ['withTalks' => false])
+        );
     }
 }

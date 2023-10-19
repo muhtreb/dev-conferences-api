@@ -26,4 +26,27 @@ class ConferenceEditionRepository extends AbstractRepository
             ->setMaxResults($count)
             ->getResult();
     }
+
+    public function checkSlugExists(string $slug, ?string $editionId = null): bool
+    {
+        $connection = $this->_em->getConnection();
+        $query = <<<SQL
+           SELECT slug
+           FROM conference_edition
+           WHERE slug = :slug
+        SQL;
+
+        if ($editionId !== null) {
+            $query .= ' AND id != :editionId';
+        }
+
+        $stmt = $connection->prepare($query);
+        $stmt->bindValue('slug', $slug);
+        if ($editionId !== null) {
+            $stmt->bindValue('editionId', $editionId);
+        }
+        $result = $stmt->execute();
+
+        return $result->fetchOne() !== false;
+    }
 }

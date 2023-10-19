@@ -39,7 +39,7 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
             'id' => $speaker->getId(),
             'firstName' => $speaker->getFirstName(),
             'lastName' => $speaker->getLastName(),
-            'slug' => (new Slugify())->slugify($speaker->getFirstName() . ' ' . $speaker->getLastName()),
+            'slug' => $speaker->getSlug(),
             'description' => $speaker->getDescription(),
             'twitter' => $speaker->getTwitter(),
             'github' => $speaker->getGithub(),

@@ -14,6 +14,7 @@ class SpeakerRepository extends AbstractRepository
     {
         parent::__construct($registry, Speaker::class);
     }
+
     public function getTalkSpeakers(Talk $talk): ArrayCollection
     {
         $results = $this->_em->createQueryBuilder()
@@ -32,5 +33,28 @@ class SpeakerRepository extends AbstractRepository
             }
         }
         return $speakers;
+    }
+
+    public function checkSlugExists(string $slug, ?string $speakerId = null): bool
+    {
+        $connection = $this->_em->getConnection();
+        $query = <<<SQL
+           SELECT slug
+           FROM speaker
+           WHERE slug = :slug
+        SQL;
+
+        if ($speakerId !== null) {
+            $query .= ' AND id != :speakerId';
+        }
+
+        $stmt = $connection->prepare($query);
+        $stmt->bindValue('slug', $slug);
+        if ($speakerId !== null) {
+            $stmt->bindValue('speakerId', $speakerId);
+        }
+        $result = $stmt->execute();
+
+        return $result->fetchOne() !== false;
     }
 }

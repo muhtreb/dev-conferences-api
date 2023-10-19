@@ -10,6 +10,7 @@ use App\Repository\SpeakerTalkRepository;
 use App\Repository\TalkRepository;
 use App\Service\Search\SpeakerIndexer;
 use App\Service\Search\TalkIndexer;
+use App\Service\TalkSlugGenerator;
 
 readonly class TalkManager
 {
@@ -19,13 +20,17 @@ readonly class TalkManager
         private SpeakerTalkRepository $speakerTalkRepository,
         private SpeakerIndexer $speakerIndexer,
         private TalkIndexer $talkIndexer,
+        private TalkSlugGenerator $talkSlugGenerator
     ) {
     }
 
     public function createTalkFromDTO(TalkDomainObject $dto): Talk
     {
+        $slug = $this->talkSlugGenerator->generateSlug($dto->name);
+
         $talk = (new Talk())
-            ->setName($dto->name)
+            ->setName($dto->name)(new Slugify())->slugify($dto->name)
+            ->setSlug($slug)
             ->setDescription($dto->description)
             ->setDate($dto->date)
             ->setConferenceEdition($dto->conferenceEdition)
@@ -40,8 +45,11 @@ readonly class TalkManager
 
     public function updateTalkFromDTO(Talk $talk, TalkDomainObject $dto): Talk
     {
+        $slug = $this->talkSlugGenerator->generateSlug($dto->name, $talk);
+
         $talk
             ->setName($dto->name)
+            ->setSlug($slug)
             ->setDescription($dto->description)
             ->setConferenceEdition($dto->conferenceEdition);
 

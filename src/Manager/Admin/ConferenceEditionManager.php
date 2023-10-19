@@ -10,6 +10,7 @@ use App\Message\ImportYoutubePlaylistMessage;
 use App\Repository\ConferenceEditionNotificationRepository;
 use App\Repository\ConferenceEditionRepository;
 use App\Repository\YoutubePlaylistImportRepository;
+use App\Service\ConferenceEditionSlugGenerator;
 use App\Service\Search\ConferenceEditionIndexer;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -21,13 +22,16 @@ readonly class ConferenceEditionManager
         private YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
         private MessageBusInterface $bus,
         private ConferenceEditionIndexer $conferenceEditionIndexer,
+        private ConferenceEditionSlugGenerator $conferenceEditionSlugGenerator
     ) {
     }
 
     public function createConferenceEditionFromDTO(ConferenceEditionDomainObject $dto): ConferenceEdition
     {
+        $slug = $this->conferenceEditionSlugGenerator->generateSlug($dto->name);
         $conferenceEdition = (new ConferenceEdition())
             ->setName($dto->name)
+            ->setSlug($slug)
             ->setDescription($dto->description)
             ->setStartDate($dto->startDate)
             ->setEndDate($dto->endDate)
@@ -42,8 +46,10 @@ readonly class ConferenceEditionManager
 
     public function updateConferenceEditionFromDTO(ConferenceEdition $conferenceEdition, ConferenceEditionDomainObject $dto): ConferenceEdition
     {
+        $slug = $this->conferenceEditionSlugGenerator->generateSlug($dto->name, $conferenceEdition);
         $conferenceEdition
             ->setName($dto->name)
+            ->setSlug($slug)
             ->setDescription($dto->description)
             ->setStartDate($dto->startDate)
             ->setEndDate($dto->endDate);

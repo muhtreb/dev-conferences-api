@@ -39,7 +39,7 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
                 'thumbnail' => $talk->getThumbnailImageUrl(),
                 'poster' => $talk->getPosterImageUrl()
             ],
-            'slug' => (new Slugify())->slugify($talk->getName())
+            'slug' => $talk->getSlug(),
         ];
 
         if ($withEdition = $context['withEdition'] ?? true) {

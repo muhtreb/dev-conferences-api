@@ -35,7 +35,7 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
         $data = [
             'id' => $conferenceEdition->getId(),
             'name' => $conferenceEdition->getName(),
-            'slug' => (new Slugify())->slugify($conferenceEdition->getName()),
+            'slug' => $conferenceEdition->getSlug(),
             'description' => $conferenceEdition->getDescription(),
             'startDate' => $startDate ? $startDate->format('Y-m-d H:i:s') : null,
             'endDate' => $endDate ? $endDate->format('Y-m-d H:i:s') : null,
