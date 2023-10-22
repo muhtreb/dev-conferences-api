@@ -10,6 +10,7 @@ use App\Helper\YoutubeApiHelper;
 use App\Repository\TalkRepository;
 use App\Repository\YoutubePlaylistImportRepository;
 use App\Service\Search\TalkIndexer;
+use App\Service\TalkSlugGenerator;
 use Psr\Log\LoggerInterface;
 
 readonly class ImportYoutubePlaylistManager
@@ -21,6 +22,7 @@ readonly class ImportYoutubePlaylistManager
         private YoutubeApiHelper $youtubeApiHelper,
         private TalkIndexer $talkIndexer,
         private LoggerInterface $logger,
+        private TalkSlugGenerator $talkSlugGenerator,
     ) {
     }
 
@@ -59,6 +61,7 @@ readonly class ImportYoutubePlaylistManager
             $talk = (new Talk())
                 ->setConferenceEdition($youtubePlaylistImport->getConferenceEdition())
                 ->setName($playlistItem['snippet']['title'])
+                ->setSlug($this->talkSlugGenerator->generateSlug($playlistItem['snippet']['title']))
                 ->setDate($youtubePlaylistImport->getConferenceEdition()->getStartDate())
                 ->setDescription($playlistItem['snippet']['description'])
                 ->setYoutubeId($playlistItem['contentDetails']['videoId'])
