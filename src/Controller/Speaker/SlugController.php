@@ -13,7 +13,7 @@ class SlugController extends AbstractController
     #[Route(
         path: '/speakers/slug/{slug}',
         name: 'api_speaker_slug',
-        requirements: ['slug' => '[a-z0-9-]+']
+        requirements: ['slug' => '.*']
     )]
     public function __invoke(
         Speaker $speaker,
