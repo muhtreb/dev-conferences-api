@@ -6,12 +6,14 @@ use App\DomainObject\SpeakerDomainObject;
 use App\Entity\Speaker;
 use App\Repository\SpeakerRepository;
 use App\Service\Search\SpeakerIndexer;
+use App\Service\SpeakerSlugGenerator;
 
 readonly class SpeakerManager
 {
     public function __construct(
         private SpeakerRepository $speakerRepository,
         private SpeakerIndexer $speakerIndexer,
+        private SpeakerSlugGenerator $speakerSlugGenerator,
     ) {
     }
 
@@ -20,6 +22,7 @@ readonly class SpeakerManager
         $speaker = (new Speaker())
             ->setFirstName($dto->firstName)
             ->setLastName($dto->lastName)
+            ->setSlug($this->speakerSlugGenerator->generateSlug($dto->firstName . ' ' . $dto->lastName))
             ->setTwitter($dto->twitter)
             ->setGithub($dto->github)
             ->setDescription($dto->description);
@@ -36,6 +39,7 @@ readonly class SpeakerManager
         $speaker
             ->setFirstName($dto->firstName)
             ->setLastName($dto->lastName)
+            ->setSlug($this->speakerSlugGenerator->generateSlug($dto->firstName . ' ' . $dto->lastName, $speaker))
             ->setTwitter($dto->twitter)
             ->setGithub($dto->github)
             ->setDescription($dto->description);
