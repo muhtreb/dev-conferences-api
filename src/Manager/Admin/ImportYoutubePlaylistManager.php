@@ -10,6 +10,7 @@ use App\Helper\YoutubeApiHelper;
 use App\Repository\TalkRepository;
 use App\Repository\YoutubePlaylistImportRepository;
 use App\Service\Search\TalkIndexer;
+use Psr\Log\LoggerInterface;
 
 readonly class ImportYoutubePlaylistManager
 {
@@ -18,7 +19,8 @@ readonly class ImportYoutubePlaylistManager
         private YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
         private TalkRepository $talkRepository,
         private YoutubeApiHelper $youtubeApiHelper,
-        private TalkIndexer $talkIndexer
+        private TalkIndexer $talkIndexer,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -26,7 +28,13 @@ readonly class ImportYoutubePlaylistManager
     {
         try {
             $playlistItems = $this->youtubeApiClient->getPlaylistItemsById($youtubePlaylistImport->getPlaylistId());
-        } catch (\Exception) {
+        } catch (\Exception $e) {
+            $this->logger->error('Error while importing youtube playlist', [
+                'youtubePlaylistImportId' => $youtubePlaylistImport->getId(),
+                'playlistId' => $youtubePlaylistImport->getPlaylistId(),
+                'exception' => $e
+            ]);
+
             $youtubePlaylistImport->setStatus(YoutubePlaylistImportStatusEnum::Error);
             $this->youtubePlaylistImportRepository->save($youtubePlaylistImport);
             return;
