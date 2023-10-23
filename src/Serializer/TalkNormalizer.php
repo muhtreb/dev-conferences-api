@@ -6,6 +6,7 @@ namespace App\Serializer;
 
 use App\Entity\Talk;
 use App\Repository\SpeakerRepository;
+use App\Repository\TalkRepository;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
@@ -16,7 +17,9 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
     use NormalizerAwareTrait;
 
     public function __construct(
-        protected SpeakerRepository $speakerRepository
+        private SpeakerRepository $speakerRepository,
+        private TalkRepository $talkRepository
+
     ) {
     }
 
@@ -39,8 +42,40 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
                 'thumbnail' => $talk->getThumbnailImageUrl(),
                 'poster' => $talk->getPosterImageUrl()
             ],
-            'slug' => $talk->getSlug(),
+            'slug' => $talk->getSlug()
         ];
+
+        dump($context);
+
+        if ($withPrevNextTalks = $context['withPrevNextTalks'] ?? false) {
+            $prevTalk = $this->talkRepository->findOneBy([
+                'conferenceEdition' => $talk->getConferenceEdition(),
+                'position' => $talk->getPosition() - 1
+            ]);
+
+            $data['prevTalk'] = null;
+            if (null !== $prevTalk) {
+                $data['prevTalk'] = $this->normalizer->normalize($prevTalk, null, [
+                    'withPrevNextTalks' => false,
+                    'withEdition' => false,
+                    'withSpeakers' => true,
+                ]);
+            }
+
+            $nextTalk = $this->talkRepository->findOneBy([
+                'conferenceEdition' => $talk->getConferenceEdition(),
+                'position' => $talk->getPosition() + 1
+            ]);
+
+            $data['nextTalk'] = null;
+            if (null !== $nextTalk) {
+                $data['nextTalk'] = $this->normalizer->normalize($nextTalk, null, [
+                    'withPrevNextTalks' => false,
+                    'withEdition' => false,
+                    'withSpeakers' => true,
+                ]);
+            }
+        }
 
         if ($withEdition = $context['withEdition'] ?? true) {
             $data['edition'] = $this->normalizer->normalize($talk->getConferenceEdition(), null, [

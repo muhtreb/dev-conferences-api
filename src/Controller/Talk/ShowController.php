@@ -20,6 +20,8 @@ class ShowController extends AbstractController
         NormalizerInterface $serializer
     ): JsonResponse
     {
-        return new JsonResponse($serializer->normalize($talk));
+        return new JsonResponse($serializer->normalize($talk, null, [
+            'withPrevNextTalks' => true,
+        ]));
     }
 }
