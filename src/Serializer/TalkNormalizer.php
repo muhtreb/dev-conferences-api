@@ -45,8 +45,6 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'slug' => $talk->getSlug()
         ];
 
-        dump($context);
-
         if ($withPrevNextTalks = $context['withPrevNextTalks'] ?? false) {
             $prevTalk = $this->talkRepository->findOneBy([
                 'conferenceEdition' => $talk->getConferenceEdition(),
