@@ -16,15 +16,14 @@ readonly class ConferenceEditionIndexer
         private SearchClient $searchClient,
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer
-    )
-    {
+    ) {
     }
 
     public function reset(): void
     {
         $this->searchClient->deleteObjects(static::INDEX_NAME, []);
 
-        $this->searchClient->updateSortableAttributes('conference_editions', [
+        $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
             'date',
         ]);
     }

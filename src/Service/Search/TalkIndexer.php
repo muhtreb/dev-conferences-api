@@ -22,6 +22,10 @@ readonly class TalkIndexer
     public function reset(): void
     {
         $this->searchClient->deleteObjects(static::INDEX_NAME, []);
+
+        $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
+            'date',
+        ]);
     }
 
     public function indexTalk(Talk $talk): void

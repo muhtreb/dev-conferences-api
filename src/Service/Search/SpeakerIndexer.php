@@ -25,7 +25,7 @@ readonly class SpeakerIndexer
     {
         $this->searchClient->deleteObjects(static::INDEX_NAME, []);
 
-        $this->searchClient->updateSortableAttributes('speakers', [
+        $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
             'countTalks',
         ]);
     }

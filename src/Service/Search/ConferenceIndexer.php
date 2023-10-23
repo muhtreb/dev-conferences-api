@@ -24,7 +24,7 @@ readonly class ConferenceIndexer
     {
         $this->searchClient->deleteObjects(static::INDEX_NAME, []);
 
-        $this->searchClient->updateSortableAttributes('conferences', [
+        $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
             'name',
         ]);
     }

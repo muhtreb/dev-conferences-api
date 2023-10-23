@@ -19,7 +19,6 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
     public function __construct(
         private SpeakerRepository $speakerRepository,
         private TalkRepository $talkRepository
-
     ) {
     }
 
