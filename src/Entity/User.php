@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private string $password;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserFavoriteConference::class)]
+    private PersistentCollection $userFavoriteConferences;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserFavoriteConferenceEdition::class)]
+    private PersistentCollection $userFavoriteConferenceEditions;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserFavoriteSpeaker::class)]
+    private PersistentCollection $userFavoriteSpeakers;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserFavoriteTalk::class)]
+    private PersistentCollection $userFavoriteTalks;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -43,6 +57,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getUserFavoriteConferences(): PersistentCollection
+    {
+        return $this->userFavoriteConferences;
+    }
+
+    public function getUserFavoriteConferenceEditions(): PersistentCollection
+    {
+        return $this->userFavoriteConferenceEditions;
+    }
+
+    public function getUserFavoriteSpeakers(): PersistentCollection
+    {
+        return $this->userFavoriteSpeakers;
+    }
+
+    public function getUserFavoriteTalks(): PersistentCollection
+    {
+        return $this->userFavoriteTalks;
     }
 
     public function getUserIdentifier(): string
