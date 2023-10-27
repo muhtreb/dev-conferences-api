@@ -7,6 +7,7 @@ use App\Entity\Talk;
 use App\Entity\User;
 use App\Entity\UserFavoriteConferenceEdition;
 use App\Entity\UserFavoriteTalk;
+use App\Repository\UserFavoriteConferenceEditionRepository;
 use App\Repository\UserFavoriteRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -30,8 +31,17 @@ class CreateController extends AbstractController
         Request $request,
         ConferenceEdition $conferenceEdition,
         User $user,
-        UserFavoriteRepository $userFavoriteRepository,
+        UserFavoriteConferenceEditionRepository $userFavoriteRepository,
     ): JsonResponse {
+        $userFavorite = $userFavoriteRepository->findOneBy([
+            'conferenceEdition' => $conferenceEdition,
+            'user' => $user,
+        ]);
+
+        if ($userFavorite) {
+            return new JsonResponse(null, Response::HTTP_CREATED);
+        }
+
         $userFavorite = new UserFavoriteConferenceEdition();
         $userFavorite->setConferenceEdition($conferenceEdition);
         $userFavorite->setUser($user);

@@ -5,6 +5,7 @@ namespace App\Controller\UserFavorite\Conference;
 use App\Entity\Conference;
 use App\Entity\User;
 use App\Entity\UserFavoriteConference;
+use App\Repository\UserFavoriteConferenceRepository;
 use App\Repository\UserFavoriteRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,8 +24,17 @@ class CreateController extends AbstractController
         Request $request,
         Conference $conference,
         User $user,
-        UserFavoriteRepository $userFavoriteRepository,
+        UserFavoriteConferenceRepository $userFavoriteRepository,
     ): JsonResponse {
+        $userFavorite = $userFavoriteRepository->findOneBy([
+            'conference' => $conference,
+            'user' => $user,
+        ]);
+
+        if ($userFavorite) {
+            return new JsonResponse(null, Response::HTTP_CREATED);
+        }
+
         $userFavorite = new UserFavoriteConference();
         $userFavorite->setConference($conference);
         $userFavorite->setUser($user);

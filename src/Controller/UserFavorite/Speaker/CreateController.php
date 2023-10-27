@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\UserFavoriteSpeaker;
 use App\Entity\UserFavoriteTalk;
 use App\Repository\UserFavoriteRepository;
+use App\Repository\UserFavoriteSpeakerRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,8 +27,17 @@ class CreateController extends AbstractController
         Request $request,
         Speaker $speaker,
         User $user,
-        UserFavoriteRepository $userFavoriteRepository,
+        UserFavoriteSpeakerRepository $userFavoriteRepository,
     ): JsonResponse {
+        $userFavorite = $userFavoriteRepository->findOneBy([
+            'speaker' => $speaker,
+            'user' => $user,
+        ]);
+
+        if ($userFavorite) {
+            return new JsonResponse(null, Response::HTTP_CREATED);
+        }
+
         $userFavorite = new UserFavoriteSpeaker();
         $userFavorite->setSpeaker($speaker);
         $userFavorite->setUser($user);

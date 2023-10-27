@@ -21,7 +21,7 @@ class DataController extends AbstractController
         $speakerIds = $data['speaker'] ?? [];
         $talkIds = $data['talk'] ?? [];
         $conferenceIds = $data['conference'] ?? [];
-        $editionIds = $data['edition'] ?? [];
+        $editionIds = $data['conferenceEdition'] ?? [];
 
         $matchingSpeakerIds = $userFavoriteRepository->checkUserFavoriteSpeakerIds($user, $speakerIds);
         $matchingTalkIds = $userFavoriteRepository->checkUserFavoriteTalkIds($user, $talkIds);
