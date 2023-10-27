@@ -16,7 +16,8 @@ class IndexController extends AbstractController
     #[Route(
         path: '/conferences/{conference}/editions',
         name: 'api_conference_edition_list',
-        requirements: ['conference' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}']
+        requirements: ['conference' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
+        methods: ['GET']
     )]
     public function __invoke(
         Conference $conference,
