@@ -8,6 +8,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsCommand(
@@ -25,12 +26,33 @@ class IndexConferencesCommand extends Command
         parent::__construct();
     }
 
+    protected function configure()
+    {
+        $this
+            ->addOption('reset', null, null, 'Reset the index');
+
+        parent::configure();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->conferenceIndexer->reset();
+        $io = new SymfonyStyle($input, $output);
+
+        if ($input->getOption('reset')) {
+            try {
+                $this->conferenceIndexer->reset();
+            } catch (\Exception) {
+                // do nothing
+            }
+        }
+
+        $io->title('Indexing Conferences');
 
         $conferences = $this->conferenceRepository->findAll();
         $this->conferenceIndexer->indexConferences($conferences);
+
+        $io->success('Done');
+
         return Command::SUCCESS;
     }
 }

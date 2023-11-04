@@ -21,7 +21,7 @@ readonly class ConferenceEditionIndexer
 
     public function reset(): void
     {
-        $this->searchClient->deleteObjects(static::INDEX_NAME, []);
+        $this->searchClient->reset(static::INDEX_NAME);
 
         $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
             'date',

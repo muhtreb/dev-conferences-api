@@ -9,7 +9,7 @@ class TalkDomainObject extends SearchDomainObject
 {
     public string $name;
     public ?string $description;
-    public string $date;
+    public int $date;
     public array $speakers;
     public string $editionName;
 
@@ -19,7 +19,7 @@ class TalkDomainObject extends SearchDomainObject
         $dto->objectID = $talk->getId();
         $dto->name = $talk->getName();
         $dto->description = $talk->getDescription();
-        $dto->date = $talk->getDate()->format('Y-m-d H:i:s');
+        $dto->date = $talk->getDate()->getTimestamp();
         $dto->speakers = $talk
             ->getSpeakers()
             ->map(fn(SpeakerTalk $speakerTalk) => $speakerTalk->getSpeaker()->getFirstName() . ' ' . $speakerTalk->getSpeaker()->getLastName())

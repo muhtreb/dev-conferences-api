@@ -13,6 +13,12 @@ class MeilisearchClient implements SearchClient
         $this->client = new Client($url, $apiKey);
     }
 
+    public function reset(string $indexName): void
+    {
+        $index = $this->client->index($indexName);
+        $index->deleteAllDocuments();
+    }
+
     public function search(string $indexName, ?string $query = null, array $params = []): array
     {
         $index = $this->client->index($indexName);
@@ -41,5 +47,17 @@ class MeilisearchClient implements SearchClient
     {
         $index = $this->client->index($indexName);
         $index->updateSortableAttributes($sortableAttributes);
+    }
+
+    public function updateFilterableAttributes(string $indexName, $filterableAttributes): void
+    {
+        $index = $this->client->index($indexName);
+        $index->updateFilterableAttributes($filterableAttributes);
+    }
+
+    public function updateRankingRules(string $indexName, $rankingRules): void
+    {
+        $index = $this->client->index($indexName);
+        $index->updateRankingRules($rankingRules);
     }
 }
