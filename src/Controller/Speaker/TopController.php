@@ -22,7 +22,7 @@ class TopController extends AbstractController
     ): JsonResponse {
         $data = $searchClient->search('speakers', '', [
             'sort' => ['countTalks:desc'],
-            'limit' => 10,
+            'limit' => $request->query->getInt('limit', 10),
             'attributesToRetrieve' => ['objectID'],
         ]);
 
