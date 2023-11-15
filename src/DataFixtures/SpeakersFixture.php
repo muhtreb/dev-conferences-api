@@ -15,6 +15,7 @@ class SpeakersFixture extends Fixture
             $speaker = (new Speaker())
                 ->setFirstName('First Name ' . $i)
                 ->setLastName('Last Name ' . $i)
+                ->setSlug('first-name-' . $i . '-last-name-' . $i . '-' . $i)
                 ->setDescription('Description ' . $i);
             $manager->persist($speaker);
         }
