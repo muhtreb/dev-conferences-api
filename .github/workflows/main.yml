@@ -26,7 +26,8 @@ jobs:
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
       - uses: php-actions/composer@v6
       - run: echo "Composer dependencies have been installed"
-      - name: PHPUnit
-        run: |
-          init-test.sh
-          vendor/bin/phpunit
+      - run: |
+          # make file runnable, might not be necessary
+          chmod +x "${GITHUB_WORKSPACE}/.github/init-test.sh"
+          "${GITHUB_WORKSPACE}/.github/script.sh"
+      - run: vendor/bin/phpunit
