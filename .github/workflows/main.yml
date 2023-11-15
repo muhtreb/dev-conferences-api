@@ -6,6 +6,17 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
       - name: Setup PHP
@@ -15,4 +26,7 @@ jobs:
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
       - uses: php-actions/composer@v6
       - run: echo "Composer dependencies have been installed"
-      - run: vendor/bin/phpunit
+      - name: PHPUnit
+        run: |
+          init-test.sh
+          vendor/bin/phpunit
