@@ -22,9 +22,9 @@ readonly class ConferenceIndexer
 
     public function reset(): void
     {
-        $this->searchClient->reset(static::INDEX_NAME);
+        $this->searchClient->reset(self::INDEX_NAME);
 
-        $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
+        $this->searchClient->updateSortableAttributes(self::INDEX_NAME, [
             'name',
         ]);
     }
@@ -34,7 +34,7 @@ readonly class ConferenceIndexer
         $dto = $this->getConferenceDTO($conference);
 
         try {
-            $this->searchClient->saveObjects(static::INDEX_NAME, [
+            $this->searchClient->saveObjects(self::INDEX_NAME, [
                 $this->normalizer->normalize($dto)
             ]);
         } catch (\Exception $e) {
@@ -50,7 +50,7 @@ readonly class ConferenceIndexer
         }
 
         try {
-            $this->searchClient->saveObjects(static::INDEX_NAME, $this->normalizer->normalize($data));
+            $this->searchClient->saveObjects(self::INDEX_NAME, $this->normalizer->normalize($data));
         } catch (\Exception $e) {
             $this->logger->error($e);
         }
@@ -59,7 +59,7 @@ readonly class ConferenceIndexer
     public function removeConferenceById(string $conferenceId): void
     {
         try {
-            $this->searchClient->deleteObjects(static::INDEX_NAME, [$conferenceId]);
+            $this->searchClient->deleteObjects(self::INDEX_NAME, [$conferenceId]);
         } catch (\Exception $e) {
         }
     }

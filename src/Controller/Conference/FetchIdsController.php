@@ -24,7 +24,7 @@ class FetchIdsController extends AbstractController
     {
         $ids = explode(',', trim(preg_replace('/\s+/', '', $request->getContent())));
 
-        if (empty($ids)) {
+        if (count($ids) === 0) {
             return new JsonResponse([]);
         }
 

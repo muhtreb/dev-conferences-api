@@ -5,9 +5,11 @@ namespace App\DomainObject;
 use App\Entity\ConferenceEdition;
 use App\Entity\SpeakerTalk;
 use App\Entity\Talk;
+use Symfony\Component\Uid\Uuid;
 
 class TalkDomainObject
 {
+    public ?Uuid $id;
     public string $name;
     public ?string $description = null;
     public \DateTimeInterface $date;

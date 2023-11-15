@@ -31,3 +31,12 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/.github/init-test.sh"
           "${GITHUB_WORKSPACE}/.github/init-test.sh"
       - run: vendor/bin/phpunit
+
+  phpstan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: php-actions/composer@v6
+      - uses: php-actions/phpstan@v3
+        with:
+          path: src/

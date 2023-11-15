@@ -13,7 +13,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 #[IsGranted('ROLE_ADMIN')]
 class ListController extends AbstractController
 {
-    #[Route('/user/{user}/favorite/talks', name: 'api_user_favorite_talks_list', methods: ['GET'])]
+    #[Route(
+        path: '/user/{user}/favorite/talks',
+        name: 'api_user_favorite_talks_list',
+        methods: ['GET']
+    )]
     public function __invoke(
         NormalizerInterface $serializer,
         Request $request,

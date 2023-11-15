@@ -1,0 +1,9 @@
+parameters:
+    level: 3
+    paths:
+        - bin/
+        - config/
+        - public/
+        - src/
+    ignoreErrors:
+        - '#Attribute class Symfony\\Component\\Routing\\Annotation\\Route does not have a constructor and must be instantiated without any parameters.#'

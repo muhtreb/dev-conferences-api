@@ -21,9 +21,9 @@ readonly class ConferenceEditionIndexer
 
     public function reset(): void
     {
-        $this->searchClient->reset(static::INDEX_NAME);
+        $this->searchClient->reset(self::INDEX_NAME);
 
-        $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
+        $this->searchClient->updateSortableAttributes(self::INDEX_NAME, [
             'date',
         ]);
     }
@@ -33,7 +33,7 @@ readonly class ConferenceEditionIndexer
         $dto = ConferenceEditionDomainObject::from($conferenceEdition);
 
         try {
-            $this->searchClient->saveObjects(static::INDEX_NAME, [
+            $this->searchClient->saveObjects(self::INDEX_NAME, [
                 $this->normalizer->normalize($dto)
             ]);
         } catch (\Exception $e) {
@@ -49,7 +49,7 @@ readonly class ConferenceEditionIndexer
         }
 
         try {
-            $this->searchClient->saveObjects(static::INDEX_NAME, $this->normalizer->normalize($data));
+            $this->searchClient->saveObjects(self::INDEX_NAME, $this->normalizer->normalize($data));
         } catch (\Exception $e) {
             $this->logger->error($e);
         }

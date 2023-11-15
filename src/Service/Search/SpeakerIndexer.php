@@ -23,9 +23,9 @@ readonly class SpeakerIndexer
 
     public function reset(): void
     {
-        $this->searchClient->reset(static::INDEX_NAME);
+        $this->searchClient->reset(self::INDEX_NAME);
 
-        $this->searchClient->updateSortableAttributes(static::INDEX_NAME, [
+        $this->searchClient->updateSortableAttributes(self::INDEX_NAME, [
             'countTalks',
         ]);
     }
@@ -35,7 +35,7 @@ readonly class SpeakerIndexer
         $dto = $this->getSpeakerDTO($speaker);
 
         try {
-            $this->searchClient->saveObjects(static::INDEX_NAME, [
+            $this->searchClient->saveObjects(self::INDEX_NAME, [
                 $this->normalizer->normalize($dto)
             ]);
         } catch (\Exception $e) {
@@ -52,7 +52,7 @@ readonly class SpeakerIndexer
         }
 
         try {
-            $this->searchClient->saveObjects(static::INDEX_NAME, $this->normalizer->normalize($data));
+            $this->searchClient->saveObjects(self::INDEX_NAME, $this->normalizer->normalize($data));
         } catch (\Exception $e) {
             $this->logger->error($e);
         }
@@ -61,7 +61,7 @@ readonly class SpeakerIndexer
     public function removeSpeakerById(string $id): void
     {
         try {
-            $this->searchClient->deleteObjects(static::INDEX_NAME, [$id]);
+            $this->searchClient->deleteObjects(self::INDEX_NAME, [$id]);
         } catch (\Exception $e) {
         }
     }

@@ -11,8 +11,8 @@ class ConferenceEditionDomainObject
     public ?Uuid $id = null;
     public string $name;
     public ?string $description = null;
-    public ?\DateTime $startDate = null;
-    public ?\DateTime $endDate = null;
+    public ?\DateTimeInterface $startDate = null;
+    public ?\DateTimeInterface $endDate = null;
     public ?Conference $conference = null;
 
     public static function from(ConferenceEdition $conferenceEdition): self
