@@ -29,5 +29,5 @@ jobs:
       - run: |
           # make file runnable, might not be necessary
           chmod +x "${GITHUB_WORKSPACE}/.github/init-test.sh"
-          "${GITHUB_WORKSPACE}/.github/script.sh"
+          "${GITHUB_WORKSPACE}/.github/init-test.sh"
       - run: vendor/bin/phpunit
