@@ -24,13 +24,14 @@ class FetchIdsController extends AbstractController
     {
         $ids = explode(',', trim(preg_replace('/\s+/', '', $request->getContent())));
 
-        if (empty($ids)) {
+        if (count($ids) === 0) {
             return new JsonResponse([]);
         }
 
         $speakers = $speakerRepository->findBy([
             'id' => $ids
         ]);
+
         return new JsonResponse($serializer->normalize($speakers, null, ['withTalks' => false]));
     }
 }

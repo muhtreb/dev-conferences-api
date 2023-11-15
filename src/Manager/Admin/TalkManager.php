@@ -11,6 +11,7 @@ use App\Repository\TalkRepository;
 use App\Service\Search\SpeakerIndexer;
 use App\Service\Search\TalkIndexer;
 use App\Service\TalkSlugGenerator;
+use Cocur\Slugify\Slugify;
 
 readonly class TalkManager
 {
