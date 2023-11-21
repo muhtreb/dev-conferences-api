@@ -1,0 +1,61 @@
+server {
+
+    listen 80 default;
+
+    client_max_body_size 108M;
+
+    access_log /var/log/nginx/application.access.log;
+
+    root /application/public;
+    index index.php;
+
+    rewrite ^/index\.php/?(.*)$ /$1 permanent;
+
+    try_files $uri @rewriteapp;
+
+    location @rewriteapp {
+        rewrite ^(.*)$ /index.php/$1 last;
+    }
+
+    # Deny all . files
+    location ~ /\. {
+        deny all;
+    }
+
+    location ~ ^(?!\/phpmyadmin|/\.well-known)/index\.php(/|$) {
+
+        if (!-e $request_filename) {
+            rewrite ^.*$ /index.php last;
+        }
+
+        fastcgi_pass php-fpm:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PHP_VALUE "error_log=/var/log/nginx/application_php_errors.log";
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
+        include fastcgi_params;
+    }
+
+    location ~ /\.well-known {
+        allow all;
+    }
+
+    location /phpmyadmin/ {
+        proxy_pass http://phpmyadmin/;
+        proxy_read_timeout 90;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+    }
+
+    # Statics
+    location /(bundles|media) {
+        access_log off;
+        expires 30d;
+        try_files $uri @rewriteapp;
+    }
+    
+}
