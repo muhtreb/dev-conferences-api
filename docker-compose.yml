@@ -1,21 +1,57 @@
-version: '3'
-
+version: '3.9'
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-14}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+    redis:
+        image: redis:6-alpine
+        container_name: dev-conferences-api-redis
+        restart: unless-stopped
+        command: [ '--appendonly', 'yes' ]
+        volumes:
+            - .data/redis:/data
+        networks:
+            - dev-conferences-services
+
+    php-fpm:
+        build: docker/php-fpm
+        container_name: dev-conferences-api-php-fpm
+        restart: always
+        links:
+            - 'redis'
+        working_dir: /application
+        volumes:
+            - ~/.ssh:/root/.ssh:ro
+            - ./:/application
+            - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini
+            - ./docker/php-fpm/docker-www.conf:/etc/php/8.2/fpm/conf.d/docker-www.conf
+        networks:
+            - dev-conferences-services
+
+    webserver:
+        image: nginx:alpine
+        container_name: dev-conferences-api-webserver
+        restart: always
+        links:
+            - 'php-fpm'
+        working_dir: /application
+        volumes:
+            - ./www:/application
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - dev-conferences-certs:/certs
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=dev-conferences-traefik"
+            - "traefik.http.routers.api.rule=Host(`api-dev-conferences.traefik.me`)"
+            - "traefik.http.routers.api.tls=true"
+            - "traefik.http.services.api.loadbalancer.server.port=8080"
+        networks:
+            - dev-conferences-traefik
+            - dev-conferences-services
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+    dev-conferences-certs:
+        external: true
+
+networks:
+    dev-conferences-services:
+        external: true
+    dev-conferences-traefik:
+        external: true
