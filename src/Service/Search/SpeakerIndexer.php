@@ -45,7 +45,6 @@ readonly class SpeakerIndexer
 
     public function indexSpeakers(array $speakers): void
     {
-
         $data = [];
         foreach ($speakers as $speaker) {
             $data[] = $this->getSpeakerDTO($speaker);

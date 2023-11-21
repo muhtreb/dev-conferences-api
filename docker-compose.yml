@@ -33,7 +33,7 @@ services:
             - 'php-fpm'
         working_dir: /application
         volumes:
-            - ./www:/application
+            - ./:/application
             - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
             - dev-conferences-certs:/certs
         labels:
