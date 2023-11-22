@@ -39,11 +39,17 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
             'description' => $conferenceEdition->getDescription(),
             'startDate' => $startDate ? $startDate->format('Y-m-d H:i:s') : null,
             'endDate' => $endDate ? $endDate->format('Y-m-d H:i:s') : null,
-            'conference' => $this->normalizer->normalize($conferenceEdition->getConference(), null, [
-                'withEditions' => false,
-            ]),
-            'countTalks' => $this->talkRepository->count(['conferenceEdition' => $conferenceEdition])
         ];
+
+        if ($withCountTalks = $context['withCountTalks'] ?? true) {
+            $data['countTalks'] = $this->talkRepository->count(['conferenceEdition' => $conferenceEdition]);
+        }
+
+        if ($withConference = $context['withConference'] ?? true) {
+            $data['conference'] = $this->normalizer->normalize($conferenceEdition->getConference(), null, [
+                'withEditions' => false,
+            ]);
+        }
 
         if ($withTalks = $context['withTalks'] ?? true) {
             $talks = $this->talkRepository->findBy(['conferenceEdition' => $conferenceEdition], ['position' => 'ASC']);
