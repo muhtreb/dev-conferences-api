@@ -76,6 +76,7 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
         if ($withEdition = $context['withEdition'] ?? true) {
             $data['edition'] = $this->normalizer->normalize($talk->getConferenceEdition(), null, [
+                'withConference' => true,
                 'withTalks' => false,
             ]);
         }

@@ -39,24 +39,25 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
             'description' => $conferenceEdition->getDescription(),
             'startDate' => $startDate ? $startDate->format('Y-m-d H:i:s') : null,
             'endDate' => $endDate ? $endDate->format('Y-m-d H:i:s') : null,
+            'thumbnailImageUrl' => $conferenceEdition->getConference()->getThumbnailImageUrl(),
         ];
 
         if ($withCountTalks = $context['withCountTalks'] ?? true) {
             $data['countTalks'] = $this->talkRepository->count(['conferenceEdition' => $conferenceEdition]);
         }
 
-        if ($withConference = $context['withConference'] ?? true) {
+        if ($withConference = $context['withConference'] ?? false) {
             $data['conference'] = $this->normalizer->normalize($conferenceEdition->getConference(), null, [
                 'withEditions' => false,
             ]);
         }
 
-        if ($withTalks = $context['withTalks'] ?? true) {
+        if ($withTalks = $context['withTalks'] ?? false) {
             $talks = $this->talkRepository->findBy(['conferenceEdition' => $conferenceEdition], ['position' => 'ASC']);
             $data['talks'] = $this->normalizer->normalize($talks);
         }
 
-        if ($withPlaylistImports = $context['withPlaylistImports'] ?? true) {
+        if ($withPlaylists = $context['withPlaylists'] ?? false) {
             $data['playlists'] = [];
             $playlists = $this->youtubePlaylistImportRepository->findBy(['conferenceEdition' => $conferenceEdition]);
             foreach ($playlists as $playlist) {

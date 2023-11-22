@@ -24,6 +24,9 @@ class IndexController extends AbstractController
 
         $speakers = new ArrayCollection($speakerRepository->findBy([], [], $limit, $offset));
 
-        return new JsonResponse($serializer->normalize($speakers));
+        return new JsonResponse($serializer->normalize($speakers, null, [
+            'withTalks' => $request->query->getBoolean('withTalks'),
+            'withCountTalks' => $request->query->getBoolean('withCountTalks'),
+        ]));
     }
 }

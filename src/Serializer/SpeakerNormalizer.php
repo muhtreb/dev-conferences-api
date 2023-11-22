@@ -44,10 +44,13 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
             'twitter' => $speaker->getTwitter(),
             'github' => $speaker->getGithub(),
             'avatarUrl' => $avatarUrl,
-            'countTalks' => $this->talkRepository->countSpeakerTalks($speaker)
         ];
 
-        if ($withTalks = $context['withTalks'] ?? true) {
+        if ($withCountTalks = $context['withCountTalks'] ?? false) {
+            $data['countTalks'] = $this->talkRepository->countSpeakerTalks($speaker);
+        }
+
+        if ($withTalks = $context['withTalks'] ?? false) {
             $talks = $this->talkRepository->getSpeakerTalks($speaker);
             $data['talks'] = $this->normalizer->normalize($talks);
         }

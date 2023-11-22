@@ -19,6 +19,9 @@ class SlugController extends AbstractController
         Speaker $speaker,
         NormalizerInterface $serializer,
     ): JsonResponse {
-        return new JsonResponse($serializer->normalize($speaker));
+        return new JsonResponse($serializer->normalize($speaker, null, [
+            'withTalks' => true,
+            'withCountTalks' => true,
+        ]));
     }
 }
