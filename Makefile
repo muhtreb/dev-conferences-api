@@ -13,3 +13,7 @@ index:
 
 bash:
 	$(DOCKER_EXEC_PHP_FPM) bash
+
+test:
+	$(DOCKER_EXEC_PHP_FPM) bash .github/init-test.sh
+	$(DOCKER_EXEC_PHP_FPM) php bin/phpunit

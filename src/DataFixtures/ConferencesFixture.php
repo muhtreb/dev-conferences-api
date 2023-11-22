@@ -16,6 +16,8 @@ class ConferencesFixture extends Fixture
                 ->setSlug('conference-' . $i)
                 ->setDescription('Description ' . $i);
             $manager->persist($conference);
+
+            $this->setReference('conference_' . $i, $conference);
         }
         $manager->flush();
     }
