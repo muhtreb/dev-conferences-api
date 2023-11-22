@@ -44,6 +44,7 @@ class ConferenceNormalizer implements NormalizerAwareInterface, NormalizerInterf
             $conferenceEditions = new ArrayCollection($this->conferenceEditionRepository->findBy(['conference' => $conference], ['startDate' => 'DESC']));
             $data['editions'] = $this->normalizer->normalize($conferenceEditions, null, [
                 'withTalks' => false,
+                'withPlaylists' => true,
             ]);
         }
 
