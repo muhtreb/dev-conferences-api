@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\ConferenceEdition;
+namespace App\Controller\Admin\ConferenceEdition;
 
 use App\Entity\ConferenceEdition;
 use App\Manager\Admin\ConferenceEditionManager;
@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class RefreshTalksController extends AbstractController
 {
     #[Route(
-        path: '/conferences/editions/{conferenceEdition}/refresh/talks',
+        path: '/admin/conferences/editions/{conferenceEdition}/refresh/talks',
         name: 'api_conference_edition_refresh_talks',
         requirements: ['conferenceEdition' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['POST']
