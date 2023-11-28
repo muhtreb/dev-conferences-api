@@ -34,22 +34,25 @@ class Speaker
     private ?string $website = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $twitter = null;
+    private ?string $xUsername = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $github = null;
+    private ?string $githubUsername = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $speakerDeck = null;
+    private ?string $blueskyUsername = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $mastodonUsername = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $speakerDeckUsername = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $nationalityIso3 = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $avatarUrl = null;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?string $legacyId = null;
 
     #[ORM\OneToMany(mappedBy: 'speaker', targetEntity: SpeakerTalk::class)]
     private Collection $talks;
@@ -123,39 +126,6 @@ class Speaker
         return $this;
     }
 
-    public function getTwitter(): ?string
-    {
-        return $this->twitter;
-    }
-
-    public function setTwitter(?string $twitter): Speaker
-    {
-        $this->twitter = $twitter;
-        return $this;
-    }
-
-    public function getGithub(): ?string
-    {
-        return $this->github;
-    }
-
-    public function setGithub(?string $github): Speaker
-    {
-        $this->github = $github;
-        return $this;
-    }
-
-    public function getSpeakerDeck(): ?string
-    {
-        return $this->speakerDeck;
-    }
-
-    public function setSpeakerDeck(?string $speakerDeck): Speaker
-    {
-        $this->speakerDeck = $speakerDeck;
-        return $this;
-    }
-
     public function getNationalityIso3(): ?string
     {
         return $this->nationalityIso3;
@@ -178,14 +148,58 @@ class Speaker
         return $this;
     }
 
-    public function getLegacyId(): ?string
+    public function getXUsername(): ?string
     {
-        return $this->legacyId;
+        return $this->xUsername;
     }
 
-    public function setLegacyId(?string $legacyId): self
+    public function setXUsername(?string $xUsername): Speaker
     {
-        $this->legacyId = $legacyId;
+        $this->xUsername = $xUsername;
+        return $this;
+    }
+
+    public function getGithubUsername(): ?string
+    {
+        return $this->githubUsername;
+    }
+
+    public function setGithubUsername(?string $githubUsername): Speaker
+    {
+        $this->githubUsername = $githubUsername;
+        return $this;
+    }
+
+    public function getBlueskyUsername(): ?string
+    {
+        return $this->blueskyUsername;
+    }
+
+    public function setBlueskyUsername(?string $blueskyUsername): Speaker
+    {
+        $this->blueskyUsername = $blueskyUsername;
+        return $this;
+    }
+
+    public function getMastodonUsername(): ?string
+    {
+        return $this->mastodonUsername;
+    }
+
+    public function setMastodonUsername(?string $mastodonUsername): Speaker
+    {
+        $this->mastodonUsername = $mastodonUsername;
+        return $this;
+    }
+
+    public function getSpeakerDeckUsername(): ?string
+    {
+        return $this->speakerDeckUsername;
+    }
+
+    public function setSpeakerDeckUsername(?string $speakerDeckUsername): Speaker
+    {
+        $this->speakerDeckUsername = $speakerDeckUsername;
         return $this;
     }
 

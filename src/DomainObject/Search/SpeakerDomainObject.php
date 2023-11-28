@@ -9,8 +9,8 @@ class SpeakerDomainObject extends SearchDomainObject
     public string $firstName;
     public string $lastName;
     public ?string $description;
-    public ?string $github;
-    public ?string $twitter;
+    public ?string $githubUsername ;
+    public ?string $xUsername;
     public int $countTalks = 0;
 
     public static function from(Speaker $speaker): self
@@ -20,8 +20,8 @@ class SpeakerDomainObject extends SearchDomainObject
         $dto->firstName = $speaker->getFirstName();
         $dto->lastName = $speaker->getLastName();
         $dto->description = $speaker->getDescription();
-        $dto->github = $speaker->getGithub();
-        $dto->twitter = $speaker->getTwitter();
+        $dto->githubUsername = $speaker->getGithubUsername();
+        $dto->xUsername = $speaker->getXUsername();
 
         return $dto;
     }

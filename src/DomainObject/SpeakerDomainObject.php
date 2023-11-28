@@ -11,8 +11,12 @@ class SpeakerDomainObject
     public string $firstName;
     public string $lastName;
     public ?string $description = null;
-    public ?string $github = null;
-    public ?string $twitter = null;
+    public ?string $githubUsername = null;
+    public ?string $xUsername = null;
+    public ?string $speakerDeckUsername = null;
+    public ?string $mastodonUsername = null;
+    public ?string $blueskyUsername = null;
+    public ?string $website = null;
 
     public static function from(Speaker $speaker): self
     {
@@ -21,8 +25,12 @@ class SpeakerDomainObject
         $dto->id = $speaker->getId();
         $dto->firstName = $speaker->getFirstName();
         $dto->lastName = $speaker->getLastName();
-        $dto->github = $speaker->getGithub();
-        $dto->twitter = $speaker->getTwitter();
+        $dto->githubUsername = $speaker->getGithubUsername();
+        $dto->xUsername = $speaker->getXUsername();
+        $dto->speakerDeckUsername = $speaker->getSpeakerDeckUsername();
+        $dto->mastodonUsername = $speaker->getMastodonUsername();
+        $dto->blueskyUsername = $speaker->getBlueskyUsername();
+        $dto->website = $speaker->getWebsite();
         $dto->description = $speaker->getDescription();
 
         return $dto;

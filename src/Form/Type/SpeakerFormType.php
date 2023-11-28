@@ -25,10 +25,22 @@ class SpeakerFormType extends AbstractType
                     new NotBlank(),
                 ]
             ])
-            ->add('twitter', TextType::class, [
+            ->add('xUsername', TextType::class, [
                 'required' => false,
             ])
-            ->add('github', TextType::class, [
+            ->add('githubUsername', TextType::class, [
+                'required' => false,
+            ])
+            ->add('mastodonUsername', TextType::class, [
+                'required' => false,
+            ])
+            ->add('blueskyUsername', TextType::class, [
+                'required' => false,
+            ])
+            ->add('speakerDeckUsername', TextType::class, [
+                'required' => false,
+            ])
+            ->add('website', TextType::class, [
                 'required' => false,
             ])
             ->add('description', TextareaType::class, [

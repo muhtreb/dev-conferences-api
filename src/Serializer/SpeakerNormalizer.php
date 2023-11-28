@@ -29,10 +29,10 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
     public function normalize($speaker, string $format = null, array $context = []): array
     {
         $avatarUrl = null;
-        if (null !== $github = $speaker->getGithub()) {
-            $avatarUrl = 'https://github.com/' . $github . '.png';
-        } else if (null !== $twitter = $speaker->getTwitter()) {
-            $avatarUrl = 'https://unavatar.io/twitter/' . $twitter;
+        if (null !== $githubUsername = $speaker->getGithubUsername()) {
+            $avatarUrl = 'https://github.com/' . $githubUsername . '.png';
+        } else if (null !== $xUsername = $speaker->getXUsername()) {
+            $avatarUrl = 'https://unavatar.io/twitter/' . $xUsername;
         }
 
         $data = [
@@ -41,8 +41,8 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
             'lastName' => $speaker->getLastName(),
             'slug' => $speaker->getSlug(),
             'description' => $speaker->getDescription(),
-            'twitter' => $speaker->getTwitter(),
-            'github' => $speaker->getGithub(),
+            'xUsername' => $speaker->getXUsername(),
+            'githubUsername' => $speaker->getGithubUsername(),
             'avatarUrl' => $avatarUrl,
         ];
 

@@ -22,8 +22,8 @@ class SpeakerNormalizer implements NormalizerInterface
             'firstName' => $object->firstName,
             'lastName' => $object->lastName,
             'description' => $object->description,
-            'github' => $object->github,
-            'twitter' => $object->twitter,
+            'githubUsername' => $object->githubUsername,
+            'xUsername' => $object->xUsername,
             'countTalks' => $object->countTalks
         ];
     }
