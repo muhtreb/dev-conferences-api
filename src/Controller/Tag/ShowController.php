@@ -10,7 +10,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ShowController extends AbstractController
 {
-    #[Route('/tags/{tag}', name: 'api_tag_show')]
+    #[Route(
+        path: '/tags/{tag}',
+        name: 'api_tag_show',
+        methods: ['GET']
+    )]
     public function __invoke(
         Tag $tag,
         NormalizerInterface $serializer,

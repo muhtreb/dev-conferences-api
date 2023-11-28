@@ -12,7 +12,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class IndexController extends AbstractController
 {
-    #[Route('/talks', name: 'api_talk_list', methods: ['GET'])]
+    #[Route(
+        path: '/talks',
+        name: 'api_talk_list',
+        methods: ['GET']
+    )]
     public function __invoke(
         Request $request,
         TalkRepository $talkRepository,

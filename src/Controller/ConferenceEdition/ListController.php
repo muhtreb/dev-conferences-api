@@ -12,7 +12,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ListController extends AbstractController
 {
-    #[Route('/conferences/editions', name: 'api_conference_edition_list', methods: ['GET'])]
+    #[Route(
+        path: '/conferences/editions',
+        name: 'api_conference_edition_list',
+        methods: ['GET']
+    )]
     public function __invoke(
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $serializer,

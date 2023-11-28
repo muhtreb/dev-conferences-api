@@ -13,7 +13,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TopController extends AbstractController
 {
-    #[Route('/speakers/top', name: 'api_speakers_top', methods: ['GET'])]
+    #[Route(
+        path: '/speakers/top',
+        name: 'api_speakers_top',
+        methods: ['GET']
+    )]
     public function __invoke(
         Request $request,
         SpeakerRepository $speakerRepository,

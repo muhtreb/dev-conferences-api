@@ -1,5 +1,4 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         App\Entity\User:
@@ -8,9 +7,7 @@ security:
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         admin_api_user_provider:
             id: App\Security\AdminApiUserProvider
 
@@ -25,21 +22,8 @@ security:
                 token_handler: App\Security\AdminAccessTokenHandler
                 token_extractors:
                     App\Security\AdminTokenExtractor
-            logout:
-                path: api_security_logout
             provider: admin_api_user_provider
 
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/conferences, methods: [ GET ], roles: PUBLIC_ACCESS }
-        - { path: ^/conferences/fetch/ids, methods: [ POST ], roles: PUBLIC_ACCESS }
-        - { path: ^/conferences/editions/.*/subscribe, methods: [ POST ], roles: PUBLIC_ACCESS }
-        - { path: ^/conferences/editions/fetch/ids, methods: [ POST ], roles: PUBLIC_ACCESS }
-        - { path: ^/tags, methods: [ GET ], roles: PUBLIC_ACCESS }
-        - { path: ^/speakers, methods: [ GET ], roles: PUBLIC_ACCESS }
-        - { path: ^/speakers/fetch/ids, methods: [ POST ], roles: PUBLIC_ACCESS }
-        - { path: ^/talks, methods: [ GET ], roles: PUBLIC_ACCESS }
-        - { path: ^/talks/fetch/ids, methods: [ POST ], roles: PUBLIC_ACCESS }
-        - { path: ^/(_(profiler|wdt)|css|images|js)/, role: PUBLIC_ACCESS }
-        - { path: ^/, role: ROLE_ADMIN }
+        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/, role: PUBLIC_ACCESS }

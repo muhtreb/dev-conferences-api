@@ -11,7 +11,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class IndexController extends AbstractController
 {
-    #[Route('/tags', name: 'api_tag_list', methods: ['GET'])]
+    #[Route(
+        path: '/tags',
+        name: 'api_tag_list',
+        methods: ['GET']
+    )]
     public function __invoke(
         TagRepository $tagRepository,
         NormalizerInterface $serializer,

@@ -11,7 +11,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class LatestController extends AbstractController
 {
-    #[Route('/conferences/editions/latest', name: 'api_conference_edition_latest')]
+    #[Route(
+        path: '/conferences/editions/latest',
+        name: 'api_conference_edition_latest',
+        methods: ['GET']
+    )]
     public function __invoke(
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,

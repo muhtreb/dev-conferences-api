@@ -16,7 +16,11 @@ class SearchController extends AbstractController
 {
     use SearchTrait;
 
-    #[Route('/speakers/search', name: 'api_speaker_search', methods: ['GET'])]
+    #[Route(
+        path: '/speakers/search',
+        name: 'api_speaker_search',
+        methods: ['GET']
+    )]
     public function __invoke(
         Request $request,
         SpeakerRepository $speakerRepository,

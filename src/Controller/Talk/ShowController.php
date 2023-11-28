@@ -14,7 +14,8 @@ class ShowController extends AbstractController
     #[Route(
         path: '/talks/{talk}',
         name: 'api_talks_show',
-        requirements: ['talk' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}']
+        requirements: ['talk' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
+        methods: ['GET']
     )]
     public function __invoke(
         Talk $talk,

@@ -14,7 +14,8 @@ class SlugController extends AbstractController
     #[Route(
         path: '/conferences/editions/slug/{slug}',
         name: 'api_conference_edition_slug',
-        requirements: ['slug' => '.*']
+        requirements: ['slug' => '.*'],
+        methods: ['GET']
     )]
     public function __invoke(
         ConferenceEdition $conferenceEdition,

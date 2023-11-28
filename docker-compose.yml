@@ -39,7 +39,7 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.docker.network=dev-conferences-traefik"
-            - "traefik.http.routers.api.rule=Host(`api-dev-conferences.traefik.me`)"
+            - "traefik.http.routers.api.rule=Host(`api-devconf.traefik.me`)"
             - "traefik.http.routers.api.tls=true"
             - "traefik.http.services.api.loadbalancer.server.port=8080"
         networks:

@@ -16,7 +16,11 @@ class SearchController extends AbstractController
 {
     use SearchTrait;
 
-    #[Route('/conferences/editions/search', name: 'api_conference_edition_search', methods: ['GET'])]
+    #[Route(
+        path: '/conferences/editions/search',
+        name: 'api_conference_edition_search',
+        methods: ['GET']
+    )]
     public function __invoke(
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,
