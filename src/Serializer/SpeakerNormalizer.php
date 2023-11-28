@@ -43,6 +43,10 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
             'description' => $speaker->getDescription(),
             'xUsername' => $speaker->getXUsername(),
             'githubUsername' => $speaker->getGithubUsername(),
+            'speakerDeckUsername' => $speaker->getSpeakerDeckUsername(),
+            'mastodonUsername' => $speaker->getMastodonUsername(),
+            'blueskyUsername' => $speaker->getBlueskyUsername(),
+            'website' => $speaker->getWebsite(),
             'avatarUrl' => $avatarUrl,
         ];
 
