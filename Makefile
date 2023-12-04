@@ -14,6 +14,11 @@ index:
 bash:
 	$(DOCKER_EXEC_PHP_FPM) bash
 
-test:
+.PHONY: tests
+tests:
 	$(DOCKER_EXEC_PHP_FPM) bash .github/init-test.sh
 	$(DOCKER_EXEC_PHP_FPM) php bin/phpunit
+
+.PHONY: composer-update
+composer-update:
+	$(DOCKER_EXEC_PHP_FPM) composer update
