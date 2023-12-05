@@ -41,12 +41,12 @@ readonly class SpeakerManager
         return $speaker;
     }
 
-    private function populateSpeakerFromDTO(Speaker $speaker, SpeakerDomainObject $dto): void
+    private function populateSpeakerFromDTO(Speaker $entity, SpeakerDomainObject $dto): void
     {
-        $speaker
+        $entity
             ->setFirstName($dto->firstName)
             ->setLastName($dto->lastName)
-            ->setSlug($this->speakerSlugGenerator->generateSlug($dto->firstName . ' ' . $dto->lastName, $speaker))
+            ->setSlug($this->speakerSlugGenerator->generateSlug($dto->firstName . ' ' . $dto->lastName, $dto->id ? $entity : null))
             ->setXUsername($dto->xUsername)
             ->setSpeakerDeckUsername($dto->speakerDeckUsername)
             ->setMastodonUsername($dto->mastodonUsername)
