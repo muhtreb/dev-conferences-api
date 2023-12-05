@@ -22,3 +22,7 @@ tests:
 .PHONY: composer-update
 composer-update:
 	$(DOCKER_EXEC_PHP_FPM) composer update
+
+.PHONY: phpstan
+phpstan:
+	$(DOCKER_EXEC_PHP_FPM) php vendor/bin/phpstan analyse src
