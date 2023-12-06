@@ -49,4 +49,17 @@ class ConferenceEditionRepository extends AbstractRepository
 
         return $result->fetchOne() !== false;
     }
+
+    public function getEditionsStatsByYear()
+    {
+        $connection = $this->_em->getConnection();
+        $query = <<<SQL
+            SELECT COUNT(*) AS count, EXTRACT(YEAR FROM start_date) AS year FROM conference_edition GROUP BY year ORDER BY year DESC
+        SQL;
+
+        $stmt = $connection->prepare($query);
+        $result = $stmt->execute();
+
+        return $result->fetchAllAssociative();
+    }
 }
