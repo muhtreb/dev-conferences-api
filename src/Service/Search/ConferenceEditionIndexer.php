@@ -16,7 +16,8 @@ readonly class ConferenceEditionIndexer
         private SearchClient $searchClient,
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer
-    ) {
+    )
+    {
     }
 
     public function reset(): void
@@ -50,6 +51,15 @@ readonly class ConferenceEditionIndexer
 
         try {
             $this->searchClient->saveObjects(self::INDEX_NAME, $this->normalizer->normalize($data));
+        } catch (\Exception $e) {
+            $this->logger->error($e);
+        }
+    }
+
+    public function removeConferenceEditionById(string $conferenceEditionId): void
+    {
+        try {
+            $this->searchClient->deleteObjects(self::INDEX_NAME, [$conferenceEditionId]);
         } catch (\Exception $e) {
             $this->logger->error($e);
         }

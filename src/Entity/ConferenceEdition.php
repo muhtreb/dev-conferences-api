@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ConferenceEditionRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -19,6 +20,9 @@ class ConferenceEdition
     #[ORM\ManyToOne(targetEntity: Conference::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Conference $conference;
+
+    #[ORM\OneToMany(mappedBy: 'conferenceEdition', targetEntity: Talk::class)]
+    private Collection $talks;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
@@ -150,5 +154,10 @@ class ConferenceEdition
     {
         $this->legacyId = $legacyId;
         return $this;
+    }
+
+    public function getTalks(): Collection
+    {
+        return $this->talks;
     }
 }

@@ -12,6 +12,7 @@ use App\Repository\ConferenceEditionRepository;
 use App\Repository\YoutubePlaylistImportRepository;
 use App\Service\ConferenceEditionSlugGenerator;
 use App\Service\Search\ConferenceEditionIndexer;
+use App\Service\Search\TalkIndexer;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class ConferenceEditionManager
@@ -22,6 +23,7 @@ readonly class ConferenceEditionManager
         private YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
         private MessageBusInterface $bus,
         private ConferenceEditionIndexer $conferenceEditionIndexer,
+        private TalkIndexer $talkIndexer,
         private ConferenceEditionSlugGenerator $conferenceEditionSlugGenerator
     ) {
     }
@@ -95,5 +97,18 @@ readonly class ConferenceEditionManager
         foreach ($playlistImports as $playlistImport) {
             $this->bus->dispatch(new ImportYoutubePlaylistMessage($playlistImport->getId()));
         }
+    }
+
+    public function removeConferenceEdition(ConferenceEdition $conferenceEdition): void
+    {
+        $id = $conferenceEdition->getId();
+
+        foreach ($conferenceEdition->getTalks() as $talk) {
+            $this->talkIndexer->removeTalkById($talk->getId());
+        }
+
+        $this->conferenceEditionRepository->remove($conferenceEdition);
+
+        $this->conferenceEditionIndexer->removeConferenceEditionById($id);
     }
 }
