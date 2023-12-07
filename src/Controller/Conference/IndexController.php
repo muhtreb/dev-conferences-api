@@ -25,8 +25,11 @@ class IndexController extends AbstractController
     {
         $limit = $request->query->getInt('limit', 10);
         $offset = $request->query->getInt('offset');
+        $withEditions = $request->query->getBoolean('withEditions', true);
 
         $conferences = new ArrayCollection($conferenceRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
-        return new JsonResponse($serializer->normalize($conferences));
+        return new JsonResponse($serializer->normalize($conferences, null, [
+            'withEditions' => $withEditions,
+        ]));
     }
 }
