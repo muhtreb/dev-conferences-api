@@ -22,8 +22,8 @@ class LatestController extends AbstractController
         NormalizerInterface $serializer,
     ): JsonResponse
     {
-        return new JsonResponse($serializer->normalize($conferenceEditionRepository->getLastEditions($request->query->get('limit', 12)), null, [
-            'withTalks' => false,
+        return new JsonResponse($serializer->normalize($conferenceEditionRepository->getLatestEditions($request->query->get('limit', 12)), null, [
+            'withTalks' => $request->query->getBoolean('withTalks')
         ]));
     }
 }

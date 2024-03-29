@@ -13,7 +13,7 @@ class ConferenceEditionRepository extends AbstractRepository
         parent::__construct($registry, ConferenceEdition::class);
     }
 
-    public function getLastEditions(int $count = 10)
+    public function getLatestEditions(int $count = 10)
     {
         $qb = $this->createQueryBuilder('e');
 
