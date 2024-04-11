@@ -59,7 +59,10 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
 
         if ($withPlaylists = $context['withPlaylists'] ?? false) {
             $data['playlists'] = [];
-            $playlists = $this->youtubePlaylistImportRepository->findBy(['conferenceEdition' => $conferenceEdition]);
+            $playlists = $this->youtubePlaylistImportRepository->findBy([
+                'conferenceEdition' => $conferenceEdition,
+                'status' => 'success'
+            ]);
             foreach ($playlists as $playlist) {
                 $data['playlists'][] = [
                     'id' => $playlist->getPlaylistId(),
