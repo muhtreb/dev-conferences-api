@@ -6,7 +6,7 @@ use App\Entity\ConferenceEdition;
 use App\Entity\User;
 use App\Entity\UserFavoriteConferenceEdition;
 use App\Repository\UserFavoriteConferenceEditionRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

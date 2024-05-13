@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Talk;
 
 use App\Entity\Talk;
 use App\Manager\Admin\TalkManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

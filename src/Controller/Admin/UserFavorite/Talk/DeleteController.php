@@ -5,7 +5,7 @@ namespace App\Controller\Admin\UserFavorite\Talk;
 use App\Entity\Talk;
 use App\Entity\User;
 use App\Repository\UserFavoriteTalkRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

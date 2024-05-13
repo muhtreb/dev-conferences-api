@@ -6,7 +6,7 @@ use App\Entity\Speaker;
 use App\Entity\User;
 use App\Entity\UserFavoriteSpeaker;
 use App\Repository\UserFavoriteSpeakerRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

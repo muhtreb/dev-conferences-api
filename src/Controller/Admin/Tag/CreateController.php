@@ -5,7 +5,7 @@ namespace App\Controller\Admin\Tag;
 use App\DomainObject\TagDomainObject;
 use App\Form\Type\TagFormType;
 use App\Manager\Admin\TagManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

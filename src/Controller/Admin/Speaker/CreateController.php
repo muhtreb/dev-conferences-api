@@ -5,7 +5,7 @@ namespace App\Controller\Admin\Speaker;
 use App\DomainObject\SpeakerDomainObject;
 use App\Form\Type\SpeakerFormType;
 use App\Manager\Admin\SpeakerManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -6,7 +6,7 @@ use App\DomainObject\TalkDomainObject;
 use App\Entity\Talk;
 use App\Form\Type\TalkFormType;
 use App\Manager\Admin\TalkManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

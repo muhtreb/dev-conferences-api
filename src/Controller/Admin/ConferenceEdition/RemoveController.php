@@ -4,7 +4,7 @@ namespace App\Controller\Admin\ConferenceEdition;
 
 use App\Entity\ConferenceEdition;
 use App\Manager\Admin\ConferenceEditionManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

@@ -5,7 +5,7 @@ namespace App\Controller\Admin\Conference;
 use App\DomainObject\ConferenceDomainObject;
 use App\Form\Type\ConferenceFormType;
 use App\Manager\Admin\ConferenceManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -6,7 +6,7 @@ use App\DomainObject\ConferenceEditionDomainObject;
 use App\Entity\Conference;
 use App\Form\Type\ConferenceEditionFormType;
 use App\Manager\Admin\ConferenceEditionManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
