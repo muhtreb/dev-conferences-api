@@ -28,4 +28,11 @@ class ApiUserNormalizer implements NormalizerInterface
     {
         return $data instanceof AdminApiUser;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            AdminApiUser::class => true,
+        ];
+    }
 }

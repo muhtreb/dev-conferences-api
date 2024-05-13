@@ -32,4 +32,11 @@ class YoutubePlaylistImportNormalizer implements NormalizerInterface
     {
         return $data instanceof YoutubePlaylistImport;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            YoutubePlaylistImport::class => true,
+        ];
+    }
 }

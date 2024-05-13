@@ -23,4 +23,11 @@ class CollectionNormalizer implements NormalizerAwareInterface, NormalizerInterf
     {
         return $data instanceof Collection;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            Collection::class => true,
+        ];
+    }
 }

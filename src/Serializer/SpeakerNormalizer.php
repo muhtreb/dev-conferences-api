@@ -66,4 +66,11 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
     {
         return $data instanceof Speaker;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            Speaker::class => true,
+        ];
+    }
 }

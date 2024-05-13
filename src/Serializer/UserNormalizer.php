@@ -34,4 +34,11 @@ class UserNormalizer implements NormalizerInterface
     {
         return $data instanceof User;
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            User::class => true,
+        ];
+    }
 }
