@@ -42,7 +42,7 @@ RUN rm -rf /application/vendor
 # Install the composer dependencies
 COPY . /application
 WORKDIR /application
-RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
+RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader --no-scripts
 
 # Set up Nginx
 COPY ./docker/prod/nginx/nginx.conf /etc/nginx/conf.d/default.conf
