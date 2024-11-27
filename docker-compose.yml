@@ -20,8 +20,8 @@ services:
         volumes:
             - ~/.ssh:/root/.ssh:ro
             - ./:/application
-            - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.3/fpm/conf.d/99-overrides.ini
-            - ./docker/php-fpm/docker-www.conf:/etc/php/8.3/fpm/conf.d/docker-www.conf
+            - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.4/fpm/conf.d/99-overrides.ini
+            - ./docker/php-fpm/docker-www.conf:/etc/php/8.4/fpm/conf.d/docker-www.conf
         user: "1000:1000"
         networks:
             - dev-conferences-services

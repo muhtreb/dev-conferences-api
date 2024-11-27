@@ -32,6 +32,37 @@ jobs:
           "${GITHUB_WORKSPACE}/.github/init-test.sh"
       - run: vendor/bin/phpunit
 
+  build-prod-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - uses: php-actions/composer@v6
+      - run: echo "Composer dependencies have been installed"
+      - run: |
+          docker build -t ghcr.io/muhtreb/dev-conferences-api/webserver:latest -f docker/prod/webserver/Dockerfile .
+      - run: echo "Images have been built"
+
+  push-prod-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - uses: php-actions/composer@v6
+      - run: echo "Composer dependencies have been installed"
+      - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u muhtreb --password-stdin
+      - run: |
+          docker push ghcr.io/muhtreb/dev-conferences-api/webserver:latest
+      - run: echo "Images have been pushed"
+
   phpstan:
     runs-on: ubuntu-latest
     steps:
