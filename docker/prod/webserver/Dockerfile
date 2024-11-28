@@ -53,8 +53,5 @@ COPY ./docker/prod/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 # Expose ports for Nginx and PHP-FPM
 EXPOSE 8080
 
-# Clear symfony cache
-RUN php bin/console cache:clear --env=prod
-
 # Start Supervisord to manage both services
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
