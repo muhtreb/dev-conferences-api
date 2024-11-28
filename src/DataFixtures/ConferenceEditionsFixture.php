@@ -16,7 +16,7 @@ class ConferenceEditionsFixture extends Fixture implements DependentFixtureInter
             $conferenceEdition = (new ConferenceEdition())
                 ->setName('Conference Edition ' . $i)
                 ->setSlug('conference-edition-' . $i)
-                ->setConference($this->getReference('conference_' . rand(1, 5)))
+                ->setConference($this->getReference('conference_' . rand(1, 5), Conference::class))
                 ->setDescription('Description ' . $i);
             $manager->persist($conferenceEdition);
         }
