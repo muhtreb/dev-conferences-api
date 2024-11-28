@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Api\Client\YoutubeApiClient;
 use App\Manager\Admin\ConferenceEditionManager;
+use App\Repository\ConferenceEditionRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,6 +18,7 @@ class RefreshTalksCommand extends Command
 {
     public function __construct(
         public ConferenceEditionManager $conferenceEditionManager,
+        public ConferenceEditionRepository $conferenceEditionRepository,
     ) {
         parent::__construct();
     }
@@ -31,7 +33,14 @@ class RefreshTalksCommand extends Command
     {
         $conferenceEditionId = $input->getArgument('conferenceEditionId');
 
-        $this->conferenceEditionManager->refreshTalks($conferenceEditionId);
+        $conferenceEdition = $this->conferenceEditionRepository->find($conferenceEditionId);
+
+        if (!$conferenceEdition) {
+            $output->writeln('Conference edition not found');
+            return Command::FAILURE;
+        }
+
+        $this->conferenceEditionManager->refreshTalks($conferenceEdition);
 
         return Command::SUCCESS;
     }
