@@ -20,11 +20,11 @@ class IndexController extends AbstractController
     public function __invoke(
         Request $request,
         TalkRepository $talkRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
     ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
         $offset = $request->query->getInt('offset');
         $talks = new ArrayCollection($talkRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
-        return new JsonResponse($serializer->normalize($talks));
+        return new JsonResponse($normalizer->normalize($talks));
     }
 }

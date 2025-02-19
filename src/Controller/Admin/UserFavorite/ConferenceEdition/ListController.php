@@ -19,13 +19,13 @@ class ListController extends AbstractController
         methods: ['GET']
     )]
     public function __invoke(
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
         User $user
     ): JsonResponse {
         $favorites = [];
         foreach ($user->getUserFavoriteConferenceEditions() as $favorite) {
-            $favorites[] = $serializer->normalize($favorite->getConferenceEdition(), null, [
+            $favorites[] = $normalizer->normalize($favorite->getConferenceEdition(), null, [
                 'withTalks' => false
             ]);
         }

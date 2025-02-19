@@ -25,7 +25,7 @@ class IndexController extends AbstractController
         ConferenceEditionRepository $conferenceEditionRepository,
         SpeakerRepository $speakerRepository,
         TalkRepository $talkRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
     ): JsonResponse
     {
         $conferencesCount = $conferenceRepository->count([]);

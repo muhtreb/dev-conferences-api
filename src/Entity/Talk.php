@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TalkRepository::class)]
-class Talk
+class Talk implements SluggableEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -251,5 +251,10 @@ class Talk
         $this->tags->removeElement($tag);
 
         return $this;
+    }
+
+    public function getSluggableName(): string
+    {
+        return $this->name;
     }
 }

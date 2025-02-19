@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class SlugController extends AbstractController
 {
     #[Route(
-        path: '/talks/slug/{slug}',
+        path: '/talks/slug/{slug:talk}',
         name: 'api_talk_slug',
         requirements: ['slug' => '[a-z0-9-]+'],
         methods: ['GET']
@@ -20,9 +20,9 @@ class SlugController extends AbstractController
     public function __invoke(
         Talk $talk,
         Request $request,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
     ): JsonResponse {
-        return new JsonResponse($serializer->normalize($talk, null, [
+        return new JsonResponse($normalizer->normalize($talk, null, [
             'withEdition' => $request->query->getBoolean('withEdition', true),
             'withPrevNextTalks' => $request->query->getBoolean('withPrevNextTalks', true),
         ]));

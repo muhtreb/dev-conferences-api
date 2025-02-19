@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Api\Client\YoutubeApiClient;
 use App\Manager\Admin\ConferenceEditionManager;
 use App\Repository\ConferenceEditionRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -23,7 +22,7 @@ class RefreshTalksCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('conferenceEditionId');
         parent::configure();

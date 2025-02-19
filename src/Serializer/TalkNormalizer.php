@@ -28,7 +28,7 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
      * @param array $context
      * @return array
      */
-    public function normalize($talk, string $format = null, array $context = []): array
+    public function normalize($talk, ?string $format = null, array $context = []): array
     {
         $data = [
             'id' => $talk->getId(),
@@ -93,7 +93,7 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
         return $data;
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof Talk;
     }

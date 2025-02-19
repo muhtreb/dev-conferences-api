@@ -23,7 +23,7 @@ class CreateController extends AbstractController
         methods: ['POST']
     )]
     public function __invoke(
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
         Conference $conference,
         User $user,

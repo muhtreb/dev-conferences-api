@@ -11,15 +11,15 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class SlugController extends AbstractController
 {
     #[Route(
-        path: '/conferences/slug/{slug}',
+        path: '/conferences/slug/{slug:conference}',
         name: 'api_conference_slug',
         requirements: ['slug' => '[a-z0-9-]+']
     )]
     public function __invoke(
         Conference $conference,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
     ): JsonResponse
     {
-        return new JsonResponse($serializer->normalize($conference));
+        return new JsonResponse($normalizer->normalize($conference));
     }
 }

@@ -17,9 +17,9 @@ class ShowController extends AbstractController
     )]
     public function __invoke(
         Conference $conference,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
     ): JsonResponse
     {
-        return new JsonResponse($serializer->normalize($conference));
+        return new JsonResponse($normalizer->normalize($conference));
     }
 }

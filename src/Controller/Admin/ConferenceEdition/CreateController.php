@@ -20,7 +20,7 @@ class CreateController extends AbstractController
     #[Route('/admin/conferences/{conference}/editions', name: 'api_admin_conference_edition_create', methods: ['POST'])]
     public function __invoke(
         Conference $conference,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         ConferenceEditionManager $conferenceEditionManager,
         Request $request,
     ): JsonResponse
@@ -32,11 +32,11 @@ class CreateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $conferenceEdition = $conferenceEditionManager->createConferenceEditionFromDTO($dto);
-            return new JsonResponse($serializer->normalize($conferenceEdition));
+            return new JsonResponse($normalizer->normalize($conferenceEdition));
         }
 
         return new JsonResponse([
-            'errors' => $serializer->normalize($form),
+            'errors' => $normalizer->normalize($form),
         ], Response::HTTP_BAD_REQUEST);
     }
 }

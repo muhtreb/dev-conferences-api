@@ -6,14 +6,16 @@ use App\DomainObject\SpeakerDomainObject;
 use App\Entity\Speaker;
 use App\Repository\SpeakerRepository;
 use App\Service\Search\SpeakerIndexer;
-use App\Service\SpeakerSlugGenerator;
+use App\Service\SlugGenerator;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class SpeakerManager
 {
     public function __construct(
         private SpeakerRepository $speakerRepository,
         private SpeakerIndexer $speakerIndexer,
-        private SpeakerSlugGenerator $speakerSlugGenerator,
+        #[Autowire(service: 'slug_generator.speaker')]
+        private SlugGenerator $speakerSlugGenerator,
     ) {
     }
 
@@ -46,7 +48,7 @@ readonly class SpeakerManager
         $entity
             ->setFirstName($dto->firstName)
             ->setLastName($dto->lastName)
-            ->setSlug($this->speakerSlugGenerator->generateSlug($dto->firstName . ' ' . $dto->lastName, $dto->id ? $entity : null))
+            ->setSlug(($this->speakerSlugGenerator)($dto->firstName . ' ' . $dto->lastName, $dto->id))
             ->setXUsername($dto->xUsername)
             ->setSpeakerDeckUsername($dto->speakerDeckUsername)
             ->setMastodonUsername($dto->mastodonUsername)

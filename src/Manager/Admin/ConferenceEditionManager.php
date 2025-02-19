@@ -10,10 +10,11 @@ use App\Message\ImportYoutubePlaylistMessage;
 use App\Repository\ConferenceEditionNotificationRepository;
 use App\Repository\ConferenceEditionRepository;
 use App\Repository\YoutubePlaylistImportRepository;
-use App\Service\ConferenceEditionSlugGenerator;
 use App\Service\Search\ConferenceEditionIndexer;
 use App\Service\Search\TalkIndexer;
+use App\Service\SlugGenerator;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class ConferenceEditionManager
 {
@@ -24,13 +25,14 @@ readonly class ConferenceEditionManager
         private MessageBusInterface $bus,
         private ConferenceEditionIndexer $conferenceEditionIndexer,
         private TalkIndexer $talkIndexer,
-        private ConferenceEditionSlugGenerator $conferenceEditionSlugGenerator
+        #[Autowire(service: 'slug_generator.conference_edition')]
+        private SlugGenerator $conferenceEditionSlugGenerator
     ) {
     }
 
     public function createConferenceEditionFromDTO(ConferenceEditionDomainObject $dto): ConferenceEdition
     {
-        $slug = $this->conferenceEditionSlugGenerator->generateSlug($dto->name);
+        $slug = ($this->conferenceEditionSlugGenerator)($dto->name);
         $conferenceEdition = (new ConferenceEdition())
             ->setName($dto->name)
             ->setSlug($slug)
@@ -48,7 +50,7 @@ readonly class ConferenceEditionManager
 
     public function updateConferenceEditionFromDTO(ConferenceEdition $conferenceEdition, ConferenceEditionDomainObject $dto): ConferenceEdition
     {
-        $slug = $this->conferenceEditionSlugGenerator->generateSlug($dto->name, $conferenceEdition);
+        $slug = ($this->conferenceEditionSlugGenerator)($dto->name, $conferenceEdition->getId());
         $conferenceEdition
             ->setName($dto->name)
             ->setSlug($slug)

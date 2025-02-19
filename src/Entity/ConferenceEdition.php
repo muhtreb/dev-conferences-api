@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ConferenceEditionRepository::class)]
-class ConferenceEdition
+class ConferenceEdition implements SluggableEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -159,5 +159,10 @@ class ConferenceEdition
     public function getTalks(): Collection
     {
         return $this->talks;
+    }
+
+    public function getSluggableName(): string
+    {
+        return $this->name;
     }
 }

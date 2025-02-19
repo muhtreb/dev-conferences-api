@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class UniqueValueInEntityValidator extends ConstraintValidator
 {
     public function __construct(
-        private EntityManagerInterface $em
+        private readonly EntityManagerInterface $em
     )
     {
     }

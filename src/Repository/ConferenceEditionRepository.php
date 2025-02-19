@@ -5,8 +5,9 @@ namespace App\Repository;
 use App\Entity\ConferenceEdition;
 use App\Entity\Talk;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
-class ConferenceEditionRepository extends AbstractRepository
+class ConferenceEditionRepository extends AbstractRepository implements CheckSlugExistsRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -27,7 +28,7 @@ class ConferenceEditionRepository extends AbstractRepository
             ->getResult();
     }
 
-    public function checkSlugExists(string $slug, ?string $editionId = null): bool
+    public function checkSlugExists(string $slug, ?Uuid $uuid = null): bool
     {
         $connection = $this->_em->getConnection();
         $query = <<<SQL
@@ -36,14 +37,14 @@ class ConferenceEditionRepository extends AbstractRepository
            WHERE slug = :slug
         SQL;
 
-        if ($editionId !== null) {
+        if ($uuid !== null) {
             $query .= ' AND id != :editionId';
         }
 
         $stmt = $connection->prepare($query);
         $stmt->bindValue('slug', $slug);
-        if ($editionId !== null) {
-            $stmt->bindValue('editionId', $editionId);
+        if ($uuid !== null) {
+            $stmt->bindValue('editionId', $uuid);
         }
         $result = $stmt->execute();
 

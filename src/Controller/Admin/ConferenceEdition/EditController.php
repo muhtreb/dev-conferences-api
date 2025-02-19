@@ -25,7 +25,7 @@ class EditController extends AbstractController
     )]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         ConferenceEditionManager $conferenceEditionManager,
         Request $request,
     ): JsonResponse {
@@ -35,11 +35,11 @@ class EditController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $conferenceEdition = $conferenceEditionManager->updateConferenceEditionFromDTO($conferenceEdition, $dto);
-            return new JsonResponse($serializer->normalize($conferenceEdition));
+            return new JsonResponse($normalizer->normalize($conferenceEdition));
         }
 
         return new JsonResponse([
-            'errors' => $serializer->normalize($form),
+            'errors' => $normalizer->normalize($form),
         ], Response::HTTP_BAD_REQUEST);
     }
 }

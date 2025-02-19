@@ -15,7 +15,7 @@ class ConferenceNormalizer implements NormalizerInterface
      * @param array $context
      * @return array
      */
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize($object, ?string $format = null, array $context = []): array
     {
         return [
             'objectID' => $object->objectID,
@@ -24,7 +24,7 @@ class ConferenceNormalizer implements NormalizerInterface
         ];
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof ConferenceDomainObject;
     }

@@ -19,7 +19,7 @@ class IndexController extends AbstractController
     )]
     public function __invoke(
         SpeakerRepository $speakerRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
     ): JsonResponse
     {
@@ -28,7 +28,7 @@ class IndexController extends AbstractController
 
         $speakers = new ArrayCollection($speakerRepository->findBy([], [], $limit, $offset));
 
-        return new JsonResponse($serializer->normalize($speakers, null, [
+        return new JsonResponse($normalizer->normalize($speakers, null, [
             'withTalks' => $request->query->getBoolean('withTalks'),
             'withCountTalks' => $request->query->getBoolean('withCountTalks'),
         ]));

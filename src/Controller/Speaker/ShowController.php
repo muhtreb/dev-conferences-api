@@ -18,8 +18,8 @@ class ShowController extends AbstractController
     )]
     public function __invoke(
         Speaker $speaker,
-        NormalizerInterface $serializer
+        NormalizerInterface $normalizer
     ): JsonResponse {
-        return new JsonResponse($serializer->normalize($speaker));
+        return new JsonResponse($normalizer->normalize($speaker));
     }
 }

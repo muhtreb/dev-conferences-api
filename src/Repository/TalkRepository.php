@@ -7,8 +7,9 @@ use App\Entity\SpeakerTalk;
 use App\Entity\Talk;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
-class TalkRepository extends AbstractRepository
+class TalkRepository extends AbstractRepository implements CheckSlugExistsRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -49,7 +50,7 @@ class TalkRepository extends AbstractRepository
             ->getSingleScalarResult();
     }
 
-    public function checkSlugExists(string $slug, ?string $talkId = null): bool
+    public function checkSlugExists(string $slug, ?Uuid $uuid = null): bool
     {
         $connection = $this->_em->getConnection();
         $query = <<<SQL
@@ -58,14 +59,14 @@ class TalkRepository extends AbstractRepository
            WHERE slug = :slug
         SQL;
 
-        if ($talkId !== null) {
+        if ($uuid !== null) {
             $query .= ' AND id != :talkId';
         }
 
         $stmt = $connection->prepare($query);
         $stmt->bindValue('slug', $slug);
-        if ($talkId !== null) {
-            $stmt->bindValue('talkId', $talkId);
+        if ($uuid !== null) {
+            $stmt->bindValue('talkId', $uuid);
         }
         $result = $stmt->execute();
 

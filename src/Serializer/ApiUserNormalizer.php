@@ -15,7 +15,7 @@ class ApiUserNormalizer implements NormalizerInterface
      * @param array $context
      * @return array
      */
-    public function normalize($user, string $format = null, array $context = []): array
+    public function normalize($user, ?string $format = null, array $context = []): array
     {
         return [
             'id' => 'admin_api_user',
@@ -24,7 +24,7 @@ class ApiUserNormalizer implements NormalizerInterface
         ];
     }
 
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof AdminApiUser;
     }

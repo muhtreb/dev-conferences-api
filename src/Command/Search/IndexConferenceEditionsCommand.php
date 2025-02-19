@@ -20,13 +20,13 @@ class IndexConferenceEditionsCommand extends Command
 {
     public function __construct(
         public ConferenceEditionRepository $conferenceEditionRepository,
-        public NormalizerInterface $serializer,
+        public NormalizerInterface $normalizer,
         private readonly ConferenceEditionIndexer $conferenceEditionIndexer
     ) {
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('reset', null, null, 'Reset the index');

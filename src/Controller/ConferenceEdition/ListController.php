@@ -19,7 +19,7 @@ class ListController extends AbstractController
     )]
     public function __invoke(
         ConferenceEditionRepository $conferenceEditionRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
     ): JsonResponse
     {
@@ -27,7 +27,7 @@ class ListController extends AbstractController
         $offset = $request->query->getInt('offset');
 
         $conferenceEditions = new ArrayCollection($conferenceEditionRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
-        return new JsonResponse($serializer->normalize($conferenceEditions, null, [
+        return new JsonResponse($normalizer->normalize($conferenceEditions, null, [
             'withConference' => $request->query->getBoolean('withConference'),
             'withCountTalks' => $request->query->getBoolean('withCountTalks'),
             'withTalks' => $request->query->getBoolean('withTalks'),

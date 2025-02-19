@@ -21,7 +21,7 @@ class UserNormalizer implements NormalizerInterface
      * @param array $context
      * @return array
      */
-    public function normalize($user, string $format = null, array $context = []): array
+    public function normalize($user, ?string $format = null, array $context = []): array
     {
         return [
             'id' => $user->getId(),
@@ -30,7 +30,7 @@ class UserNormalizer implements NormalizerInterface
         ];
     }
 
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof User;
     }

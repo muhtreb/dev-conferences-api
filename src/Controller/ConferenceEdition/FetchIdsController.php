@@ -19,7 +19,7 @@ class FetchIdsController extends AbstractController
     public function __invoke(
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
     ): JsonResponse
     {
         $ids = explode(',', trim(preg_replace('/\s+/', '', $request->getContent())));
@@ -31,6 +31,6 @@ class FetchIdsController extends AbstractController
         $conferenceEditions = $conferenceEditionRepository->findBy([
             'id' => $ids
         ]);
-        return new JsonResponse($serializer->normalize($conferenceEditions, null, ['withTalks' => false]));
+        return new JsonResponse($normalizer->normalize($conferenceEditions, null, ['withTalks' => false]));
     }
 }

@@ -23,7 +23,7 @@ class RefreshTalksController extends AbstractController
     )]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         ConferenceEditionManager $conferenceEditionManager,
         Request $request,
     ): JsonResponse

@@ -23,7 +23,7 @@ class IndexTalksCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('reset', null, null, 'Reset the index');

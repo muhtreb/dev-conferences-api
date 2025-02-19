@@ -21,7 +21,7 @@ class ListController extends AbstractController
         methods: ['GET']
     )]
     public function __invoke(
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
         User $user,
         ConferenceRepository $conferenceRepository,
@@ -29,7 +29,7 @@ class ListController extends AbstractController
     ): JsonResponse {
         $favorites = [];
         foreach ($user->getUserFavoriteConferences() as $favorite) {
-            $favorites[] = $serializer->normalize($favorite->getConference(), null, [
+            $favorites[] = $normalizer->normalize($favorite->getConference(), null, [
                 'withEditions' => false
             ]);
         }

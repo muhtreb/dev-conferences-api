@@ -19,14 +19,14 @@ class IndexConferencesCommand extends Command
 {
     public function __construct(
         public ConferenceRepository $conferenceRepository,
-        public NormalizerInterface $serializer,
+        public NormalizerInterface $normalizer,
         private readonly ConferenceIndexer $conferenceIndexer
     )
     {
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('reset', null, null, 'Reset the index');

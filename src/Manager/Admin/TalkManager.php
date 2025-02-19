@@ -10,8 +10,9 @@ use App\Repository\SpeakerTalkRepository;
 use App\Repository\TalkRepository;
 use App\Service\Search\SpeakerIndexer;
 use App\Service\Search\TalkIndexer;
-use App\Service\TalkSlugGenerator;
+use App\Service\SlugGenerator;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class TalkManager
 {
@@ -21,13 +22,14 @@ readonly class TalkManager
         private SpeakerTalkRepository $speakerTalkRepository,
         private SpeakerIndexer $speakerIndexer,
         private TalkIndexer $talkIndexer,
-        private TalkSlugGenerator $talkSlugGenerator
+        #[Autowire(service: 'slug_generator.talk')]
+        private SlugGenerator $talkSlugGenerator
     ) {
     }
 
     public function createTalkFromDTO(TalkDomainObject $dto): Talk
     {
-        $slug = $this->talkSlugGenerator->generateSlug($dto->name);
+        $slug = ($this->talkSlugGenerator)($dto->name);
 
         $talk = (new Talk())
             ->setName($dto->name)(new Slugify())->slugify($dto->name)
@@ -46,7 +48,7 @@ readonly class TalkManager
 
     public function updateTalkFromDTO(Talk $talk, TalkDomainObject $dto): Talk
     {
-        $slug = $this->talkSlugGenerator->generateSlug($dto->name, $talk);
+        $slug = ($this->talkSlugGenerator)($dto->name, $talk->getId());
 
         $talk
             ->setName($dto->name)

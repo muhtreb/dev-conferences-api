@@ -24,7 +24,7 @@ class SearchController extends AbstractController
     public function __invoke(
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         SearchClient $searchClient
     ): JsonResponse {
         $data = $searchClient->search('conference_editions', $request->query->get('query', ''), [
@@ -50,7 +50,7 @@ class SearchController extends AbstractController
         });
 
         return new JsonResponse([
-            'data' => $serializer->normalize($conferenceEditions, null, [
+            'data' => $normalizer->normalize($conferenceEditions, null, [
                 'withTalks' => false,
                 'withPlaylistImports' => false,
             ]),

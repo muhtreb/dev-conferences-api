@@ -2,7 +2,7 @@
 
 namespace App\Manager\Admin;
 
-use App\Api\Client\YoutubeApiClient;
+use App\Api\Client\YoutubeApiClientInterface;
 use App\Entity\Talk;
 use App\Entity\YoutubePlaylistImport;
 use App\Enum\YoutubePlaylistImportStatusEnum;
@@ -10,20 +10,23 @@ use App\Helper\YoutubeApiHelper;
 use App\Repository\TalkRepository;
 use App\Repository\YoutubePlaylistImportRepository;
 use App\Service\Search\TalkIndexer;
-use App\Service\TalkSlugGenerator;
+use App\Service\SlugGenerator;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class ImportYoutubePlaylistManager
 {
     public function __construct(
-        private YoutubeApiClient $youtubeApiClient,
+        private YoutubeApiClientInterface $youtubeApiClient,
         private YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
         private TalkRepository $talkRepository,
         private YoutubeApiHelper $youtubeApiHelper,
         private TalkIndexer $talkIndexer,
         private LoggerInterface $logger,
-        private TalkSlugGenerator $talkSlugGenerator,
-    ) {
+        #[Autowire(service: 'slug_generator.talk')]
+        private SlugGenerator $talkSlugGenerator,
+    )
+    {
     }
 
     public function processYoutubePlaylistImport(YoutubePlaylistImport $youtubePlaylistImport): void
@@ -51,17 +54,19 @@ readonly class ImportYoutubePlaylistManager
                 continue;
             }
 
-            if (null !== $this->talkRepository->findOneBy([
+            if (
+                null !== $this->talkRepository->findOneBy([
                     'youtubeId' => $playlistItem['contentDetails']['videoId'],
                     'conferenceEdition' => $youtubePlaylistImport->getConferenceEdition()
-                ])) {
+                ])
+            ) {
                 continue;
             }
 
             $talk = (new Talk())
                 ->setConferenceEdition($youtubePlaylistImport->getConferenceEdition())
                 ->setName($playlistItem['snippet']['title'])
-                ->setSlug($this->talkSlugGenerator->generateSlug($playlistItem['snippet']['title']))
+                ->setSlug(($this->talkSlugGenerator)($playlistItem['snippet']['title']))
                 ->setDate($youtubePlaylistImport->getConferenceEdition()->getStartDate())
                 ->setDescription($playlistItem['snippet']['description'])
                 ->setYoutubeId($playlistItem['contentDetails']['videoId'])

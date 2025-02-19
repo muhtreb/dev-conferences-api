@@ -22,7 +22,7 @@ class DeleteController extends AbstractController
         methods: ['POST']
     )]
     public function __invoke(
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
         ConferenceEdition $conferenceEdition,
         User $user,

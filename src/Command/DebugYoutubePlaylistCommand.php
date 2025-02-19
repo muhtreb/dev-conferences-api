@@ -2,11 +2,13 @@
 
 namespace App\Command;
 
-use App\Api\Client\YoutubeApiClient;
+use App\Api\Client\YoutubeApiClientInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:debug-youtube-playlist',
@@ -15,14 +17,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DebugYoutubePlaylistCommand extends Command
 {
     public function __construct(
-        public YoutubeApiClient $youtubeApiClient,
+        public YoutubeApiClientInterface $youtubeApiClient,
     ) {
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
-        $this->addArgument('playlistId');
+        $this->addArgument('playlistId', InputArgument::REQUIRED, 'Playlist ID');
         parent::configure();
     }
 
@@ -32,8 +34,10 @@ class DebugYoutubePlaylistCommand extends Command
 
         $playlist = $this->youtubeApiClient->getPlaylistById($playlistId);
         $playlistItems = $this->youtubeApiClient->getPlaylistItemsById($playlistId);
+
         dump($playlist);
         dump($playlistItems);
+
         return Command::SUCCESS;
     }
 }

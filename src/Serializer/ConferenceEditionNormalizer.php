@@ -29,7 +29,7 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
      * @param array $context
      * @return array
      */
-    public function normalize($conferenceEdition, string $format = null, array $context = []): array
+    public function normalize($conferenceEdition, ?string $format = null, array $context = []): array
     {
         $startDate = $conferenceEdition->getStartDate();
         $endDate = $conferenceEdition->getEndDate();
@@ -75,7 +75,7 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
         return $data;
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof ConferenceEdition;
     }

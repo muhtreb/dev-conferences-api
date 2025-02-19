@@ -22,14 +22,14 @@ class IndexController extends AbstractController
     public function __invoke(
         Conference $conference,
         ConferenceEditionRepository $conferenceEditionRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
     ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
         $offset = $request->query->getInt('offset');
 
         $conferenceEditions = new ArrayCollection($conferenceEditionRepository->findBy(['conference' => $conference], ['name' => 'ASC'], $limit, $offset));
-        return new JsonResponse($serializer->normalize($conferenceEditions, null, [
+        return new JsonResponse($normalizer->normalize($conferenceEditions, null, [
             'withTalks' => false,
             'withPlaylistImports' => false
         ]));

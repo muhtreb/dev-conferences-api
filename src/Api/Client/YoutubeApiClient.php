@@ -4,7 +4,7 @@ namespace App\Api\Client;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class YoutubeApiClient
+class YoutubeApiClient implements YoutubeApiClientInterface
 {
     private HttpClientInterface $client;
 

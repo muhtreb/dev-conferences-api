@@ -19,7 +19,7 @@ class IndexController extends AbstractController
     )]
     public function __invoke(
         ConferenceRepository $conferenceRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         Request $request,
     ): JsonResponse
     {
@@ -28,7 +28,7 @@ class IndexController extends AbstractController
         $withEditions = $request->query->getBoolean('withEditions', true);
 
         $conferences = new ArrayCollection($conferenceRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
-        return new JsonResponse($serializer->normalize($conferences, null, [
+        return new JsonResponse($normalizer->normalize($conferences, null, [
             'withEditions' => $withEditions,
         ]));
     }

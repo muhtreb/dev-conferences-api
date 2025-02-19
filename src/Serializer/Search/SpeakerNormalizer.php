@@ -10,28 +10,28 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class SpeakerNormalizer implements NormalizerInterface
 {
     /**
-     * @param SpeakerDomainObject $object
+     * @param SpeakerDomainObject $data
      * @param string|null $format
      * @param array $context
      * @return array
      */
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
         return [
-            'objectID' => $object->objectID,
-            'firstName' => $object->firstName,
-            'lastName' => $object->lastName,
-            'description' => $object->description,
-            'githubUsername' => $object->githubUsername,
-            'xUsername' => $object->xUsername,
-            'mastodonUsername' => $object->mastodonUsername,
-            'blueskyUsername' => $object->blueskyUsername,
-            'speakerDeckUsername' => $object->speakerDeckUsername,
-            'countTalks' => $object->countTalks
+            'objectID' => $data->objectID,
+            'firstName' => $data->firstName,
+            'lastName' => $data->lastName,
+            'description' => $data->description,
+            'githubUsername' => $data->githubUsername,
+            'xUsername' => $data->xUsername,
+            'mastodonUsername' => $data->mastodonUsername,
+            'blueskyUsername' => $data->blueskyUsername,
+            'speakerDeckUsername' => $data->speakerDeckUsername,
+            'countTalks' => $data->countTalks
         ];
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof SpeakerDomainObject;
     }

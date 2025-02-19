@@ -19,10 +19,10 @@ class LatestController extends AbstractController
     public function __invoke(
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
     ): JsonResponse
     {
-        return new JsonResponse($serializer->normalize($conferenceEditionRepository->getLatestEditions($request->query->get('limit', 12)), null, [
+        return new JsonResponse($normalizer->normalize($conferenceEditionRepository->getLatestEditions($request->query->get('limit', 12)), null, [
             'withTalks' => $request->query->getBoolean('withTalks')
         ]));
     }

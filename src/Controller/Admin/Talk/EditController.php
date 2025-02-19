@@ -25,7 +25,7 @@ class EditController extends AbstractController
     )]
     public function __invoke(
         Talk $talk,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         TalkManager $talkManager,
         Request $request,
     ): JsonResponse
@@ -36,11 +36,11 @@ class EditController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $talk = $talkManager->updateTalkFromDTO($talk, $dto);
-            return new JsonResponse($serializer->normalize($talk));
+            return new JsonResponse($normalizer->normalize($talk));
         }
 
         return new JsonResponse([
-            'errors' => $serializer->normalize($form),
+            'errors' => $normalizer->normalize($form),
         ], Response::HTTP_BAD_REQUEST);
     }
 }

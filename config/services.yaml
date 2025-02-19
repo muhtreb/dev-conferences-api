@@ -29,6 +29,21 @@ services:
             $url: '%env(MEILISEARCH_URL)%'
             $apiKey: '%env(MEILISEARCH_API_KEY)%'
 
+    slug_generator.conference_edition:
+        class: App\Service\SlugGenerator
+        arguments:
+            $repository: '@App\Repository\ConferenceEditionRepository'
+
+    slug_generator.talk:
+        class: App\Service\SlugGenerator
+        arguments:
+            $repository: '@App\Repository\TalkRepository'
+
+    slug_generator.speaker:
+        class: App\Service\SlugGenerator
+        arguments:
+            $repository: '@App\Repository\SpeakerRepository'
+
     App\EventListener\CorsEventListener:
         tags:
             - { name: kernel.event_subscriber }

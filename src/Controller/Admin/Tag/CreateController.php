@@ -18,7 +18,7 @@ class CreateController extends AbstractController
 {
     #[Route('/admin/tags', name: 'api_admin_tag_create', methods: ['POST'])]
     public function __invoke(
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         TagManager $tagManager,
         Request $request,
     ): JsonResponse
@@ -29,12 +29,12 @@ class CreateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             return new JsonResponse(
-                $serializer->normalize($tagManager->createTagFromDTO($dto))
+                $normalizer->normalize($tagManager->createTagFromDTO($dto))
             );
         }
 
         return new JsonResponse([
-            'errors' => $serializer->normalize($form),
+            'errors' => $normalizer->normalize($form),
         ], Response::HTTP_BAD_REQUEST);
     }
 }

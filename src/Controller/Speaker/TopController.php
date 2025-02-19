@@ -21,7 +21,7 @@ class TopController extends AbstractController
     public function __invoke(
         Request $request,
         SpeakerRepository $speakerRepository,
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         SearchClient $searchClient
     ): JsonResponse {
         $data = $searchClient->search('speakers', '', [
@@ -42,7 +42,7 @@ class TopController extends AbstractController
         });
 
         return new JsonResponse(
-            $serializer->normalize($speakers, null, ['withTalks' => false])
+            $normalizer->normalize($speakers, null, ['withTalks' => false])
         );
     }
 }

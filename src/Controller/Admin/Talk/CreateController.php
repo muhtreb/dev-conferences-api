@@ -18,7 +18,7 @@ class CreateController extends AbstractController
 {
     #[Route('/admin/talks', name: 'api_admin_talks_create', methods: ['POST'])]
     public function __invoke(
-        NormalizerInterface $serializer,
+        NormalizerInterface $normalizer,
         TalkManager $talkManager,
         Request $request,
     ): JsonResponse
@@ -29,11 +29,11 @@ class CreateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $talk = $talkManager->createTalkFromDTO($dto);
-            return new JsonResponse($serializer->normalize($talk));
+            return new JsonResponse($normalizer->normalize($talk));
         }
 
         return new JsonResponse([
-            'errors' => $serializer->normalize($form),
+            'errors' => $normalizer->normalize($form),
         ], Response::HTTP_BAD_REQUEST);
     }
 }
