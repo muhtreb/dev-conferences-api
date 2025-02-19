@@ -99,6 +99,7 @@ class Conference
     public function setWebsite(?string $website): self
     {
         $this->website = $website;
+
         return $this;
     }
 
@@ -110,6 +111,7 @@ class Conference
     public function setTwitter(?string $twitter): self
     {
         $this->twitter = $twitter;
+
         return $this;
     }
 
@@ -121,6 +123,7 @@ class Conference
     public function setHeaderImageUrl(?string $headerImageUrl): self
     {
         $this->headerImageUrl = $headerImageUrl;
+
         return $this;
     }
 
@@ -132,6 +135,7 @@ class Conference
     public function setThumbnailImageUrl(?string $thumbnailImageUrl): self
     {
         $this->thumbnailImageUrl = $thumbnailImageUrl;
+
         return $this;
     }
 
@@ -143,6 +147,7 @@ class Conference
     public function setLegacyId(?string $legacyId): self
     {
         $this->legacyId = $legacyId;
+
         return $this;
     }
 

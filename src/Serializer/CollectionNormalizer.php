@@ -16,7 +16,7 @@ class CollectionNormalizer implements NormalizerAwareInterface, NormalizerInterf
      */
     public function normalize($object, ?string $format = null, array $context = []): array
     {
-        return $object->map(fn($item) => $this->normalizer->normalize($item, $format, $context))->getValues();
+        return $object->map(fn ($item) => $this->normalizer->normalize($item, $format, $context))->getValues();
     }
 
     public function supportsNormalization($data, $format = null, array $context = []): bool

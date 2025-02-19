@@ -20,6 +20,7 @@ class UserFavoriteSpeaker extends UserFavorite
     public function setSpeaker(Speaker $speaker): self
     {
         $this->speaker = $speaker;
+
         return $this;
     }
 }

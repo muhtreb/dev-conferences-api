@@ -11,9 +11,6 @@ class ApiUserNormalizer implements NormalizerInterface
 {
     /**
      * @param AdminApiUser $user
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($user, ?string $format = null, array $context = []): array
     {

@@ -5,12 +5,12 @@ namespace App\Controller\Admin\Tag;
 use App\DomainObject\TagDomainObject;
 use App\Form\Type\TagFormType;
 use App\Manager\Admin\TagManager;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -21,8 +21,7 @@ class CreateController extends AbstractController
         NormalizerInterface $normalizer,
         TagManager $tagManager,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $dto = new TagDomainObject();
         $form = $this->createForm(TagFormType::class, $dto);
         $form->submit($request->toArray());

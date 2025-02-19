@@ -4,12 +4,12 @@ namespace App\Controller\Admin\ConferenceEdition;
 
 use App\Entity\ConferenceEdition;
 use App\Manager\Admin\ConferenceEditionManager;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -26,8 +26,7 @@ class RefreshTalksController extends AbstractController
         NormalizerInterface $normalizer,
         ConferenceEditionManager $conferenceEditionManager,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $conferenceEditionManager->refreshTalks($conferenceEdition);
 
         return new JsonResponse([], Response::HTTP_NO_CONTENT);

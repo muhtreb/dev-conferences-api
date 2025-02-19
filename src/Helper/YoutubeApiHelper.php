@@ -47,6 +47,7 @@ class YoutubeApiHelper
 
         try {
             $dateInterval = new \DateInterval($duration);
+
             return ($dateInterval->days * 86400) + ($dateInterval->h * 3600) + ($dateInterval->i * 60) + $dateInterval->s;
         } catch (\Exception) {
             return null;

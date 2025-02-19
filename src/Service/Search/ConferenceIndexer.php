@@ -15,9 +15,8 @@ readonly class ConferenceIndexer
     public function __construct(
         private SearchClient $searchClient,
         private LoggerInterface $logger,
-        private NormalizerInterface $normalizer
-    )
-    {
+        private NormalizerInterface $normalizer,
+    ) {
     }
 
     public function reset(): void
@@ -35,7 +34,7 @@ readonly class ConferenceIndexer
 
         try {
             $this->searchClient->saveObjects(self::INDEX_NAME, [
-                $this->normalizer->normalize($dto)
+                $this->normalizer->normalize($dto),
             ]);
         } catch (\Exception $e) {
             $this->logger->error($e);

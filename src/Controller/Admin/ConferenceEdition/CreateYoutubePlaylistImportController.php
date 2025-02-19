@@ -25,8 +25,7 @@ class CreateYoutubePlaylistImportController extends AbstractController
         Request $request,
         YoutubePlaylistImportManager $youtubePlaylistImportManager,
         NormalizerInterface $normalizer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $dto = new YoutubePlaylistImportDomainObject();
         $dto->conferenceEdition = $conferenceEdition;
         $form = $this->createForm(YoutubePlaylistImportFormType::class, $dto);
@@ -34,6 +33,7 @@ class CreateYoutubePlaylistImportController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $youtubePlaylistImport = $youtubePlaylistImportManager->createYoutubePlaylistImportFromDTO($dto);
+
             return new JsonResponse($normalizer->normalize($youtubePlaylistImport));
         }
 

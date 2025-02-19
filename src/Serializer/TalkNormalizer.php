@@ -7,7 +7,6 @@ namespace App\Serializer;
 use App\Entity\Talk;
 use App\Repository\SpeakerRepository;
 use App\Repository\TalkRepository;
-use Cocur\Slugify\Slugify;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -18,15 +17,12 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
     public function __construct(
         private SpeakerRepository $speakerRepository,
-        private TalkRepository $talkRepository
+        private TalkRepository $talkRepository,
     ) {
     }
 
     /**
      * @param Talk $talk
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($talk, ?string $format = null, array $context = []): array
     {
@@ -39,15 +35,15 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'duration' => $talk->getDuration(),
             'images' => [
                 'thumbnail' => $talk->getThumbnailImageUrl(),
-                'poster' => $talk->getPosterImageUrl()
+                'poster' => $talk->getPosterImageUrl(),
             ],
-            'slug' => $talk->getSlug()
+            'slug' => $talk->getSlug(),
         ];
 
         if ($withPrevNextTalks = $context['withPrevNextTalks'] ?? false) {
             $prevTalk = $this->talkRepository->findOneBy([
                 'conferenceEdition' => $talk->getConferenceEdition(),
-                'position' => $talk->getPosition() - 1
+                'position' => $talk->getPosition() - 1,
             ]);
 
             $data['prevTalk'] = null;
@@ -61,7 +57,7 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
             $nextTalk = $this->talkRepository->findOneBy([
                 'conferenceEdition' => $talk->getConferenceEdition(),
-                'position' => $talk->getPosition() + 1
+                'position' => $talk->getPosition() + 1,
             ]);
 
             $data['nextTalk'] = null;

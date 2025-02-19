@@ -29,9 +29,10 @@ class IndexController extends AbstractController
         $offset = $request->query->getInt('offset');
 
         $conferenceEditions = new ArrayCollection($conferenceEditionRepository->findBy(['conference' => $conference], ['name' => 'ASC'], $limit, $offset));
+
         return new JsonResponse($normalizer->normalize($conferenceEditions, null, [
             'withTalks' => false,
-            'withPlaylistImports' => false
+            'withPlaylistImports' => false,
         ]));
     }
 }

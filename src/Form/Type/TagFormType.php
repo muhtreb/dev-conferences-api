@@ -17,7 +17,7 @@ class TagFormType extends AbstractType
             ->add('name', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
-                ]
+                ],
             ]);
     }
 

@@ -22,7 +22,7 @@ class YoutubePlaylistImportFormType extends AbstractType
                         'field' => 'playlistId',
                         'entityClass' => YoutubePlaylistImport::class,
                     ]),
-                ]
+                ],
             ]);
     }
 

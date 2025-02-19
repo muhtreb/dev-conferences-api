@@ -48,7 +48,7 @@ readonly class SpeakerManager
         $entity
             ->setFirstName($dto->firstName)
             ->setLastName($dto->lastName)
-            ->setSlug(($this->speakerSlugGenerator)($dto->firstName . ' ' . $dto->lastName, $dto->id))
+            ->setSlug(($this->speakerSlugGenerator)($dto->firstName.' '.$dto->lastName, $dto->id))
             ->setXUsername($dto->xUsername)
             ->setSpeakerDeckUsername($dto->speakerDeckUsername)
             ->setMastodonUsername($dto->mastodonUsername)

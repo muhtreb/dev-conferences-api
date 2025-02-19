@@ -37,18 +37,18 @@ class ConferenceEditionRepository extends AbstractRepository implements CheckSlu
            WHERE slug = :slug
         SQL;
 
-        if ($uuid !== null) {
+        if (null !== $uuid) {
             $query .= ' AND id != :editionId';
         }
 
         $stmt = $connection->prepare($query);
         $stmt->bindValue('slug', $slug);
-        if ($uuid !== null) {
+        if (null !== $uuid) {
             $stmt->bindValue('editionId', $uuid);
         }
         $result = $stmt->execute();
 
-        return $result->fetchOne() !== false;
+        return false !== $result->fetchOne();
     }
 
     public function getEditionsStatsByYear()

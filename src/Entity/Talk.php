@@ -80,6 +80,7 @@ class Talk implements SluggableEntity
     public function setConferenceEdition(ConferenceEdition $conferenceEdition): self
     {
         $this->conferenceEdition = $conferenceEdition;
+
         return $this;
     }
 
@@ -91,6 +92,7 @@ class Talk implements SluggableEntity
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -114,6 +116,7 @@ class Talk implements SluggableEntity
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -125,6 +128,7 @@ class Talk implements SluggableEntity
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
         return $this;
     }
 
@@ -136,6 +140,7 @@ class Talk implements SluggableEntity
     public function setYoutubeId(string $youtubeId): self
     {
         $this->youtubeId = $youtubeId;
+
         return $this;
     }
 
@@ -147,6 +152,7 @@ class Talk implements SluggableEntity
     public function setPosition(int $position): self
     {
         $this->position = $position;
+
         return $this;
     }
 
@@ -158,6 +164,7 @@ class Talk implements SluggableEntity
     public function setDuration(?int $duration): self
     {
         $this->duration = $duration;
+
         return $this;
     }
 
@@ -169,6 +176,7 @@ class Talk implements SluggableEntity
     public function setApiData(?array $apiData): self
     {
         $this->apiData = $apiData;
+
         return $this;
     }
 
@@ -180,6 +188,7 @@ class Talk implements SluggableEntity
     public function setThumbnailImageUrl(?string $thumbnailImageUrl): self
     {
         $this->thumbnailImageUrl = $thumbnailImageUrl;
+
         return $this;
     }
 
@@ -191,6 +200,7 @@ class Talk implements SluggableEntity
     public function setPosterImageUrl(?string $posterImageUrl): self
     {
         $this->posterImageUrl = $posterImageUrl;
+
         return $this;
     }
 
@@ -202,6 +212,7 @@ class Talk implements SluggableEntity
     public function setLegacyId(?string $legacyId): self
     {
         $this->legacyId = $legacyId;
+
         return $this;
     }
 

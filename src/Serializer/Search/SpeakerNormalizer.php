@@ -11,9 +11,6 @@ class SpeakerNormalizer implements NormalizerInterface
 {
     /**
      * @param SpeakerDomainObject $data
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
@@ -27,7 +24,7 @@ class SpeakerNormalizer implements NormalizerInterface
             'mastodonUsername' => $data->mastodonUsername,
             'blueskyUsername' => $data->blueskyUsername,
             'speakerDeckUsername' => $data->speakerDeckUsername,
-            'countTalks' => $data->countTalks
+            'countTalks' => $data->countTalks,
         ];
     }
 

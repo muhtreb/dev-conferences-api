@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
 class CreateController extends AbstractController
@@ -21,14 +21,14 @@ class CreateController extends AbstractController
         NormalizerInterface $normalizer,
         TalkManager $talkManager,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $dto = new TalkDomainObject();
         $form = $this->createForm(TalkFormType::class, $dto);
         $form->submit($request->toArray());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $talk = $talkManager->createTalkFromDTO($dto);
+
             return new JsonResponse($normalizer->normalize($talk));
         }
 

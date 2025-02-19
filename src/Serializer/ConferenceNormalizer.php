@@ -22,9 +22,6 @@ class ConferenceNormalizer implements NormalizerAwareInterface, NormalizerInterf
 
     /**
      * @param Conference $conference
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($conference, ?string $format = null, array $context = []): array
     {

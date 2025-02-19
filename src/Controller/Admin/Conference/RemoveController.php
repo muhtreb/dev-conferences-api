@@ -4,11 +4,11 @@ namespace App\Controller\Admin\Conference;
 
 use App\Entity\Conference;
 use App\Manager\Admin\ConferenceManager;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
 class RemoveController extends AbstractController
@@ -22,9 +22,9 @@ class RemoveController extends AbstractController
     public function __invoke(
         Conference $conference,
         ConferenceManager $conferenceManager,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $conferenceManager->removeConference($conference);
+
         return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }

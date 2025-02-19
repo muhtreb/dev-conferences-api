@@ -2,7 +2,6 @@
 
 namespace App\DomainObject;
 
-use App\Entity\Conference;
 use App\Entity\Tag;
 use Symfony\Component\Uid\Uuid;
 
@@ -16,6 +15,7 @@ class TagDomainObject
         $dto = new self();
         $dto->id = $tag->getId();
         $dto->name = $tag->getName();
+
         return $dto;
     }
 }

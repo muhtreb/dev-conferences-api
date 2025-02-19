@@ -18,12 +18,12 @@ class SpeakerFormType extends AbstractType
             ->add('firstName', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
-                ]
+                ],
             ])
             ->add('lastName', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
-                ]
+                ],
             ])
             ->add('xUsername', TextType::class, [
                 'required' => false,

@@ -79,6 +79,7 @@ class Speaker implements SluggableEntity
     public function setFirstName(string $firstName): Speaker
     {
         $this->firstName = $firstName;
+
         return $this;
     }
 
@@ -90,6 +91,7 @@ class Speaker implements SluggableEntity
     public function setLastName(string $lastName): Speaker
     {
         $this->lastName = $lastName;
+
         return $this;
     }
 
@@ -101,6 +103,7 @@ class Speaker implements SluggableEntity
     public function setSlug(string $slug): Speaker
     {
         $this->slug = $slug;
+
         return $this;
     }
 
@@ -112,6 +115,7 @@ class Speaker implements SluggableEntity
     public function setDescription(?string $description): Speaker
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -123,6 +127,7 @@ class Speaker implements SluggableEntity
     public function setWebsite(?string $website): Speaker
     {
         $this->website = $website;
+
         return $this;
     }
 
@@ -134,6 +139,7 @@ class Speaker implements SluggableEntity
     public function setNationalityIso3(?string $nationalityIso3): Speaker
     {
         $this->nationalityIso3 = $nationalityIso3;
+
         return $this;
     }
 
@@ -145,6 +151,7 @@ class Speaker implements SluggableEntity
     public function setAvatarUrl(?string $avatarUrl): Speaker
     {
         $this->avatarUrl = $avatarUrl;
+
         return $this;
     }
 
@@ -156,6 +163,7 @@ class Speaker implements SluggableEntity
     public function setXUsername(?string $xUsername): Speaker
     {
         $this->xUsername = $xUsername;
+
         return $this;
     }
 
@@ -167,6 +175,7 @@ class Speaker implements SluggableEntity
     public function setGithubUsername(?string $githubUsername): Speaker
     {
         $this->githubUsername = $githubUsername;
+
         return $this;
     }
 
@@ -178,6 +187,7 @@ class Speaker implements SluggableEntity
     public function setBlueskyUsername(?string $blueskyUsername): Speaker
     {
         $this->blueskyUsername = $blueskyUsername;
+
         return $this;
     }
 
@@ -189,6 +199,7 @@ class Speaker implements SluggableEntity
     public function setMastodonUsername(?string $mastodonUsername): Speaker
     {
         $this->mastodonUsername = $mastodonUsername;
+
         return $this;
     }
 
@@ -200,6 +211,7 @@ class Speaker implements SluggableEntity
     public function setSpeakerDeckUsername(?string $speakerDeckUsername): Speaker
     {
         $this->speakerDeckUsername = $speakerDeckUsername;
+
         return $this;
     }
 
@@ -253,6 +265,6 @@ class Speaker implements SluggableEntity
 
     public function getSluggableName(): string
     {
-        return $this->firstName . ' ' . $this->lastName;
+        return $this->firstName.' '.$this->lastName;
     }
 }

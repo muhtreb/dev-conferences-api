@@ -11,9 +11,6 @@ class YoutubePlaylistImportNormalizer implements NormalizerInterface
 {
     /**
      * @param YoutubePlaylistImport $youtubePlaylistImport
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($youtubePlaylistImport, ?string $format = null, array $context = []): array
     {

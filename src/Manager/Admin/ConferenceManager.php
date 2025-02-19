@@ -12,7 +12,7 @@ readonly class ConferenceManager
 {
     public function __construct(
         private ConferenceRepository $conferenceRepository,
-        private ConferenceIndexer $conferenceIndexer
+        private ConferenceIndexer $conferenceIndexer,
     ) {
     }
 

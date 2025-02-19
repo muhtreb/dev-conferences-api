@@ -22,7 +22,7 @@ class TopController extends AbstractController
         Request $request,
         SpeakerRepository $speakerRepository,
         NormalizerInterface $normalizer,
-        SearchClient $searchClient
+        SearchClient $searchClient,
     ): JsonResponse {
         $data = $searchClient->search('speakers', '', [
             'sort' => ['countTalks:desc'],

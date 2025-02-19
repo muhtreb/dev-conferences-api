@@ -20,16 +20,18 @@ class SlugGenerator
     public function __invoke(string $name, ?Uuid $uuid = null): string
     {
         if (self::$count > 1) {
-            $name .= ' ' . (self::$count - 1);
+            $name .= ' '.(self::$count - 1);
         }
 
         $slug = $this->slugify->slugify($name);
         if ($this->repository->checkSlugExists($slug, $uuid)) {
-            self::$count++;
+            ++self::$count;
+
             return $this($name, $uuid);
         }
 
         self::$count = 1;
+
         return $slug;
     }
 }

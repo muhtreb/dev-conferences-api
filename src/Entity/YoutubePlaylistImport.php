@@ -35,6 +35,7 @@ class YoutubePlaylistImport
     public function setId(?int $id): self
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -46,6 +47,7 @@ class YoutubePlaylistImport
     public function setPlaylistId(string $playlistId): self
     {
         $this->playlistId = $playlistId;
+
         return $this;
     }
 
@@ -57,6 +59,7 @@ class YoutubePlaylistImport
     public function setStatus(YoutubePlaylistImportStatusEnum $status): YoutubePlaylistImport
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -68,6 +71,7 @@ class YoutubePlaylistImport
     public function setData(array $data): self
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -79,6 +83,7 @@ class YoutubePlaylistImport
     public function setConferenceEdition(ConferenceEdition $conferenceEdition): self
     {
         $this->conferenceEdition = $conferenceEdition;
+
         return $this;
     }
 }

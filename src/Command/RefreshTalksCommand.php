@@ -36,6 +36,7 @@ class RefreshTalksCommand extends Command
 
         if (!$conferenceEdition) {
             $output->writeln('Conference edition not found');
+
             return Command::FAILURE;
         }
 

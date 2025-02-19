@@ -20,16 +20,15 @@ class FetchIdsController extends AbstractController
         Request $request,
         TalkRepository $talkRepository,
         NormalizerInterface $normalizer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $ids = explode(',', trim(preg_replace('/\s+/', '', $request->getContent())));
 
-        if (count($ids) === 0) {
+        if (0 === count($ids)) {
             return new JsonResponse([]);
         }
 
         $talks = $talkRepository->findBy([
-            'id' => $ids
+            'id' => $ids,
         ]);
 
         return new JsonResponse($normalizer->normalize($talks, null, ['withSpeakers' => false]));

@@ -11,9 +11,6 @@ class TalkNormalizer implements NormalizerInterface
 {
     /**
      * @param TalkDomainObject $object
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($object, ?string $format = null, array $context = []): array
     {
@@ -23,7 +20,7 @@ class TalkNormalizer implements NormalizerInterface
             'description' => $object->description,
             'date' => $object->date,
             'editionName' => $object->editionName,
-            'speakers' => $object->speakers
+            'speakers' => $object->speakers,
         ];
     }
 

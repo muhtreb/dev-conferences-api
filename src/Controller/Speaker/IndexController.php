@@ -21,8 +21,7 @@ class IndexController extends AbstractController
         SpeakerRepository $speakerRepository,
         NormalizerInterface $normalizer,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
         $offset = $request->query->getInt('offset');
 

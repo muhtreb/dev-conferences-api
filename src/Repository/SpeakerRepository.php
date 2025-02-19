@@ -33,6 +33,7 @@ class SpeakerRepository extends AbstractRepository implements CheckSlugExistsRep
                 $speakers->add($result->getSpeaker());
             }
         }
+
         return $speakers;
     }
 
@@ -45,17 +46,17 @@ class SpeakerRepository extends AbstractRepository implements CheckSlugExistsRep
            WHERE slug = :slug
         SQL;
 
-        if ($uuid !== null) {
+        if (null !== $uuid) {
             $query .= ' AND id != :speakerId';
         }
 
         $stmt = $connection->prepare($query);
         $stmt->bindValue('slug', $slug);
-        if ($uuid !== null) {
+        if (null !== $uuid) {
             $stmt->bindValue('speakerId', $uuid);
         }
         $result = $stmt->executeQuery();
 
-        return $result->fetchOne() !== false;
+        return false !== $result->fetchOne();
     }
 }

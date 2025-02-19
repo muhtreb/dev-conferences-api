@@ -14,8 +14,7 @@ readonly class ImportYoutubePlaylistMessageHandler
     public function __construct(
         private ImportYoutubePlaylistManager $importYoutubePlaylistManager,
         private YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
-    )
-    {
+    ) {
     }
 
     public function __invoke(ImportYoutubePlaylistMessage $message): void

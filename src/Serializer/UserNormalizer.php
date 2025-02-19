@@ -11,15 +11,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class UserNormalizer implements NormalizerInterface
 {
     public function __construct(
-        protected Security $security
+        protected Security $security,
     ) {
     }
 
     /**
      * @param User $user
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($user, ?string $format = null, array $context = []): array
     {

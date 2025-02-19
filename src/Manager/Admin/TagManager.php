@@ -9,9 +9,8 @@ use App\Repository\TagRepository;
 readonly class TagManager
 {
     public function __construct(
-        private TagRepository $tagRepository
-    )
-    {
+        private TagRepository $tagRepository,
+    ) {
     }
 
     public function createTagFromDTO(TagDomainObject $dto): Tag
@@ -20,6 +19,7 @@ readonly class TagManager
             ->setName($dto->name);
 
         $this->tagRepository->save($tag);
+
         return $tag;
     }
 

@@ -20,6 +20,7 @@ class UserFavoriteConference extends UserFavorite
     public function setConference(Conference $conference): self
     {
         $this->conference = $conference;
+
         return $this;
     }
 }

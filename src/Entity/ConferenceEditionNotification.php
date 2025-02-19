@@ -36,6 +36,7 @@ class ConferenceEditionNotification
     public function setConferenceEdition(ConferenceEdition $conferenceEdition): self
     {
         $this->conferenceEdition = $conferenceEdition;
+
         return $this;
     }
 
@@ -47,6 +48,7 @@ class ConferenceEditionNotification
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
         return $this;
     }
 }

@@ -20,6 +20,7 @@ class UserFavoriteConferenceEdition extends UserFavorite
     public function setConferenceEdition(ConferenceEdition $conferenceEdition): self
     {
         $this->conferenceEdition = $conferenceEdition;
+
         return $this;
     }
 }

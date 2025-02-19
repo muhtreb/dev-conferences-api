@@ -22,7 +22,7 @@ class ConferenceEditionNotificationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Email(),
-                ]
+                ],
             ])
             ->add('conferenceEdition', EntityType::class, [
                 'required' => true,

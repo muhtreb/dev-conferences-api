@@ -22,7 +22,7 @@ class TalkDomainObject extends SearchDomainObject
         $dto->date = $talk->getDate()->getTimestamp();
         $dto->speakers = $talk
             ->getSpeakers()
-            ->map(fn(SpeakerTalk $speakerTalk) => $speakerTalk->getSpeaker()->getFirstName() . ' ' . $speakerTalk->getSpeaker()->getLastName())
+            ->map(fn (SpeakerTalk $speakerTalk) => $speakerTalk->getSpeaker()->getFirstName().' '.$speakerTalk->getSpeaker()->getLastName())
             ->toArray();
         $dto->editionName = $talk->getConferenceEdition()->getName();
 

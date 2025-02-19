@@ -23,6 +23,7 @@ class ConferenceDomainObject
         $dto->website = $conference->getWebsite();
         $dto->twitter = $conference->getTwitter();
         $dto->thumbnailImageUrl = $conference->getThumbnailImageUrl();
+
         return $dto;
     }
 }

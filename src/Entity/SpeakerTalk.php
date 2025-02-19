@@ -29,6 +29,7 @@ class SpeakerTalk
     public function setSpeaker(Speaker $speaker): SpeakerTalk
     {
         $this->speaker = $speaker;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class SpeakerTalk
     public function setTalk(Talk $talk): SpeakerTalk
     {
         $this->talk = $talk;
+
         return $this;
     }
 
@@ -51,6 +53,7 @@ class SpeakerTalk
     public function setMain(bool $main): SpeakerTalk
     {
         $this->main = $main;
+
         return $this;
     }
 }

@@ -20,6 +20,7 @@ class UserFavoriteTalk extends UserFavorite
     public function setTalk(Talk $talk): self
     {
         $this->talk = $talk;
+
         return $this;
     }
 }

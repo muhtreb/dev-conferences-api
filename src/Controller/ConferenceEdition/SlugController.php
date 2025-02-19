@@ -22,12 +22,13 @@ class SlugController extends AbstractController
         ConferenceEdition $conferenceEdition,
         Request $request,
         NormalizerInterface $normalizer,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
     ): JsonResponse {
         $validation = $validator->validate($conferenceEdition);
         if (count($validation) > 0) {
             return new JsonResponse($normalizer->normalize($validation), 400);
         }
+
         return new JsonResponse($normalizer->normalize($conferenceEdition, null, [
             'withConference' => $request->query->getBoolean('withConference', true),
             'withTalks' => $request->query->getBoolean('withTalks', true),

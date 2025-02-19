@@ -18,7 +18,7 @@ class ConferenceFormType extends AbstractType
             ->add('name', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
-                ]
+                ],
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,

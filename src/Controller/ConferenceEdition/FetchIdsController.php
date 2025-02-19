@@ -20,17 +20,17 @@ class FetchIdsController extends AbstractController
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $normalizer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $ids = explode(',', trim(preg_replace('/\s+/', '', $request->getContent())));
 
-        if (count($ids) === 0) {
+        if (0 === count($ids)) {
             return new JsonResponse([]);
         }
 
         $conferenceEditions = $conferenceEditionRepository->findBy([
-            'id' => $ids
+            'id' => $ids,
         ]);
+
         return new JsonResponse($normalizer->normalize($conferenceEditions, null, ['withTalks' => false]));
     }
 }

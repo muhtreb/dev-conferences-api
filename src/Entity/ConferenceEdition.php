@@ -109,6 +109,7 @@ class ConferenceEdition implements SluggableEntity
     public function setWebsite(?string $website): self
     {
         $this->website = $website;
+
         return $this;
     }
 
@@ -120,6 +121,7 @@ class ConferenceEdition implements SluggableEntity
     public function setTwitter(?string $twitter): self
     {
         $this->twitter = $twitter;
+
         return $this;
     }
 
@@ -131,6 +133,7 @@ class ConferenceEdition implements SluggableEntity
     public function setStartDate(?\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
+
         return $this;
     }
 
@@ -142,6 +145,7 @@ class ConferenceEdition implements SluggableEntity
     public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
+
         return $this;
     }
 
@@ -153,6 +157,7 @@ class ConferenceEdition implements SluggableEntity
     public function setLegacyId(?string $legacyId): self
     {
         $this->legacyId = $legacyId;
+
         return $this;
     }
 

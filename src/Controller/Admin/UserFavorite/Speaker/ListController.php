@@ -3,11 +3,11 @@
 namespace App\Controller\Admin\UserFavorite\Speaker;
 
 use App\Entity\User;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -21,12 +21,12 @@ class ListController extends AbstractController
     public function __invoke(
         NormalizerInterface $normalizer,
         Request $request,
-        User $user
+        User $user,
     ): JsonResponse {
         $favorites = [];
         foreach ($user->getUserFavoriteSpeakers() as $favorite) {
             $favorites[] = $normalizer->normalize($favorite->getSpeaker(), null, [
-                'withEditions' => false
+                'withEditions' => false,
             ]);
         }
 

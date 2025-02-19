@@ -26,3 +26,7 @@ composer-update:
 .PHONY: phpstan
 phpstan:
 	$(DOCKER_EXEC_PHP_FPM) php vendor/bin/phpstan analyse src
+
+.PHONY: phpcsfixer
+phpcsfixer:
+	docker compose exec -e PHP_CS_FIXER_IGNORE_ENV=1 php-fpm php vendor/bin/php-cs-fixer fix src

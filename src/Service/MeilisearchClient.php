@@ -22,6 +22,7 @@ class MeilisearchClient implements SearchClient
     public function search(string $indexName, ?string $query = null, array $params = []): array
     {
         $index = $this->client->index($indexName);
+
         return $index->search($query, $params)->toArray();
     }
 

@@ -19,9 +19,9 @@ class IndexController extends AbstractController
     public function __invoke(
         TagRepository $tagRepository,
         NormalizerInterface $normalizer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $tags = new ArrayCollection($tagRepository->findBy([], ['name' => 'ASC']));
+
         return new JsonResponse($normalizer->normalize($tags));
     }
 }

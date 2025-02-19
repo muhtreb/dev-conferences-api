@@ -4,11 +4,11 @@ namespace App\Controller\Admin\Talk;
 
 use App\Entity\Talk;
 use App\Manager\Admin\TalkManager;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
 class RemoveController extends AbstractController
@@ -22,9 +22,9 @@ class RemoveController extends AbstractController
     public function __invoke(
         Talk $talk,
         TalkManager $talkManager,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $talkManager->removeTalk($talk);
+
         return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }

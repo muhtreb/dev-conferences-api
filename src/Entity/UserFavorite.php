@@ -34,6 +34,7 @@ abstract class UserFavorite
     public function setId(?int $id): self
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -45,6 +46,7 @@ abstract class UserFavorite
     public function setUser(User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 }

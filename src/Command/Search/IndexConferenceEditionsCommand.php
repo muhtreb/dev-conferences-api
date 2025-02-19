@@ -4,7 +4,6 @@ namespace App\Command\Search;
 
 use App\Repository\ConferenceEditionRepository;
 use App\Service\Search\ConferenceEditionIndexer;
-use App\Service\SearchClient;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +20,7 @@ class IndexConferenceEditionsCommand extends Command
     public function __construct(
         public ConferenceEditionRepository $conferenceEditionRepository,
         public NormalizerInterface $normalizer,
-        private readonly ConferenceEditionIndexer $conferenceEditionIndexer
+        private readonly ConferenceEditionIndexer $conferenceEditionIndexer,
     ) {
         parent::__construct();
     }

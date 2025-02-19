@@ -10,14 +10,14 @@ class ConferencesFixture extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 5; ++$i) {
             $conference = (new Conference())
-                ->setName('Conference ' . $i)
-                ->setSlug('conference-' . $i)
-                ->setDescription('Description ' . $i);
+                ->setName('Conference '.$i)
+                ->setSlug('conference-'.$i)
+                ->setDescription('Description '.$i);
             $manager->persist($conference);
 
-            $this->setReference('conference_' . $i, $conference);
+            $this->setReference('conference_'.$i, $conference);
         }
         $manager->flush();
     }

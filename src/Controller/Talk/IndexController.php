@@ -25,6 +25,7 @@ class IndexController extends AbstractController
         $limit = $request->query->getInt('limit', 10);
         $offset = $request->query->getInt('offset');
         $talks = new ArrayCollection($talkRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
+
         return new JsonResponse($normalizer->normalize($talks));
     }
 }

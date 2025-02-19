@@ -25,7 +25,7 @@ class SearchController extends AbstractController
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $normalizer,
-        SearchClient $searchClient
+        SearchClient $searchClient,
     ): JsonResponse {
         $data = $searchClient->search('conference_editions', $request->query->get('query', ''), [
             'attributesToRetrieve' => [

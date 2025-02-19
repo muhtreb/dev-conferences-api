@@ -34,6 +34,7 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
                 $talks->add($result->getTalk());
             }
         }
+
         return $talks;
     }
 
@@ -59,18 +60,18 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
            WHERE slug = :slug
         SQL;
 
-        if ($uuid !== null) {
+        if (null !== $uuid) {
             $query .= ' AND id != :talkId';
         }
 
         $stmt = $connection->prepare($query);
         $stmt->bindValue('slug', $slug);
-        if ($uuid !== null) {
+        if (null !== $uuid) {
             $stmt->bindValue('talkId', $uuid);
         }
         $result = $stmt->execute();
 
-        return $result->fetchOne() !== false;
+        return false !== $result->fetchOne();
     }
 
     public function getIterator(): iterable

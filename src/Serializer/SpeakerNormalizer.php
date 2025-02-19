@@ -6,7 +6,6 @@ namespace App\Serializer;
 
 use App\Entity\Speaker;
 use App\Repository\TalkRepository;
-use Cocur\Slugify\Slugify;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -16,23 +15,20 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
     use NormalizerAwareTrait;
 
     public function __construct(
-        protected TalkRepository $talkRepository
+        protected TalkRepository $talkRepository,
     ) {
     }
 
     /**
      * @param Speaker $speaker
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($speaker, ?string $format = null, array $context = []): array
     {
         $avatarUrl = null;
         if (null !== $githubUsername = $speaker->getGithubUsername()) {
-            $avatarUrl = 'https://github.com/' . $githubUsername . '.png';
-        } else if (null !== $xUsername = $speaker->getXUsername()) {
-            $avatarUrl = 'https://unavatar.io/twitter/' . $xUsername;
+            $avatarUrl = 'https://github.com/'.$githubUsername.'.png';
+        } elseif (null !== $xUsername = $speaker->getXUsername()) {
+            $avatarUrl = 'https://unavatar.io/twitter/'.$xUsername;
         }
 
         $data = [

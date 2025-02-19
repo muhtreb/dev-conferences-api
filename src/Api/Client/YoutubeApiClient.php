@@ -25,17 +25,17 @@ class YoutubeApiClient implements YoutubeApiClientInterface
                     'key' => $this->googleApiKey,
                     'part' => 'snippet,contentDetails',
                     'id' => $id,
-                ]
+                ],
             ]
         );
 
         if (200 !== $statusCode = $response->getStatusCode()) {
-            throw new \Exception('Error status code ' . $statusCode);
+            throw new \Exception('Error status code '.$statusCode);
         }
 
         $playlists = $response->toArray();
 
-        if (count($playlists['items']) === 0) {
+        if (0 === count($playlists['items'])) {
             throw new \Exception('no items');
         }
 
@@ -58,12 +58,12 @@ class YoutubeApiClient implements YoutubeApiClientInterface
                 'GET',
                 '/youtube/v3/playlistItems',
                 [
-                    'query' => $query
+                    'query' => $query,
                 ]
             );
 
             if (200 !== $statusCode = $response->getStatusCode()) {
-                throw new \Exception('Unable to get playlist items. Status code : ' . $statusCode);
+                throw new \Exception('Unable to get playlist items. Status code : '.$statusCode);
             }
 
             $playlistItems = $response->toArray();
@@ -92,12 +92,12 @@ class YoutubeApiClient implements YoutubeApiClientInterface
                     'key' => $this->googleApiKey,
                     'part' => 'snippet,contentDetails,status',
                     'id' => $id,
-                ]
+                ],
             ]
         );
 
         if (200 !== $statusCode = $response->getStatusCode()) {
-            throw new \Exception('Error status code ' . $statusCode);
+            throw new \Exception('Error status code '.$statusCode);
         }
 
         $data = $response->toArray();

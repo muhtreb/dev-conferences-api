@@ -18,7 +18,7 @@ class IndexTalksCommand extends Command
 {
     public function __construct(
         public TalkRepository $talkRepository,
-        public TalkIndexer $talkIndexer
+        public TalkIndexer $talkIndexer,
     ) {
         parent::__construct();
     }
@@ -44,7 +44,6 @@ class IndexTalksCommand extends Command
                 // do nothing
             }
         }
-
 
         $io->title('Indexing Talks');
 

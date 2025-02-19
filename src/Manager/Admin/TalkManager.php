@@ -23,7 +23,7 @@ readonly class TalkManager
         private SpeakerIndexer $speakerIndexer,
         private TalkIndexer $talkIndexer,
         #[Autowire(service: 'slug_generator.talk')]
-        private SlugGenerator $talkSlugGenerator
+        private SlugGenerator $talkSlugGenerator,
     ) {
     }
 

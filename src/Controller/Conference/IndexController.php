@@ -21,13 +21,13 @@ class IndexController extends AbstractController
         ConferenceRepository $conferenceRepository,
         NormalizerInterface $normalizer,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
         $offset = $request->query->getInt('offset');
         $withEditions = $request->query->getBoolean('withEditions', true);
 
         $conferences = new ArrayCollection($conferenceRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
+
         return new JsonResponse($normalizer->normalize($conferences, null, [
             'withEditions' => $withEditions,
         ]));

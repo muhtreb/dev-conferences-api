@@ -20,9 +20,9 @@ class TalksController extends AbstractController
         ConferenceEdition $conferenceEdition,
         TalkRepository $talkRepository,
         NormalizerInterface $normalizer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $talks = $talkRepository->findBy(['conferenceEdition' => $conferenceEdition], ['position' => 'ASC']);
+
         return new JsonResponse($normalizer->normalize($talks));
     }
 }

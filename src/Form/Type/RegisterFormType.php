@@ -25,13 +25,13 @@ class RegisterFormType extends AbstractType
                         'entityClass' => User::class,
                         'field' => 'email',
                     ]),
-                ]
+                ],
             ])
             ->add('password', PasswordType::class, [
                 'required' => true,
                 'constraints' => [
                     new NotBlank(),
-                    //new NotCompromisedPassword(),
+                    // new NotCompromisedPassword(),
                 ],
             ]);
     }

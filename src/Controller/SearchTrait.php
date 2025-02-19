@@ -11,9 +11,9 @@ trait SearchTrait
         return [
             'page' => $page,
             'nbPages' => $data['totalPages'],
-            'nextPage' => ($page) < $data['totalPages'] ? $page + 1 : null,
-            'prevPage' => (($page) > 1) ? $page - 1 : null,
-            'nbHits' => $data['totalHits']
+            'nextPage' => $page < $data['totalPages'] ? $page + 1 : null,
+            'prevPage' => ($page > 1) ? $page - 1 : null,
+            'nbHits' => $data['totalHits'],
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Entity\SluggableEntity;
-use App\Repository\CheckSlugExistsRepositoryInterface;
 use App\Repository\ConferenceEditionRepository;
 use App\Repository\SpeakerRepository;
 use App\Repository\TalkRepository;
@@ -57,7 +56,7 @@ class UpdateEntitySlugCommand extends Command
             default => null,
         };
 
-        $io->title('Updating ' . ucfirst($entity) . ' Slug');
+        $io->title('Updating '.ucfirst($entity).' Slug');
 
         $count = 0;
         $flushBatchSize = 100;
@@ -70,8 +69,8 @@ class UpdateEntitySlugCommand extends Command
 
             $this->entityManager->persist($entity);
 
-            $count++;
-            if ($count % $flushBatchSize === 0) {
+            ++$count;
+            if (0 === $count % $flushBatchSize) {
                 $this->entityManager->flush();
                 $this->entityManager->clear();
                 self::$generatedSlugs = [];
@@ -91,15 +90,17 @@ class UpdateEntitySlugCommand extends Command
     {
         $name = $entity->getSluggableName();
         if (self::$countSlugGenerated > 1) {
-            $name .= ' ' . (self::$countSlugGenerated - 1);
+            $name .= ' '.(self::$countSlugGenerated - 1);
         }
         $slug = $this->slugify->slugify($name);
         if (in_array($slug, self::$generatedSlugs) || $this->repository->checkSlugExists($slug, $entity->getId())) {
-            self::$countSlugGenerated++;
+            ++self::$countSlugGenerated;
+
             return $this->generateSlug($entity);
         }
 
         self::$countSlugGenerated = 1;
+
         return $slug;
     }
 

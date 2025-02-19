@@ -12,12 +12,12 @@ class ConferenceEditionsFixture extends Fixture implements DependentFixtureInter
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $conferenceEdition = (new ConferenceEdition())
-                ->setName('Conference Edition ' . $i)
-                ->setSlug('conference-edition-' . $i)
-                ->setConference($this->getReference('conference_' . rand(1, 5), Conference::class))
-                ->setDescription('Description ' . $i);
+                ->setName('Conference Edition '.$i)
+                ->setSlug('conference-edition-'.$i)
+                ->setConference($this->getReference('conference_'.rand(1, 5), Conference::class))
+                ->setDescription('Description '.$i);
             $manager->persist($conferenceEdition);
         }
         $manager->flush();

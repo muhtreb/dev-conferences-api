@@ -6,12 +6,12 @@ use App\DomainObject\ConferenceEditionDomainObject;
 use App\Entity\Conference;
 use App\Form\Type\ConferenceEditionFormType;
 use App\Manager\Admin\ConferenceEditionManager;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -23,8 +23,7 @@ class CreateController extends AbstractController
         NormalizerInterface $normalizer,
         ConferenceEditionManager $conferenceEditionManager,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $dto = new ConferenceEditionDomainObject();
         $dto->conference = $conference;
         $form = $this->createForm(ConferenceEditionFormType::class, $dto);
@@ -32,6 +31,7 @@ class CreateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $conferenceEdition = $conferenceEditionManager->createConferenceEditionFromDTO($dto);
+
             return new JsonResponse($normalizer->normalize($conferenceEdition));
         }
 

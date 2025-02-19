@@ -25,8 +25,7 @@ readonly class ImportYoutubePlaylistManager
         private LoggerInterface $logger,
         #[Autowire(service: 'slug_generator.talk')]
         private SlugGenerator $talkSlugGenerator,
-    )
-    {
+    ) {
     }
 
     public function processYoutubePlaylistImport(YoutubePlaylistImport $youtubePlaylistImport): void
@@ -37,11 +36,12 @@ readonly class ImportYoutubePlaylistManager
             $this->logger->error('Error while importing youtube playlist', [
                 'youtubePlaylistImportId' => $youtubePlaylistImport->getId(),
                 'playlistId' => $youtubePlaylistImport->getPlaylistId(),
-                'exception' => $e
+                'exception' => $e,
             ]);
 
             $youtubePlaylistImport->setStatus(YoutubePlaylistImportStatusEnum::Error);
             $this->youtubePlaylistImportRepository->save($youtubePlaylistImport);
+
             return;
         }
 
@@ -57,7 +57,7 @@ readonly class ImportYoutubePlaylistManager
             if (
                 null !== $this->talkRepository->findOneBy([
                     'youtubeId' => $playlistItem['contentDetails']['videoId'],
-                    'conferenceEdition' => $youtubePlaylistImport->getConferenceEdition()
+                    'conferenceEdition' => $youtubePlaylistImport->getConferenceEdition(),
                 ])
             ) {
                 continue;
@@ -79,7 +79,7 @@ readonly class ImportYoutubePlaylistManager
 
             $talksToIndex[] = $talk;
 
-            $position++;
+            ++$position;
         }
 
         $this->talkIndexer->indexTalks($talksToIndex);

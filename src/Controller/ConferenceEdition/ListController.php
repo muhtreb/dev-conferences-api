@@ -21,12 +21,12 @@ class ListController extends AbstractController
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $normalizer,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
         $offset = $request->query->getInt('offset');
 
         $conferenceEditions = new ArrayCollection($conferenceEditionRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
+
         return new JsonResponse($normalizer->normalize($conferenceEditions, null, [
             'withConference' => $request->query->getBoolean('withConference'),
             'withCountTalks' => $request->query->getBoolean('withCountTalks'),

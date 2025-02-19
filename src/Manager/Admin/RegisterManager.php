@@ -12,8 +12,7 @@ readonly class RegisterManager
     public function __construct(
         public UserRepository $userRepository,
         public UserPasswordHasherInterface $passwordHasher,
-    )
-    {
+    ) {
     }
 
     public function createUserFromDTO(RegisterDomainObject $dto): User
@@ -23,6 +22,7 @@ readonly class RegisterManager
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->password));
 
         $this->userRepository->save($user);
+
         return $user;
     }
 }

@@ -20,9 +20,8 @@ class ShowController extends AbstractController
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         Request $request,
-        NormalizerInterface $normalizer
-    ): JsonResponse
-    {
+        NormalizerInterface $normalizer,
+    ): JsonResponse {
         return new JsonResponse($normalizer->normalize($conferenceEdition, null, [
             'withConference' => $request->query->getBoolean('withConference', true),
             'withTalks' => $request->query->getBoolean('withTalks', true),

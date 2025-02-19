@@ -5,12 +5,12 @@ namespace App\Controller\Admin\Speaker;
 use App\DomainObject\SpeakerDomainObject;
 use App\Form\Type\SpeakerFormType;
 use App\Manager\Admin\SpeakerManager;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -28,6 +28,7 @@ class CreateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $speaker = $speakerManager->createSpeakerFromDTO($dto);
+
             return new JsonResponse($normalizer->normalize($speaker));
         }
 

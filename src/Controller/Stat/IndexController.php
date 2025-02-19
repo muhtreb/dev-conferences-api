@@ -26,8 +26,7 @@ class IndexController extends AbstractController
         SpeakerRepository $speakerRepository,
         TalkRepository $talkRepository,
         NormalizerInterface $normalizer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $conferencesCount = $conferenceRepository->count([]);
         $editionsCount = $conferenceEditionRepository->count([]);
         $speakersCount = $speakerRepository->count([]);
@@ -46,13 +45,13 @@ class IndexController extends AbstractController
                 'total' => $editionsCount,
                 'by_year' => $editionsStats,
             ],
-            'speakers'  => [
+            'speakers' => [
                 'total' => $speakersCount,
             ],
             'talks' => [
                 'total' => $talksCount,
                 'by_year' => $talksStats,
-            ]
+            ],
         ]);
     }
 }

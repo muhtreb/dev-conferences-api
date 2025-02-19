@@ -27,7 +27,7 @@ class TalkDomainObject
         $dto->date = $talk->getDate();
         $dto->conferenceEdition = $talk->getConferenceEdition();
         $dto->youtubeId = $talk->getYoutubeId();
-        $dto->speakerIds = implode(',', array_map(fn(SpeakerTalk $speakerTalk): string => $speakerTalk->getSpeaker()->getId(), $talk->getSpeakers()->toArray()));
+        $dto->speakerIds = implode(',', array_map(fn (SpeakerTalk $speakerTalk): string => $speakerTalk->getSpeaker()->getId(), $talk->getSpeakers()->toArray()));
 
         return $dto;
     }

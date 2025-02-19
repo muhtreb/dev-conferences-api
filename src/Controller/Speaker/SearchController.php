@@ -25,7 +25,7 @@ class SearchController extends AbstractController
         Request $request,
         SpeakerRepository $speakerRepository,
         NormalizerInterface $normalizer,
-        SearchClient $searchClient
+        SearchClient $searchClient,
     ): JsonResponse {
         $data = $searchClient->search('speakers', $request->query->get('query', ''), [
             'attributesToRetrieve' => [

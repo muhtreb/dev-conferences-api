@@ -18,9 +18,8 @@ class IndexSpeakersCommand extends Command
 {
     public function __construct(
         public SpeakerRepository $speakerRepository,
-        public SpeakerIndexer $speakerIndexer
-    )
-    {
+        public SpeakerIndexer $speakerIndexer,
+    ) {
         parent::__construct();
     }
 

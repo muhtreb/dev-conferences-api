@@ -11,15 +11,14 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class UniqueValueInEntityValidator extends ConstraintValidator
 {
     public function __construct(
-        private readonly EntityManagerInterface $em
-    )
-    {
+        private readonly EntityManagerInterface $em,
+    ) {
     }
 
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueValueInEntity) {
-            throw new UnexpectedTypeException($constraint, __NAMESPACE__ . '\NotNull');
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\NotNull');
         }
 
         if (empty($value)) {

@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\UserFavoriteConferenceEdition;
 use App\Entity\UserFavoriteTalk;
 use Doctrine\Persistence\ManagerRegistry;
 

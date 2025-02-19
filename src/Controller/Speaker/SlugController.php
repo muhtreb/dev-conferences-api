@@ -3,7 +3,6 @@
 namespace App\Controller\Speaker;
 
 use App\Entity\Speaker;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;

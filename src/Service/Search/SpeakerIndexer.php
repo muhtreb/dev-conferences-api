@@ -17,7 +17,7 @@ readonly class SpeakerIndexer
         private SearchClient $searchClient,
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer,
-        private TalkRepository $talkRepository
+        private TalkRepository $talkRepository,
     ) {
     }
 
@@ -36,7 +36,7 @@ readonly class SpeakerIndexer
 
         try {
             $this->searchClient->saveObjects(self::INDEX_NAME, [
-                $this->normalizer->normalize($dto)
+                $this->normalizer->normalize($dto),
             ]);
         } catch (\Exception $e) {
             $this->logger->error($e);
@@ -69,6 +69,7 @@ readonly class SpeakerIndexer
     {
         $dto = SpeakerDomainObject::from($speaker);
         $dto->countTalks = $this->talkRepository->countSpeakerTalks($speaker);
+
         return $dto;
     }
 }

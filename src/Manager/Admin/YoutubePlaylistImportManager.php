@@ -15,9 +15,8 @@ readonly class YoutubePlaylistImportManager
     public function __construct(
         private YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
         private MessageBusInterface $bus,
-        private LoggerInterface $logger
-    )
-    {
+        private LoggerInterface $logger,
+    ) {
     }
 
     public function createYoutubePlaylistImportFromDTO(YoutubePlaylistImportDomainObject $dto): YoutubePlaylistImport

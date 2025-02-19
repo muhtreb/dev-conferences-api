@@ -18,8 +18,7 @@ class ShowController extends AbstractController
     public function __invoke(
         Tag $tag,
         NormalizerInterface $normalizer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return new JsonResponse($normalizer->normalize($tag));
     }
 }

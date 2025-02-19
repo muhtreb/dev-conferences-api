@@ -7,8 +7,6 @@ namespace App\Serializer;
 use App\Entity\ConferenceEdition;
 use App\Repository\TalkRepository;
 use App\Repository\YoutubePlaylistImportRepository;
-use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -19,15 +17,12 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
 
     public function __construct(
         protected TalkRepository $talkRepository,
-        protected YoutubePlaylistImportRepository $youtubePlaylistImportRepository
+        protected YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
     ) {
     }
 
     /**
      * @param ConferenceEdition $conferenceEdition
-     * @param string|null $format
-     * @param array $context
-     * @return array
      */
     public function normalize($conferenceEdition, ?string $format = null, array $context = []): array
     {
@@ -62,12 +57,12 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
             $data['playlists'] = [];
             $playlists = $this->youtubePlaylistImportRepository->findBy([
                 'conferenceEdition' => $conferenceEdition,
-                'status' => 'success'
+                'status' => 'success',
             ]);
             foreach ($playlists as $playlist) {
                 $data['playlists'][] = [
                     'id' => $playlist->getPlaylistId(),
-                    'status' => $playlist->getStatus()
+                    'status' => $playlist->getStatus(),
                 ];
             }
         }
@@ -79,6 +74,7 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
     {
         return $data instanceof ConferenceEdition;
     }
+
     public function getSupportedTypes(?string $format): array
     {
         return [

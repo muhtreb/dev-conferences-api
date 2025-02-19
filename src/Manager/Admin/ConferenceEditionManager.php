@@ -13,8 +13,8 @@ use App\Repository\YoutubePlaylistImportRepository;
 use App\Service\Search\ConferenceEditionIndexer;
 use App\Service\Search\TalkIndexer;
 use App\Service\SlugGenerator;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class ConferenceEditionManager
 {
@@ -26,7 +26,7 @@ readonly class ConferenceEditionManager
         private ConferenceEditionIndexer $conferenceEditionIndexer,
         private TalkIndexer $talkIndexer,
         #[Autowire(service: 'slug_generator.conference_edition')]
-        private SlugGenerator $conferenceEditionSlugGenerator
+        private SlugGenerator $conferenceEditionSlugGenerator,
     ) {
     }
 
@@ -76,7 +76,7 @@ readonly class ConferenceEditionManager
             ->conferenceEditionNotificationRepository
             ->findOneBy([
                 'conferenceEdition' => $dto->conferenceEdition->getId(),
-                'email' => $dto->email
+                'email' => $dto->email,
             ]);
 
         if (null !== $conferenceEditionNotification) {

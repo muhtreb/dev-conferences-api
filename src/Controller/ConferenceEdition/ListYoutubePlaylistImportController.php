@@ -19,9 +19,8 @@ class ListYoutubePlaylistImportController extends AbstractController
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         YoutubePlaylistImportRepository $youtubePlaylistImportRepository,
-        NormalizerInterface $normalizer
-    ): JsonResponse
-    {
+        NormalizerInterface $normalizer,
+    ): JsonResponse {
         return new JsonResponse(
             $normalizer->normalize(
                 $youtubePlaylistImportRepository->findBy(['conferenceEdition' => $conferenceEdition])

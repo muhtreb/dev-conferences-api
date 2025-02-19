@@ -5,11 +5,11 @@ namespace App\Controller\Admin\UserFavorite\Conference;
 use App\Entity\User;
 use App\Repository\ConferenceRepository;
 use App\Repository\UserFavoriteRepository;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -30,7 +30,7 @@ class ListController extends AbstractController
         $favorites = [];
         foreach ($user->getUserFavoriteConferences() as $favorite) {
             $favorites[] = $normalizer->normalize($favorite->getConference(), null, [
-                'withEditions' => false
+                'withEditions' => false,
             ]);
         }
 

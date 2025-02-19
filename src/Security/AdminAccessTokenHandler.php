@@ -11,8 +11,7 @@ readonly class AdminAccessTokenHandler implements AccessTokenHandlerInterface
 {
     public function __construct(
         private ApiTokenRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function getUserBadgeFrom(string $accessToken): UserBadge
