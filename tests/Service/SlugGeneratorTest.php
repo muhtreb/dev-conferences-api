@@ -26,14 +26,10 @@ class SlugGeneratorTest extends TestCase
         $repository = $this->createMock(CheckSlugExistsRepositoryInterface::class);
         $repository->expects($this->exactly(2))
             ->method('checkSlugExists')
-            ->withConsecutive(
-                ['test', null],
-                ['test-1', null]
-            )
-            ->willReturnOnConsecutiveCalls(
-                true,
-                false
-            );
+            ->willReturnMap([
+                ['test', null, true],
+                ['test-1', null, false],
+            ]);
 
         $slugGenerator = new SlugGenerator($repository);
         $this->assertSame('test-1', $slugGenerator('test'));
@@ -46,14 +42,10 @@ class SlugGeneratorTest extends TestCase
         $repository = $this->createMock(CheckSlugExistsRepositoryInterface::class);
         $repository->expects($this->exactly(2))
             ->method('checkSlugExists')
-            ->withConsecutive(
-                ['test', $uuid],
-                ['test-1', $uuid]
-            )
-            ->willReturnOnConsecutiveCalls(
-                true,
-                false
-            );
+            ->willReturnMap([
+                ['test', $uuid, true],
+                ['test-1', $uuid, false],
+            ]);
 
         $slugGenerator = new SlugGenerator($repository);
         $this->assertSame('test-1', $slugGenerator('test', $uuid));

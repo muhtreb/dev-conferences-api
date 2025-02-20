@@ -111,7 +111,7 @@ class YoutubeApiHelperTest extends TestCase
         $this->assertEquals('https://i.ytimg.com/vi/uicbuaO7fhM/maxresdefault.jpg', $this->youtubeApiHelper->getMaxResImage($data));
     }
 
-    public function getGetVideoUrl()
+    public function testGetVideoUrl()
     {
         $data = [
             'id' => 'test',
