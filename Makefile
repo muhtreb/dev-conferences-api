@@ -1,5 +1,10 @@
-DOCKER_EXEC = docker compose exec
+DOCKER_COMPOSE = docker compose
+DOCKER_EXEC = $(DOCKER_COMPOSE) exec
 DOCKER_EXEC_PHP_FPM = $(DOCKER_EXEC) php-fpm
+
+.PHONE: up
+up:
+	$(DOCKER_COMPOSE) up -d
 
 .PHONY: index
 index:
@@ -12,8 +17,18 @@ index:
 	echo "Indexing talks"
 	$(DOCKER_EXEC_PHP_FPM) php -d memory_limit=-1 bin/console app:search:index-talks --reset --env=prod --no-debug
 
+.PHONY: bash
 bash:
 	$(DOCKER_EXEC_PHP_FPM) bash
+
+.PHONY: composer-install
+composer-install:
+	$(DOCKER_EXEC_PHP_FPM) composer install
+
+.PHONE: fixtures
+fixtures:
+	@echo "This will drop the database and reload the fixtures. Are you sure? [y/N]" && read -r response && [ $$response = "y" ]
+	$(DOCKER_EXEC_PHP_FPM) php bin/console doctrine:fixtures:load --no-interaction
 
 .PHONY: tests
 tests:
