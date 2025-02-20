@@ -11,7 +11,7 @@ class SpeakersFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         for ($i = 1; $i <= 5; ++$i) {
-            $speaker = new Speaker()
+            $speaker = (new Speaker())
                 ->setFirstName('First Name '.$i)
                 ->setLastName('Last Name '.$i)
                 ->setSlug('first-name-'.$i.'-last-name-'.$i.'-'.$i)

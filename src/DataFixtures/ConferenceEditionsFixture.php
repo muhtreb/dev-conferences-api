@@ -13,7 +13,7 @@ class ConferenceEditionsFixture extends Fixture implements DependentFixtureInter
     public function load(ObjectManager $manager): void
     {
         for ($i = 1; $i <= 10; ++$i) {
-            $conferenceEdition = new ConferenceEdition()
+            $conferenceEdition = (new ConferenceEdition())
                 ->setName('Conference Edition '.$i)
                 ->setSlug('conference-edition-'.$i)
                 ->setStartDate(new \DateTime())

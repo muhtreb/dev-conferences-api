@@ -15,7 +15,7 @@ class TalksFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         for ($i = 1; $i <= 100; ++$i) {
-            $talk = new Talk()
+            $talk = (new Talk())
                 ->setName('Talk '.$i)
                 ->setSlug('talk-'.$i)
                 ->setConferenceEdition($this->getReference('conference_edition_'.rand(1, 10), ConferenceEdition::class))
@@ -24,7 +24,7 @@ class TalksFixture extends Fixture implements DependentFixtureInterface
                 ->setPosition($i)
                 ->setDescription('Description '.$i);
 
-            $speakerTalk = new SpeakerTalk()
+            $speakerTalk = (new SpeakerTalk())
                 ->setSpeaker($this->getReference('speaker_'.rand(1, 5), Speaker::class))
                 ->setTalk($talk)
                 ->setMain(true);
