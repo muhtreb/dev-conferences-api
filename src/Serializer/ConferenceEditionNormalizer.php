@@ -28,7 +28,7 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
     {
         $startDate = $data->getStartDate();
         $endDate = $data->getEndDate();
-        $data = [
+        $conferenceEditionData = [
             'id' => $data->getId(),
             'name' => $data->getName(),
             'slug' => $data->getSlug(),
@@ -38,36 +38,36 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
             'thumbnailImageUrl' => $data->getConference()->getThumbnailImageUrl(),
         ];
 
-        if ($withCountTalks = $context['withCountTalks'] ?? true) {
-            $data['countTalks'] = $this->talkRepository->count(['conferenceEdition' => $data]);
+        if (true === $withCountTalks = $context['withCountTalks'] ?? true) {
+            $conferenceEditionData['countTalks'] = $this->talkRepository->count(['conferenceEdition' => $data]);
         }
 
-        if ($withConference = $context['withConference'] ?? false) {
-            $data['conference'] = $this->normalizer->normalize($data->getConference(), null, [
+        if (true === $withConference = $context['withConference'] ?? false) {
+            $conferenceEditionData['conference'] = $this->normalizer->normalize($data->getConference(), null, [
                 'withEditions' => false,
             ]);
         }
 
-        if ($withTalks = $context['withTalks'] ?? false) {
+        if (true === $withTalks = $context['withTalks'] ?? false) {
             $talks = $this->talkRepository->findBy(['conferenceEdition' => $data], ['position' => 'ASC']);
-            $data['talks'] = $this->normalizer->normalize($talks);
+            $conferenceEditionData['talks'] = $this->normalizer->normalize($talks);
         }
 
-        if ($withPlaylists = $context['withPlaylists'] ?? false) {
-            $data['playlists'] = [];
+        if (true === $withPlaylists = $context['withPlaylists'] ?? false) {
+            $conferenceEditionData['playlists'] = [];
             $playlists = $this->youtubePlaylistImportRepository->findBy([
                 'conferenceEdition' => $data,
                 'status' => 'success',
             ]);
             foreach ($playlists as $playlist) {
-                $data['playlists'][] = [
+                $conferenceEditionData['playlists'][] = [
                     'id' => $playlist->getPlaylistId(),
                     'status' => $playlist->getStatus(),
                 ];
             }
         }
 
-        return $data;
+        return $conferenceEditionData;
     }
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool

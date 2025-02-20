@@ -2,6 +2,7 @@
 
 namespace App\Controller\Talk;
 
+use App\DomainObject\MetaDomainObject;
 use App\Repository\TalkRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenApi\Attributes as OA;
@@ -41,20 +42,13 @@ class IndexController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $offset = ($page - 1) * $limit;
 
-        $talks = new ArrayCollection($talkRepository->getTalks([], ['name' => 'DESC'], $limit, $offset));
+        $filters = [];
 
-        $totalTalks = $talkRepository->countTalks([]);
-        $nbPages = (int) ceil($totalTalks / $limit);
+        $talks = new ArrayCollection($talkRepository->getTalks($filters, ['name' => 'DESC'], $limit, $offset));
 
         return new JsonResponse([
             'data' => $normalizer->normalize($talks),
-            'meta' => [
-                'page' => $page,
-                'nbPages' => $nbPages,
-                'nextPage' => $page < $nbPages ? $page + 1 : null,
-                'prevPage' => ($page > 1) ? $page - 1 : null,
-                'nbHits' => $totalTalks,
-            ],
+            'meta' => MetaDomainObject::create($page, $talkRepository->countTalks($filters)),
         ]);
     }
 }

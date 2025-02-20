@@ -4,6 +4,7 @@ namespace App\Controller\Tag;
 
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,7 @@ class IndexController extends AbstractController
         name: 'api_tag_list',
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Tag')]
     public function __invoke(
         TagRepository $tagRepository,
         NormalizerInterface $normalizer,

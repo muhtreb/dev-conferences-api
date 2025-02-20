@@ -6,6 +6,8 @@ use App\Entity\Conference;
 use App\Entity\User;
 use App\Entity\UserFavoriteConference;
 use App\Repository\UserFavorite\UserFavoriteConferenceRepository;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +24,8 @@ class CreateController extends AbstractController
         name: 'api_admin_user_favorite_conference_create',
         methods: ['POST']
     )]
+    #[OA\Tag(name: 'User Favorite')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
         Request $request,

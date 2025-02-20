@@ -2,8 +2,10 @@
 
 namespace App\Controller\Conference;
 
+use App\DomainObject\MetaDomainObject;
 use App\Repository\ConferenceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,8 +16,12 @@ class IndexController extends AbstractController
 {
     #[Route(
         path: '/conferences',
-        name: 'api_conference_list',
+        name: 'api_conference_index',
         methods: ['GET']
+    )]
+    #[OA\Tag(name: 'Conference')]
+    #[OA\Get(
+        description: 'Get a list of conferences',
     )]
     public function __invoke(
         ConferenceRepository $conferenceRepository,
@@ -23,13 +29,20 @@ class IndexController extends AbstractController
         Request $request,
     ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
-        $offset = $request->query->getInt('offset');
+        $page = $request->query->getInt('page', 1);
+        $offset = $limit * ($page - 1);
         $withEditions = $request->query->getBoolean('withEditions', true);
 
-        $conferences = new ArrayCollection($conferenceRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
+        $filters = [];
 
-        return new JsonResponse($normalizer->normalize($conferences, null, [
-            'withEditions' => $withEditions,
-        ]));
+        $conferences = new ArrayCollection($conferenceRepository->getConferences($filters, ['name' => 'ASC'], $limit, $offset));
+        $countConferences = $conferenceRepository->countConferences($filters);
+
+        return new JsonResponse([
+            'data' => $normalizer->normalize($conferences, null, [
+                'withEditions' => $withEditions,
+            ]),
+            'meta' => MetaDomainObject::create($page, $countConferences),
+        ]);
     }
 }

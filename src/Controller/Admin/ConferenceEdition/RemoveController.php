@@ -4,12 +4,13 @@ namespace App\Controller\Admin\ConferenceEdition;
 
 use App\Entity\ConferenceEdition;
 use App\Manager\Admin\ConferenceEditionManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use OpenApi\Attributes as OA;
 
 #[IsGranted('ROLE_ADMIN')]
 class RemoveController extends AbstractController
@@ -21,6 +22,7 @@ class RemoveController extends AbstractController
         methods: ['DELETE']
     )]
     #[OA\Tag(name: 'Conference Edition')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         ConferenceEditionManager $conferenceEditionManager,

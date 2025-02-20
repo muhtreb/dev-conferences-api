@@ -5,6 +5,7 @@ namespace App\Controller\Speaker;
 use App\Entity\Speaker;
 use App\Repository\SpeakerRepository;
 use App\Service\SearchClient;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ class TopController extends AbstractController
         name: 'api_speakers_top',
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Speaker')]
     public function __invoke(
         Request $request,
         SpeakerRepository $speakerRepository,

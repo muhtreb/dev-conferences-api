@@ -6,13 +6,14 @@ use App\DomainObject\YoutubePlaylistImportDomainObject;
 use App\Entity\ConferenceEdition;
 use App\Form\Type\YoutubePlaylistImportFormType;
 use App\Manager\Admin\YoutubePlaylistImportManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use OpenApi\Attributes as OA;
 
 class CreateYoutubePlaylistImportController extends AbstractController
 {
@@ -22,6 +23,7 @@ class CreateYoutubePlaylistImportController extends AbstractController
         methods: ['POST']
     )]
     #[OA\Tag(name: 'Conference Edition')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         Request $request,

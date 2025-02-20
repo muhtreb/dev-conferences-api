@@ -6,6 +6,8 @@ use App\DomainObject\SpeakerDomainObject;
 use App\Entity\Speaker;
 use App\Form\Type\SpeakerFormType;
 use App\Manager\Admin\SpeakerManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +25,8 @@ class EditController extends AbstractController
         requirements: ['speaker' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['PATCH']
     )]
+    #[OA\Tag(name: 'Speaker')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         Speaker $speaker,
         NormalizerInterface $normalizer,

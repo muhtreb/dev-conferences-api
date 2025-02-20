@@ -2,7 +2,6 @@
 
 namespace App\MessageHandler;
 
-use App\Entity\YoutubePlaylistImport;
 use App\Manager\Admin\ImportYoutubePlaylistManager;
 use App\Message\ImportYoutubePlaylistMessage;
 use App\Repository\YoutubePlaylistImportRepository;
@@ -19,8 +18,7 @@ readonly class ImportYoutubePlaylistMessageHandler
 
     public function __invoke(ImportYoutubePlaylistMessage $message): void
     {
-        $youtubePlaylistImport = $this->youtubePlaylistImportRepository->find($message->youtubePlaylistImportId);
-        if ($youtubePlaylistImport instanceof YoutubePlaylistImport) {
+        if (null !== $youtubePlaylistImport = $this->youtubePlaylistImportRepository->find($message->youtubePlaylistImportId)) {
             $this->importYoutubePlaylistManager->processYoutubePlaylistImport($youtubePlaylistImport);
         }
     }

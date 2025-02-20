@@ -3,6 +3,7 @@
 namespace App\Controller\ConferenceEdition;
 
 use App\Repository\ConferenceEditionRepository;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ class FetchIdsController extends AbstractController
         name: 'api_conference_edition_fetch_ids',
         methods: ['POST']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,

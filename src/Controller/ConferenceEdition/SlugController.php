@@ -3,6 +3,7 @@
 namespace App\Controller\ConferenceEdition;
 
 use App\Entity\ConferenceEdition;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ class SlugController extends AbstractController
         requirements: ['slug' => '.*'],
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         Request $request,

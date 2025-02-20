@@ -26,7 +26,7 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
      */
     public function normalize($data, ?string $format = null, array $context = []): array
     {
-        $data = [
+        $talkData = [
             'id' => $data->getId(),
             'name' => $data->getName(),
             'description' => $data->getDescription(),
@@ -40,15 +40,15 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'slug' => $data->getSlug(),
         ];
 
-        if ($withPrevNextTalks = $context['withPrevNextTalks'] ?? false) {
+        if (true === $withPrevNextTalks = $context['withPrevNextTalks'] ?? false) {
             $prevTalk = $this->talkRepository->findOneBy([
                 'conferenceEdition' => $data->getConferenceEdition(),
                 'position' => $data->getPosition() - 1,
             ]);
 
-            $data['prevTalk'] = null;
+            $talkData['prevTalk'] = null;
             if (null !== $prevTalk) {
-                $data['prevTalk'] = $this->normalizer->normalize($prevTalk, null, [
+                $talkData['prevTalk'] = $this->normalizer->normalize($prevTalk, null, [
                     'withPrevNextTalks' => false,
                     'withEdition' => false,
                     'withSpeakers' => true,
@@ -60,9 +60,9 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
                 'position' => $data->getPosition() + 1,
             ]);
 
-            $data['nextTalk'] = null;
+            $talkData['nextTalk'] = null;
             if (null !== $nextTalk) {
-                $data['nextTalk'] = $this->normalizer->normalize($nextTalk, null, [
+                $talkData['nextTalk'] = $this->normalizer->normalize($nextTalk, null, [
                     'withPrevNextTalks' => false,
                     'withEdition' => false,
                     'withSpeakers' => true,
@@ -70,23 +70,23 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
             }
         }
 
-        if ($withEdition = $context['withEdition'] ?? true) {
-            $data['edition'] = $this->normalizer->normalize($data->getConferenceEdition(), null, [
+        if (true === $withEdition = $context['withEdition'] ?? true) {
+            $talkData['edition'] = $this->normalizer->normalize($data->getConferenceEdition(), null, [
                 'withConference' => true,
                 'withTalks' => false,
             ]);
         }
 
-        if ($withSpeakers = $context['withSpeakers'] ?? true) {
-            if (null !== $speakers = $data->getSpeakers()) {
+        if (true === $withSpeakers = $context['withSpeakers'] ?? true) {
+            if (null !== $data->getSpeakers()) {
                 $speakers = $this->speakerRepository->getTalkSpeakers($data);
-                $data['speakers'] = $this->normalizer->normalize($speakers, null, [
+                $talkData['speakers'] = $this->normalizer->normalize($speakers, null, [
                     'withTalks' => false,
                 ]);
             }
         }
 
-        return $data;
+        return $talkData;
     }
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool

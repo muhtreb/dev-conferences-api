@@ -24,14 +24,15 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
      */
     public function normalize($data, ?string $format = null, array $context = []): array
     {
-        $avatarUrl = null;
-        if (null !== $githubUsername = $data->getGithubUsername()) {
-            $avatarUrl = 'https://github.com/'.$githubUsername.'.png';
-        } elseif (null !== $xUsername = $data->getXUsername()) {
-            $avatarUrl = 'https://unavatar.io/twitter/'.$xUsername;
+        if (null === $avatarUrl = $data->getAvatarUrl()) {
+            if (null !== $githubUsername = $data->getGithubUsername()) {
+                $avatarUrl = 'https://github.com/'.$githubUsername.'.png';
+            } elseif (null !== $xUsername = $data->getXUsername()) {
+                $avatarUrl = 'https://unavatar.io/twitter/'.$xUsername;
+            }
         }
 
-        $data = [
+        $speakerData = [
             'id' => $data->getId(),
             'firstName' => $data->getFirstName(),
             'lastName' => $data->getLastName(),
@@ -46,16 +47,16 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
             'avatarUrl' => $avatarUrl,
         ];
 
-        if ($withCountTalks = $context['withCountTalks'] ?? false) {
-            $data['countTalks'] = $this->talkRepository->countSpeakerTalks($data);
+        if (true === $withCountTalks = $context['withCountTalks'] ?? false) {
+            $speakerData['countTalks'] = $this->talkRepository->countSpeakerTalks($data);
         }
 
-        if ($withTalks = $context['withTalks'] ?? false) {
+        if (true === $withTalks = $context['withTalks'] ?? false) {
             $talks = $this->talkRepository->getSpeakerTalks($data);
-            $data['talks'] = $this->normalizer->normalize($talks);
+            $speakerData['talks'] = $this->normalizer->normalize($talks);
         }
 
-        return $data;
+        return $speakerData;
     }
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool

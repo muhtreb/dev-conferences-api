@@ -6,6 +6,8 @@ use App\DomainObject\TalkDomainObject;
 use App\Entity\Talk;
 use App\Form\Type\TalkFormType;
 use App\Manager\Admin\TalkManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +25,8 @@ class EditController extends AbstractController
         requirements: ['talk' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['PATCH']
     )]
+    #[OA\Tag(name: 'Talk')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         Talk $talk,
         NormalizerInterface $normalizer,

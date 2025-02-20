@@ -23,18 +23,13 @@ class CorsEventListener implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $response = $event->getResponse();
-        if ($response) {
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT,PATCH,DELETE');
-            $response->headers->set('Access-Control-Allow-Headers', 'content-type, authorization');
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        if (null !== $response = $event->getResponse()) {
+            $this->setResponseHeaders($response);
         }
     }
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        // Don't do anything if it's not the master request.
         if (!$event->isMainRequest()) {
             return;
         }
@@ -43,19 +38,21 @@ class CorsEventListener implements EventSubscriberInterface
         $method = $request->getRealMethod();
 
         if (Request::METHOD_OPTIONS === $method) {
-            $response = new Response();
-            $event->setResponse($response);
+            $event->setResponse(new Response());
         }
     }
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        // Don't do anything if it's not the master request.
         if (!$event->isMainRequest()) {
             return;
         }
 
-        $response = $event->getResponse();
+        $this->setResponseHeaders($event->getResponse());
+    }
+
+    public function setResponseHeaders(Response $response): void
+    {
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,PUT,PATCH,DELETE');
         $response->headers->set('Access-Control-Allow-Headers', 'content-type, authorization');

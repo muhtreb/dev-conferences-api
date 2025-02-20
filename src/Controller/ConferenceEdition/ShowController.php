@@ -3,6 +3,7 @@
 namespace App\Controller\ConferenceEdition;
 
 use App\Entity\ConferenceEdition;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class ShowController extends AbstractController
         requirements: ['conferenceEdition' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         Request $request,

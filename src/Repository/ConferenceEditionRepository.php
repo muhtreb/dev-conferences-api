@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ConferenceEdition;
 use App\Entity\Talk;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
 
@@ -12,6 +13,40 @@ class ConferenceEditionRepository extends AbstractRepository implements CheckSlu
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ConferenceEdition::class);
+    }
+
+    public function getConferenceEditions($filters = [], $sort = [], int|bool $limit = 10, int $offset = 0): array
+    {
+        $qb = $this->getConferenceEditionsQueryBuilder($filters)
+            ->setFirstResult($offset);
+
+        if (false !== $limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        foreach ($sort as $field => $order) {
+            $qb->addOrderBy('ce.'.$field, $order);
+        }
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getConferenceEditionsQueryBuilder($filters = []): QueryBuilder
+    {
+        $qb = $this
+            ->createQueryBuilder('ce')
+            ->select('ce, c, t')
+            ->leftJoin('ce.conference', 'c')
+            ->leftJoin('ce.talks', 't');
+
+        foreach ($filters as $field => $value) {
+            $qb->andWhere("ce.$field = :$field")
+                ->setParameter($field, $value);
+        }
+
+        return $qb;
     }
 
     public function getLatestEditions(int $count = 10)

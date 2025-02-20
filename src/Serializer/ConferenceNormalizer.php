@@ -25,7 +25,7 @@ class ConferenceNormalizer implements NormalizerAwareInterface, NormalizerInterf
      */
     public function normalize($data, ?string $format = null, array $context = []): array
     {
-        $data = [
+        $conferenceData = [
             'id' => $data->getId(),
             'name' => $data->getName(),
             'slug' => $data->getSlug(),
@@ -37,15 +37,15 @@ class ConferenceNormalizer implements NormalizerAwareInterface, NormalizerInterf
             'tags' => $this->normalizer->normalize($data->getTags()),
         ];
 
-        if ($withEditions = $context['withEditions'] ?? true) {
-            $conferenceEditions = new ArrayCollection($this->conferenceEditionRepository->findBy(['conference' => $data], ['startDate' => 'DESC']));
-            $data['editions'] = $this->normalizer->normalize($conferenceEditions, null, [
-                'withTalks' => false,
-                'withPlaylists' => true,
+        if (true === $withEditions = $context['withEditions'] ?? true) {
+            $conferenceEditions = new ArrayCollection($this->conferenceEditionRepository->getConferenceEditions(['conference' => $data], ['startDate' => 'DESC'], false));
+            $conferenceData['editions'] = $this->normalizer->normalize($conferenceEditions, null, [
+                'withTalks' => $context['withTalks'] ?? false,
+                'withPlaylists' => $context['withPlaylists'] ?? true,
             ]);
         }
 
-        return $data;
+        return $conferenceData;
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

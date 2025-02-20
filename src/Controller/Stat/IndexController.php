@@ -6,6 +6,7 @@ use App\Repository\ConferenceEditionRepository;
 use App\Repository\ConferenceRepository;
 use App\Repository\SpeakerRepository;
 use App\Repository\TalkRepository;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,10 @@ class IndexController extends AbstractController
         path: '/stats',
         name: 'api_stats_index',
         methods: ['GET']
+    )]
+    #[OA\Tag(name: 'Stats')]
+    #[OA\Get(
+        description: 'Get stats about the conferences, editions, speakers, and talks.',
     )]
     public function __invoke(
         Request $request,

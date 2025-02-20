@@ -5,6 +5,8 @@ namespace App\Controller\Admin\UserFavorite\Talk;
 use App\Entity\Talk;
 use App\Entity\User;
 use App\Repository\UserFavorite\UserFavoriteTalkRepository;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +23,8 @@ class DeleteController extends AbstractController
         name: 'api_admin_user_favorite_talk_delete',
         methods: ['POST']
     )]
+    #[OA\Tag(name: 'User Favorite')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
         Request $request,

@@ -5,6 +5,8 @@ namespace App\Controller\Admin\UserFavorite\Speaker;
 use App\Entity\Speaker;
 use App\Entity\User;
 use App\Repository\UserFavorite\UserFavoriteSpeakerRepository;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +23,8 @@ class DeleteController extends AbstractController
         name: 'api_admin_user_favorite_speaker_delete',
         methods: ['POST']
     )]
+    #[OA\Tag(name: 'User Favorite')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
         Request $request,

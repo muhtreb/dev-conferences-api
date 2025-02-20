@@ -6,6 +6,7 @@ use App\DomainObject\ConferenceDomainObject;
 use App\Entity\Conference;
 use App\Form\Type\ConferenceFormType;
 use App\Manager\Admin\ConferenceManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,6 +26,7 @@ class EditController extends AbstractController
         methods: ['PATCH']
     )]
     #[OA\Tag(name: 'Conference')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         Conference $conference,
         NormalizerInterface $normalizer,

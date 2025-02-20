@@ -13,7 +13,13 @@ class IndexControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $speakers = json_decode($client->getResponse()->getContent(), true);
+        $response = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertArrayHasKey('meta', $response);
+
+        $speakers = $response['data'];
+
         $this->assertCount(5, $speakers);
     }
 }

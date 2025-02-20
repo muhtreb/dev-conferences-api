@@ -5,6 +5,8 @@ namespace App\Controller\Admin\Talk;
 use App\DomainObject\TalkDomainObject;
 use App\Form\Type\TalkFormType;
 use App\Manager\Admin\TalkManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +19,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class CreateController extends AbstractController
 {
     #[Route('/admin/talks', name: 'api_admin_talks_create', methods: ['POST'])]
+    #[OA\Tag(name: 'Talk')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
         TalkManager $talkManager,

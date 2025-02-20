@@ -5,6 +5,8 @@ namespace App\Controller\Admin\Tag;
 use App\DomainObject\TagDomainObject;
 use App\Form\Type\TagFormType;
 use App\Manager\Admin\TagManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +19,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class CreateController extends AbstractController
 {
     #[Route('/admin/tags', name: 'api_admin_tag_create', methods: ['POST'])]
+    #[OA\Tag(name: 'Tag')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
         TagManager $tagManager,

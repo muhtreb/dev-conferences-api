@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Conference;
 use App\DomainObject\ConferenceDomainObject;
 use App\Form\Type\ConferenceFormType;
 use App\Manager\Admin\ConferenceManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,6 +20,7 @@ class CreateController extends AbstractController
 {
     #[Route('/admin/conferences', name: 'api_admin_conference_create', methods: ['POST'])]
     #[OA\Tag(name: 'Conference')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
         ConferenceManager $conferenceManager,

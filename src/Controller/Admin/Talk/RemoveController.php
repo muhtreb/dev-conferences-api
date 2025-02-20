@@ -4,6 +4,8 @@ namespace App\Controller\Admin\Talk;
 
 use App\Entity\Talk;
 use App\Manager\Admin\TalkManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +21,8 @@ class RemoveController extends AbstractController
         requirements: ['talk' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['DELETE']
     )]
+    #[OA\Tag(name: 'Talk')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         Talk $talk,
         TalkManager $talkManager,

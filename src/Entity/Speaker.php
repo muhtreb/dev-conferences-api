@@ -220,25 +220,6 @@ class Speaker implements SluggableEntity
         return $this->talks;
     }
 
-    public function addTalk(Talk $talk): self
-    {
-        if (!$this->talks->contains($talk)) {
-            $this->talks->add($talk);
-            $talk->addSpeaker($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTalk(Talk $talk): self
-    {
-        if ($this->talks->removeElement($talk)) {
-            $talk->removeSpeaker($this);
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Tag>
      */

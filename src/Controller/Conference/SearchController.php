@@ -6,6 +6,7 @@ use App\Controller\SearchTrait;
 use App\Entity\Conference;
 use App\Repository\ConferenceRepository;
 use App\Service\SearchClient;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,12 +22,15 @@ class SearchController extends AbstractController
         name: 'api_conference_search',
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Conference')]
     public function __invoke(
         Request $request,
         ConferenceRepository $conferenceRepository,
         NormalizerInterface $normalizer,
         SearchClient $searchClient,
     ): JsonResponse {
+        $withEditions = $request->query->getBoolean('withEditions', true);
+
         $data = $searchClient->search('conferences', $request->query->get('query', ''), [
             'attributesToRetrieve' => [
                 'objectID',
@@ -43,14 +47,16 @@ class SearchController extends AbstractController
             $conferenceIds[] = $hit['objectID'];
         }
 
-        $conferences = $conferenceRepository->findBy(['id' => $conferenceIds]);
+        $conferences = $conferenceRepository->getConferencesByIds($conferenceIds);
 
         usort($conferences, function (Conference $a, Conference $b) use ($conferenceIds) {
             return array_search($a->getId(), $conferenceIds) - array_search($b->getId(), $conferenceIds);
         });
 
         return new JsonResponse([
-            'data' => $normalizer->normalize($conferences),
+            'data' => $normalizer->normalize($conferences, null, [
+                'withEditions' => $withEditions,
+            ]),
             'meta' => $this->getMeta($data),
         ]);
     }

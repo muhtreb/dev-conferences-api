@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Conference;
 
 use App\Entity\Conference;
 use App\Manager\Admin\ConferenceManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,7 @@ class RemoveController extends AbstractController
         methods: ['DELETE']
     )]
     #[OA\Tag(name: 'Conference')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         Conference $conference,
         ConferenceManager $conferenceManager,

@@ -4,6 +4,8 @@ namespace App\Controller\Admin\UserFavorite;
 
 use App\Entity\User;
 use App\Repository\UserFavorite\UserFavoriteRepository;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,8 @@ class DataController extends AbstractController
         name: 'api_admin_user_favorite_data',
         methods: ['POST']
     )]
+    #[OA\Tag(name: 'User Favorite')]
+    #[Security(name: 'Bearer')]
     public function __invoke(User $user, UserFavoriteRepository $userFavoriteRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);

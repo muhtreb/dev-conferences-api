@@ -14,6 +14,8 @@ class IndexControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         $conferences = json_decode($client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('name', $conferences[0]);
+        $this->assertArrayHasKey('data', $conferences);
+        $this->assertArrayHasKey('meta', $conferences);
+        $this->assertArrayHasKey('name', $conferences['data'][0]);
     }
 }

@@ -6,6 +6,7 @@ use App\Controller\SearchTrait;
 use App\Entity\ConferenceEdition;
 use App\Repository\ConferenceEditionRepository;
 use App\Service\SearchClient;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ class SearchController extends AbstractController
         name: 'api_conference_edition_search',
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,

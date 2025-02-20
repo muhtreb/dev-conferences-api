@@ -6,6 +6,8 @@ use App\DomainObject\ConferenceEditionDomainObject;
 use App\Entity\ConferenceEdition;
 use App\Form\Type\ConferenceEditionFormType;
 use App\Manager\Admin\ConferenceEditionManager;
+use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use OpenApi\Attributes as OA;
 
 #[IsGranted('ROLE_ADMIN')]
 class EditController extends AbstractController
@@ -25,6 +26,7 @@ class EditController extends AbstractController
         methods: ['PATCH']
     )]
     #[OA\Tag(name: 'Conference Edition')]
+    #[Security(name: 'Bearer')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         NormalizerInterface $normalizer,

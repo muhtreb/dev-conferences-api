@@ -4,6 +4,7 @@ namespace App\Controller\ConferenceEdition;
 
 use App\Entity\ConferenceEdition;
 use App\Repository\TalkRepository;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,7 @@ class TalksController extends AbstractController
         name: 'api_conference_edition_talks',
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         TalkRepository $talkRepository,

@@ -3,6 +3,7 @@
 namespace App\Controller\Speaker;
 
 use App\Repository\SpeakerRepository;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ class FetchIdsController extends AbstractController
         name: 'api_speaker_fetch_ids',
         methods: ['POST']
     )]
+    #[OA\Tag(name: 'Speaker')]
     public function __invoke(
         Request $request,
         SpeakerRepository $speakerRepository,
