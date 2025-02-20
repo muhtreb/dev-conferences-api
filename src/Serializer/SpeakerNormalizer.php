@@ -20,38 +20,38 @@ class SpeakerNormalizer implements NormalizerAwareInterface, NormalizerInterface
     }
 
     /**
-     * @param Speaker $speaker
+     * @param Speaker $data
      */
-    public function normalize($speaker, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         $avatarUrl = null;
-        if (null !== $githubUsername = $speaker->getGithubUsername()) {
+        if (null !== $githubUsername = $data->getGithubUsername()) {
             $avatarUrl = 'https://github.com/'.$githubUsername.'.png';
-        } elseif (null !== $xUsername = $speaker->getXUsername()) {
+        } elseif (null !== $xUsername = $data->getXUsername()) {
             $avatarUrl = 'https://unavatar.io/twitter/'.$xUsername;
         }
 
         $data = [
-            'id' => $speaker->getId(),
-            'firstName' => $speaker->getFirstName(),
-            'lastName' => $speaker->getLastName(),
-            'slug' => $speaker->getSlug(),
-            'description' => $speaker->getDescription(),
-            'xUsername' => $speaker->getXUsername(),
-            'githubUsername' => $speaker->getGithubUsername(),
-            'speakerDeckUsername' => $speaker->getSpeakerDeckUsername(),
-            'mastodonUsername' => $speaker->getMastodonUsername(),
-            'blueskyUsername' => $speaker->getBlueskyUsername(),
-            'website' => $speaker->getWebsite(),
+            'id' => $data->getId(),
+            'firstName' => $data->getFirstName(),
+            'lastName' => $data->getLastName(),
+            'slug' => $data->getSlug(),
+            'description' => $data->getDescription(),
+            'xUsername' => $data->getXUsername(),
+            'githubUsername' => $data->getGithubUsername(),
+            'speakerDeckUsername' => $data->getSpeakerDeckUsername(),
+            'mastodonUsername' => $data->getMastodonUsername(),
+            'blueskyUsername' => $data->getBlueskyUsername(),
+            'website' => $data->getWebsite(),
             'avatarUrl' => $avatarUrl,
         ];
 
         if ($withCountTalks = $context['withCountTalks'] ?? false) {
-            $data['countTalks'] = $this->talkRepository->countSpeakerTalks($speaker);
+            $data['countTalks'] = $this->talkRepository->countSpeakerTalks($data);
         }
 
         if ($withTalks = $context['withTalks'] ?? false) {
-            $talks = $this->talkRepository->getSpeakerTalks($speaker);
+            $talks = $this->talkRepository->getSpeakerTalks($data);
             $data['talks'] = $this->normalizer->normalize($talks);
         }
 

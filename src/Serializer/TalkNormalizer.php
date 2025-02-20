@@ -22,28 +22,28 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
     }
 
     /**
-     * @param Talk $talk
+     * @param Talk $data
      */
-    public function normalize($talk, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         $data = [
-            'id' => $talk->getId(),
-            'name' => $talk->getName(),
-            'description' => $talk->getDescription(),
-            'date' => $talk->getDate()->format('Y-m-d H:i:s'),
-            'youtubeId' => $talk->getYoutubeId(),
-            'duration' => $talk->getDuration(),
+            'id' => $data->getId(),
+            'name' => $data->getName(),
+            'description' => $data->getDescription(),
+            'date' => $data->getDate()->format('Y-m-d H:i:s'),
+            'youtubeId' => $data->getYoutubeId(),
+            'duration' => $data->getDuration(),
             'images' => [
-                'thumbnail' => $talk->getThumbnailImageUrl(),
-                'poster' => $talk->getPosterImageUrl(),
+                'thumbnail' => $data->getThumbnailImageUrl(),
+                'poster' => $data->getPosterImageUrl(),
             ],
-            'slug' => $talk->getSlug(),
+            'slug' => $data->getSlug(),
         ];
 
         if ($withPrevNextTalks = $context['withPrevNextTalks'] ?? false) {
             $prevTalk = $this->talkRepository->findOneBy([
-                'conferenceEdition' => $talk->getConferenceEdition(),
-                'position' => $talk->getPosition() - 1,
+                'conferenceEdition' => $data->getConferenceEdition(),
+                'position' => $data->getPosition() - 1,
             ]);
 
             $data['prevTalk'] = null;
@@ -56,8 +56,8 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
             }
 
             $nextTalk = $this->talkRepository->findOneBy([
-                'conferenceEdition' => $talk->getConferenceEdition(),
-                'position' => $talk->getPosition() + 1,
+                'conferenceEdition' => $data->getConferenceEdition(),
+                'position' => $data->getPosition() + 1,
             ]);
 
             $data['nextTalk'] = null;
@@ -71,15 +71,15 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
         }
 
         if ($withEdition = $context['withEdition'] ?? true) {
-            $data['edition'] = $this->normalizer->normalize($talk->getConferenceEdition(), null, [
+            $data['edition'] = $this->normalizer->normalize($data->getConferenceEdition(), null, [
                 'withConference' => true,
                 'withTalks' => false,
             ]);
         }
 
         if ($withSpeakers = $context['withSpeakers'] ?? true) {
-            if (null !== $speakers = $talk->getSpeakers()) {
-                $speakers = $this->speakerRepository->getTalkSpeakers($talk);
+            if (null !== $speakers = $data->getSpeakers()) {
+                $speakers = $this->speakerRepository->getTalkSpeakers($data);
                 $data['speakers'] = $this->normalizer->normalize($speakers, null, [
                     'withTalks' => false,
                 ]);

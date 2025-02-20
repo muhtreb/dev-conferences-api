@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use OpenApi\Attributes as OA;
 
 #[IsGranted('ROLE_ADMIN')]
 class RemoveController extends AbstractController
@@ -19,6 +20,7 @@ class RemoveController extends AbstractController
         requirements: ['conferenceEdition' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['DELETE']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         ConferenceEditionManager $conferenceEditionManager,

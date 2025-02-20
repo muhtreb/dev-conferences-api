@@ -12,11 +12,11 @@ class CollectionNormalizer implements NormalizerAwareInterface, NormalizerInterf
     use NormalizerAwareTrait;
 
     /**
-     * @param Collection $object
+     * @param Collection $data
      */
-    public function normalize($object, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
-        return $object->map(fn ($item) => $this->normalizer->normalize($item, $format, $context))->getValues();
+        return $data->map(fn ($item) => $this->normalizer->normalize($item, $format, $context))->getValues();
     }
 
     public function supportsNormalization($data, $format = null, array $context = []): bool

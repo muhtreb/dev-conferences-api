@@ -10,14 +10,14 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ConferenceNormalizer implements NormalizerInterface
 {
     /**
-     * @param ConferenceDomainObject $object
+     * @param ConferenceDomainObject $data
      */
-    public function normalize($object, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         return [
-            'objectID' => $object->objectID,
-            'name' => $object->name,
-            'description' => $object->description,
+            'objectID' => $data->objectID,
+            'name' => $data->name,
+            'description' => $data->description,
         ];
     }
 

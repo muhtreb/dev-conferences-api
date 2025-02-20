@@ -10,13 +10,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class TagNormalizer implements NormalizerInterface
 {
     /**
-     * @param Tag $tag
+     * @param Tag $data
      */
-    public function normalize($tag, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         return [
-            'id' => $tag->getId(),
-            'name' => $tag->getName(),
+            'id' => $data->getId(),
+            'name' => $data->getName(),
         ];
     }
 

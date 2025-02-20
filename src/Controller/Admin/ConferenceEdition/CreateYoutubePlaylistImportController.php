@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use OpenApi\Attributes as OA;
 
 class CreateYoutubePlaylistImportController extends AbstractController
 {
@@ -20,6 +21,7 @@ class CreateYoutubePlaylistImportController extends AbstractController
         name: 'api_admin_conference_edition_youtube_playlist_imports_create',
         methods: ['POST']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         Request $request,

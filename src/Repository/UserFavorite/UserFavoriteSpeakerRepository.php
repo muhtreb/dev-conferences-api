@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\UserFavorite;
 
 use App\Entity\UserFavoriteSpeaker;
+use App\Repository\AbstractRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 class UserFavoriteSpeakerRepository extends AbstractRepository

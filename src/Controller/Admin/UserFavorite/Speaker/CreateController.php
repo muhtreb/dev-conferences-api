@@ -5,7 +5,7 @@ namespace App\Controller\Admin\UserFavorite\Speaker;
 use App\Entity\Speaker;
 use App\Entity\User;
 use App\Entity\UserFavoriteSpeaker;
-use App\Repository\UserFavoriteSpeakerRepository;
+use App\Repository\UserFavorite\UserFavoriteSpeakerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -16,14 +16,14 @@ class UserNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param User $user
+     * @param User $data
      */
-    public function normalize($user, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         return [
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'isAdmin' => $this->security->isGranted('ROLE_ADMIN', $user),
+            'id' => $data->getId(),
+            'email' => $data->getEmail(),
+            'isAdmin' => $this->security->isGranted('ROLE_ADMIN', $data),
         ];
     }
 

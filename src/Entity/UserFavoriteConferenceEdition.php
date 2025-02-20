@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\UserFavoriteConferenceEditionRepository;
+use App\Repository\UserFavorite\UserFavoriteConferenceEditionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserFavoriteConferenceEditionRepository::class)]

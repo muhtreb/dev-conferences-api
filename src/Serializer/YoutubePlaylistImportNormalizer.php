@@ -10,17 +10,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class YoutubePlaylistImportNormalizer implements NormalizerInterface
 {
     /**
-     * @param YoutubePlaylistImport $youtubePlaylistImport
+     * @param YoutubePlaylistImport $data
      */
-    public function normalize($youtubePlaylistImport, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         return [
-            'id' => $youtubePlaylistImport->getId(),
-            'playlistId' => $youtubePlaylistImport->getPlaylistId(),
-            'status' => $youtubePlaylistImport->getStatus(),
+            'id' => $data->getId(),
+            'playlistId' => $data->getPlaylistId(),
+            'status' => $data->getStatus(),
             'conferenceEdition' => [
-                'id' => $youtubePlaylistImport->getConferenceEdition()->getId(),
-                'name' => $youtubePlaylistImport->getConferenceEdition()->getName(),
+                'id' => $data->getConferenceEdition()->getId(),
+                'name' => $data->getConferenceEdition()->getName(),
             ],
         ];
     }

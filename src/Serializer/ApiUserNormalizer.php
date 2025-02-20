@@ -10,9 +10,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ApiUserNormalizer implements NormalizerInterface
 {
     /**
-     * @param AdminApiUser $user
+     * @param AdminApiUser $data
      */
-    public function normalize($user, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         return [
             'id' => 'admin_api_user',

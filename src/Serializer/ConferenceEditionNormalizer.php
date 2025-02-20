@@ -22,41 +22,41 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
     }
 
     /**
-     * @param ConferenceEdition $conferenceEdition
+     * @param ConferenceEdition $data
      */
-    public function normalize($conferenceEdition, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
-        $startDate = $conferenceEdition->getStartDate();
-        $endDate = $conferenceEdition->getEndDate();
+        $startDate = $data->getStartDate();
+        $endDate = $data->getEndDate();
         $data = [
-            'id' => $conferenceEdition->getId(),
-            'name' => $conferenceEdition->getName(),
-            'slug' => $conferenceEdition->getSlug(),
-            'description' => $conferenceEdition->getDescription(),
+            'id' => $data->getId(),
+            'name' => $data->getName(),
+            'slug' => $data->getSlug(),
+            'description' => $data->getDescription(),
             'startDate' => $startDate ? $startDate->format('Y-m-d H:i:s') : null,
             'endDate' => $endDate ? $endDate->format('Y-m-d H:i:s') : null,
-            'thumbnailImageUrl' => $conferenceEdition->getConference()->getThumbnailImageUrl(),
+            'thumbnailImageUrl' => $data->getConference()->getThumbnailImageUrl(),
         ];
 
         if ($withCountTalks = $context['withCountTalks'] ?? true) {
-            $data['countTalks'] = $this->talkRepository->count(['conferenceEdition' => $conferenceEdition]);
+            $data['countTalks'] = $this->talkRepository->count(['conferenceEdition' => $data]);
         }
 
         if ($withConference = $context['withConference'] ?? false) {
-            $data['conference'] = $this->normalizer->normalize($conferenceEdition->getConference(), null, [
+            $data['conference'] = $this->normalizer->normalize($data->getConference(), null, [
                 'withEditions' => false,
             ]);
         }
 
         if ($withTalks = $context['withTalks'] ?? false) {
-            $talks = $this->talkRepository->findBy(['conferenceEdition' => $conferenceEdition], ['position' => 'ASC']);
+            $talks = $this->talkRepository->findBy(['conferenceEdition' => $data], ['position' => 'ASC']);
             $data['talks'] = $this->normalizer->normalize($talks);
         }
 
         if ($withPlaylists = $context['withPlaylists'] ?? false) {
             $data['playlists'] = [];
             $playlists = $this->youtubePlaylistImportRepository->findBy([
-                'conferenceEdition' => $conferenceEdition,
+                'conferenceEdition' => $data,
                 'status' => 'success',
             ]);
             foreach ($playlists as $playlist) {

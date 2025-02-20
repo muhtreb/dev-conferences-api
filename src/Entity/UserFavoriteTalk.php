@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\UserFavoriteTalkRepository;
+use App\Repository\UserFavorite\UserFavoriteTalkRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserFavoriteTalkRepository::class)]

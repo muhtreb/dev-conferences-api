@@ -5,7 +5,7 @@ namespace App\Controller\Admin\UserFavorite\ConferenceEdition;
 use App\Entity\ConferenceEdition;
 use App\Entity\User;
 use App\Entity\UserFavoriteConferenceEdition;
-use App\Repository\UserFavoriteConferenceEditionRepository;
+use App\Repository\UserFavorite\UserFavoriteConferenceEditionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

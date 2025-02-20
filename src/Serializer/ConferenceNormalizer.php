@@ -21,24 +21,24 @@ class ConferenceNormalizer implements NormalizerAwareInterface, NormalizerInterf
     }
 
     /**
-     * @param Conference $conference
+     * @param Conference $data
      */
-    public function normalize($conference, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         $data = [
-            'id' => $conference->getId(),
-            'name' => $conference->getName(),
-            'slug' => $conference->getSlug(),
-            'website' => $conference->getWebsite(),
-            'twitter' => $conference->getTwitter(),
-            'description' => $conference->getDescription(),
-            'headerImageUrl' => $conference->getHeaderImageUrl(),
-            'thumbnailImageUrl' => $conference->getThumbnailImageUrl(),
-            'tags' => $this->normalizer->normalize($conference->getTags()),
+            'id' => $data->getId(),
+            'name' => $data->getName(),
+            'slug' => $data->getSlug(),
+            'website' => $data->getWebsite(),
+            'twitter' => $data->getTwitter(),
+            'description' => $data->getDescription(),
+            'headerImageUrl' => $data->getHeaderImageUrl(),
+            'thumbnailImageUrl' => $data->getThumbnailImageUrl(),
+            'tags' => $this->normalizer->normalize($data->getTags()),
         ];
 
         if ($withEditions = $context['withEditions'] ?? true) {
-            $conferenceEditions = new ArrayCollection($this->conferenceEditionRepository->findBy(['conference' => $conference], ['startDate' => 'DESC']));
+            $conferenceEditions = new ArrayCollection($this->conferenceEditionRepository->findBy(['conference' => $data], ['startDate' => 'DESC']));
             $data['editions'] = $this->normalizer->normalize($conferenceEditions, null, [
                 'withTalks' => false,
                 'withPlaylists' => true,

@@ -5,7 +5,7 @@ namespace App\Controller\Admin\UserFavorite\Talk;
 use App\Entity\Talk;
 use App\Entity\User;
 use App\Entity\UserFavoriteTalk;
-use App\Repository\UserFavoriteTalkRepository;
+use App\Repository\UserFavorite\UserFavoriteTalkRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

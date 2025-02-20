@@ -113,7 +113,10 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
     {
         $connection = $this->_em->getConnection();
         $query = <<<SQL
-            SELECT COUNT(*) AS count, EXTRACT(YEAR FROM date) AS year FROM talk GROUP BY year ORDER BY year DESC
+            SELECT COUNT(*) AS count, EXTRACT(YEAR FROM date) AS year
+            FROM talk
+            GROUP BY year
+            ORDER BY year DESC
         SQL;
 
         $stmt = $connection->prepare($query);

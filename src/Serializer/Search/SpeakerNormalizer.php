@@ -12,7 +12,7 @@ class SpeakerNormalizer implements NormalizerInterface
     /**
      * @param SpeakerDomainObject $data
      */
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
+    public function normalize($data, ?string $format = null, array $context = []): array
     {
         return [
             'objectID' => $data->objectID,

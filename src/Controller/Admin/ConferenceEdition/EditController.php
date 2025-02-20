@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use OpenApi\Attributes as OA;
 
 #[IsGranted('ROLE_ADMIN')]
 class EditController extends AbstractController
@@ -23,6 +24,7 @@ class EditController extends AbstractController
         requirements: ['conferenceEdition' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['PATCH']
     )]
+    #[OA\Tag(name: 'Conference Edition')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
         NormalizerInterface $normalizer,

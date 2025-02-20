@@ -55,7 +55,10 @@ class ConferenceEditionRepository extends AbstractRepository implements CheckSlu
     {
         $connection = $this->_em->getConnection();
         $query = <<<SQL
-            SELECT COUNT(*) AS count, EXTRACT(YEAR FROM start_date) AS year FROM conference_edition GROUP BY year ORDER BY year DESC
+            SELECT COUNT(*) AS count, EXTRACT(YEAR FROM start_date) AS year
+            FROM conference_edition
+            GROUP BY year
+            ORDER BY year DESC
         SQL;
 
         $stmt = $connection->prepare($query);

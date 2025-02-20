@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\UserFavorite;
 
 use App\Entity\UserFavoriteConferenceEdition;
+use App\Repository\AbstractRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 class UserFavoriteConferenceEditionRepository extends AbstractRepository
