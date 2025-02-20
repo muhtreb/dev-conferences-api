@@ -26,7 +26,7 @@ class CreateControllerTest extends WebTestCase
             method: 'POST',
             uri: '/admin/speakers',
             server: [
-                'HTTP_x-auth-token' => 'token',
+                'HTTP_Authorization' => 'Bearer token',
             ],
             content: json_encode([
                 'firstName' => 'Julien',
