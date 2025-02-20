@@ -20,8 +20,6 @@ security:
             pattern: ^/
             access_token:
                 token_handler: App\Security\AdminAccessTokenHandler
-                token_extractors:
-                    App\Security\AdminTokenExtractor
             provider: admin_api_user_provider
 
     access_control:

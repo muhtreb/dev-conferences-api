@@ -6,6 +6,7 @@ use App\Entity\Speaker;
 use App\Entity\SpeakerTalk;
 use App\Entity\Talk;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
 
@@ -79,12 +80,36 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
         return $this->createQueryBuilder('t')->getQuery()->toIterable();
     }
 
-    public function clearEM(): void
+    public function countTalks($filters = []): int
     {
-        $this->_em->clear();
+        return $this->getTalksQueryBuilder()
+            ->select('COUNT(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
-    public function getTalksStatsByYear()
+    public function getTalksQueryBuilder(array $filters = []): QueryBuilder
+    {
+        return $this->createQueryBuilder('t');
+    }
+
+    public function getTalks(array $filters = [], array $sort = [], int|bool $limit = false, int $offset = 0): array
+    {
+        $qb = $this->getTalksQueryBuilder($filters)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+        ;
+
+        foreach ($sort as $field => $order) {
+            $qb->addOrderBy('t.'.$field, $order);
+        }
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getTalksStatsByYear(): array
     {
         $connection = $this->_em->getConnection();
         $query = <<<SQL

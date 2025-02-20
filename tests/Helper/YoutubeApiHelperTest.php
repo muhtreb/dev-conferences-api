@@ -20,7 +20,7 @@ class YoutubeApiHelperTest extends TestCase
             'contentDetails' => [
                 'videoId' => 'uicbuaO7fhM',
                 'videoPublishedAt' => '2021-11-10T08:00:15Z',
-            ]
+            ],
         ];
 
         $this->assertTrue($this->youtubeApiHelper->isPublishedVideo($data));
@@ -31,7 +31,7 @@ class YoutubeApiHelperTest extends TestCase
         $data = [
             'contentDetails' => [
                 'videoId' => 'uicbuaO7fhM',
-            ]
+            ],
         ];
 
         $this->assertFalse($this->youtubeApiHelper->isPublishedVideo($data));
@@ -67,8 +67,8 @@ class YoutubeApiHelperTest extends TestCase
                         'width' => 1280,
                         'height' => 720,
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->assertEquals('https://i.ytimg.com/vi/uicbuaO7fhM/mqdefault.jpg', $this->youtubeApiHelper->getThumbnailImage($data));
@@ -104,8 +104,8 @@ class YoutubeApiHelperTest extends TestCase
                         'width' => 1280,
                         'height' => 720,
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->assertEquals('https://i.ytimg.com/vi/uicbuaO7fhM/maxresdefault.jpg', $this->youtubeApiHelper->getMaxResImage($data));
@@ -125,7 +125,7 @@ class YoutubeApiHelperTest extends TestCase
         $data = [
             'contentDetails' => [
                 'duration' => 'PT4M0S',
-            ]
+            ],
         ];
 
         $this->assertEquals(240, $this->youtubeApiHelper->getVideoDurationInSeconds($data));

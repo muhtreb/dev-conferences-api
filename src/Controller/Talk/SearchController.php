@@ -6,6 +6,7 @@ use App\Controller\SearchTrait;
 use App\Entity\Talk;
 use App\Repository\TalkRepository;
 use App\Service\SearchClient;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ class SearchController extends AbstractController
         name: 'api_talk_search',
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Talk')]
     public function __invoke(
         Request $request,
         TalkRepository $talkRepository,

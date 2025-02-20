@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Conference;
 
 use App\Entity\Conference;
 use App\Manager\Admin\ConferenceManager;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class RemoveController extends AbstractController
         requirements: ['conference' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['DELETE']
     )]
+    #[OA\Tag(name: 'Conference')]
     public function __invoke(
         Conference $conference,
         ConferenceManager $conferenceManager,

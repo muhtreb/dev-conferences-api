@@ -4,10 +4,12 @@ namespace App\Controller\Talk;
 
 use App\Repository\TalkRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class IndexController extends AbstractController
@@ -17,15 +19,42 @@ class IndexController extends AbstractController
         name: 'api_talk_list',
         methods: ['GET']
     )]
+    #[OA\Parameter(
+        name: 'page',
+        in: 'query'
+    )]
+    #[OA\Parameter(
+        name: 'limit',
+        in: 'query'
+    )]
+    #[OA\Response(
+        response: Response::HTTP_OK,
+        description: 'Talk list',
+    )]
+    #[OA\Tag(name: 'Talk')]
     public function __invoke(
         Request $request,
         TalkRepository $talkRepository,
         NormalizerInterface $normalizer,
     ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
-        $offset = $request->query->getInt('offset');
-        $talks = new ArrayCollection($talkRepository->findBy([], ['name' => 'ASC'], $limit, $offset));
+        $page = $request->query->getInt('page', 1);
+        $offset = ($page - 1) * $limit;
 
-        return new JsonResponse($normalizer->normalize($talks));
+        $talks = new ArrayCollection($talkRepository->getTalks([], ['name' => 'DESC'], $limit, $offset));
+
+        $totalTalks = $talkRepository->countTalks([]);
+        $nbPages = (int) ceil($totalTalks / $limit);
+
+        return new JsonResponse([
+            'data' => $normalizer->normalize($talks),
+            'meta' => [
+                'page' => $page,
+                'nbPages' => $nbPages,
+                'nextPage' => $page < $nbPages ? $page + 1 : null,
+                'prevPage' => ($page > 1) ? $page - 1 : null,
+                'nbHits' => $totalTalks,
+            ],
+        ]);
     }
 }

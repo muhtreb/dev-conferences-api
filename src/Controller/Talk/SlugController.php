@@ -3,6 +3,7 @@
 namespace App\Controller\Talk;
 
 use App\Entity\Talk;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class SlugController extends AbstractController
         requirements: ['slug' => '[a-z0-9-]+'],
         methods: ['GET']
     )]
+    #[OA\Tag(name: 'Talk')]
     public function __invoke(
         Talk $talk,
         Request $request,

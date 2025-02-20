@@ -6,6 +6,7 @@ use App\DomainObject\ConferenceDomainObject;
 use App\Entity\Conference;
 use App\Form\Type\ConferenceFormType;
 use App\Manager\Admin\ConferenceManager;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,7 @@ class EditController extends AbstractController
         requirements: ['conference' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['PATCH']
     )]
+    #[OA\Tag(name: 'Conference')]
     public function __invoke(
         Conference $conference,
         NormalizerInterface $normalizer,

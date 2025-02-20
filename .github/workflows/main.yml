@@ -42,7 +42,8 @@ jobs:
           path: src/
 
   build-and-push-prod-images:
-    # only when build-test and phpstan jobs are successful
+    # only on branch main
+    if: github.ref == 'refs/heads/main'
     needs: [build-test, phpstan]
     runs-on: ubuntu-latest
     steps:

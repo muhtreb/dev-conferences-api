@@ -15,7 +15,7 @@ class DataController extends AbstractController
 {
     #[Route(
         path: '/admin/user/{user}/favorite/data',
-        name: 'api_admin_user_favorite_date',
+        name: 'api_admin_user_favorite_data',
         methods: ['POST']
     )]
     public function __invoke(User $user, UserFavoriteRepository $userFavoriteRepository, Request $request): JsonResponse

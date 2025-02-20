@@ -26,8 +26,8 @@ class CorsEventListener implements EventSubscriberInterface
         $response = $event->getResponse();
         if ($response) {
             $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
-            $response->headers->set('Access-Control-Allow-Headers', 'content-type');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT,PATCH,DELETE');
+            $response->headers->set('Access-Control-Allow-Headers', 'content-type, authorization');
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
         }
     }
@@ -57,8 +57,8 @@ class CorsEventListener implements EventSubscriberInterface
 
         $response = $event->getResponse();
         $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
-        $response->headers->set('Access-Control-Allow-Headers', 'content-type');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,PUT,PATCH,DELETE');
+        $response->headers->set('Access-Control-Allow-Headers', 'content-type, authorization');
         $response->headers->set('Access-Control-Allow-Credentials', 'true');
     }
 }
