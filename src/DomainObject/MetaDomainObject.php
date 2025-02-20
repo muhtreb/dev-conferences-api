@@ -14,7 +14,7 @@ class MetaDomainObject
     {
         $meta = new self();
         $meta->page = $page;
-        $meta->nbPages = ceil($count / 10);
+        $meta->nbPages = (int) ceil($count / 10);
         $meta->nextPage = $page < $meta->nbPages ? $page + 1 : null;
         $meta->prevPage = $page > 1 ? $page - 1 : null;
         $meta->nbHits = $count;
