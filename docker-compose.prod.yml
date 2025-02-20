@@ -1,0 +1,21 @@
+services:
+    webserver:
+        image: ghcr.io/muhtreb/dev-conferences-api/webserver:latest
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=traefik"
+            - "traefik.http.routers.symfony.rule=Host(`${APP_URL}`)"
+            - "traefik.http.routers.symfony.tls=true"
+            - "traefik.http.services.symfony.loadbalancer.server.port=8080"
+            - "traefik.http.routers.symfony.tls.certresolver=myresolver"
+            - "com.centurylinklabs.watchtower.enable=true"
+        networks:
+            - services
+            - traefik
+
+networks:
+  services:
+    external: true
+  traefik:
+    external: true
