@@ -28,7 +28,6 @@ class CreateController extends AbstractController
     #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
-        Request $request,
         Speaker $speaker,
         User $user,
         UserFavoriteSpeakerRepository $userFavoriteRepository,

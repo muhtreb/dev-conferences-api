@@ -3,13 +3,14 @@
 namespace Controller\ConferenceEdition;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexControllerTest extends WebTestCase
 {
     public function testIndex(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/conferences/editions');
+        $client->request(Request::METHOD_GET, '/conferences/editions');
 
         $this->assertResponseIsSuccessful();
 

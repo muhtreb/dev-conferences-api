@@ -3,13 +3,14 @@
 namespace Controller\ConferenceEdition;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class LatestControllerTest extends WebTestCase
 {
     public function testIndex(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/conferences/editions/latest');
+        $client->request(Request::METHOD_GET, '/conferences/editions/latest');
 
         $this->assertResponseIsSuccessful();
 

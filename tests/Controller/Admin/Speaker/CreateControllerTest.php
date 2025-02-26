@@ -4,13 +4,14 @@ namespace App\Tests\Controller\Admin\Speaker;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class CreateControllerTest extends WebTestCase
 {
     public function testCreateWithoutAuthentication(): void
     {
         $client = static::createClient();
-        $client->request('POST', '/admin/speakers', content: json_encode([
+        $client->request(Request::METHOD_POST, '/admin/speakers', content: json_encode([
             'firstName' => 'Julien',
             'lastName' => 'HUMBERT',
         ]));
@@ -23,7 +24,7 @@ class CreateControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request(
-            method: 'POST',
+            method: Request::METHOD_POST,
             uri: '/admin/speakers',
             server: [
                 'HTTP_Authorization' => 'Bearer token',
@@ -36,7 +37,7 @@ class CreateControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $client->request('GET', '/speakers/slug/julien-humbert');
+        $client->request(Request::METHOD_GET, '/speakers/slug/julien-humbert');
         $this->assertResponseIsSuccessful();
     }
 }

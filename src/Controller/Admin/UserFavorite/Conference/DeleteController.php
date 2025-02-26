@@ -27,7 +27,6 @@ class DeleteController extends AbstractController
     #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
-        Request $request,
         Conference $conference,
         User $user,
         UserFavoriteConferenceRepository $userFavoriteRepository,

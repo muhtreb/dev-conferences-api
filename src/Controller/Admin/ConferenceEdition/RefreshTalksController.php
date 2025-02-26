@@ -29,7 +29,6 @@ class RefreshTalksController extends AbstractController
         ConferenceEdition $conferenceEdition,
         NormalizerInterface $normalizer,
         ConferenceEditionManager $conferenceEditionManager,
-        Request $request,
     ): JsonResponse {
         $conferenceEditionManager->refreshTalks($conferenceEdition);
 

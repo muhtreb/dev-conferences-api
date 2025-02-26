@@ -7,6 +7,7 @@ use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -28,7 +29,7 @@ class SlugController extends AbstractController
     ): JsonResponse {
         $validation = $validator->validate($conferenceEdition);
         if (count($validation) > 0) {
-            return new JsonResponse($normalizer->normalize($validation), 400);
+            return new JsonResponse($normalizer->normalize($validation), Response::HTTP_BAD_REQUEST);
         }
 
         return new JsonResponse($normalizer->normalize($conferenceEdition, null, [

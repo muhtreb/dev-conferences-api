@@ -26,7 +26,6 @@ class ListController extends AbstractController
     #[Security(name: 'Bearer')]
     public function __invoke(
         NormalizerInterface $normalizer,
-        Request $request,
         User $user,
         ConferenceRepository $conferenceRepository,
         UserFavoriteRepository $userFavoriteRepository,

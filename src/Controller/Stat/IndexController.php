@@ -25,7 +25,6 @@ class IndexController extends AbstractController
         description: 'Get stats about the conferences, editions, speakers, and talks.',
     )]
     public function __invoke(
-        Request $request,
         ConferenceRepository $conferenceRepository,
         ConferenceEditionRepository $conferenceEditionRepository,
         SpeakerRepository $speakerRepository,

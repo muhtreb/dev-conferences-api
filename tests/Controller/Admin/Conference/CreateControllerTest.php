@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\Admin\Conference;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CreateControllerTest extends WebTestCase
@@ -10,7 +11,7 @@ class CreateControllerTest extends WebTestCase
     public function testCreateWithoutAuthentication(): void
     {
         $client = static::createClient();
-        $client->request('POST', '/admin/conferences', content: json_encode([
+        $client->request(Request::METHOD_POST, '/admin/conferences', content: json_encode([
             'name' => 'Conference 6',
         ]));
 
@@ -22,7 +23,7 @@ class CreateControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request(
-            method: 'POST',
+            method: Request::METHOD_POST,
             uri: '/admin/conferences',
             server: [
                 'HTTP_Authorization' => 'Bearer token',

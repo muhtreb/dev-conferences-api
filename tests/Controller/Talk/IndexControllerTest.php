@@ -3,13 +3,14 @@
 namespace App\Tests\Controller\Talk;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexControllerTest extends WebTestCase
 {
     public function testGetSpeakers(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/talks');
+        $client->request(Request::METHOD_GET, '/talks');
 
         $this->assertResponseIsSuccessful();
 
