@@ -23,7 +23,7 @@ class UpdateEntitySlugCommand extends Command
 {
     private static array $generatedSlugs = [];
     private static int $countSlugGenerated = 1;
-    private Slugify $slugify;
+    private readonly Slugify $slugify;
     private ConferenceEditionRepository|TalkRepository|SpeakerRepository $repository;
 
     public function __construct(
@@ -56,7 +56,7 @@ class UpdateEntitySlugCommand extends Command
             default => null,
         };
 
-        $io->title('Updating '.ucfirst($entity).' Slug');
+        $io->title('Updating '.ucfirst((string) $entity).' Slug');
 
         $count = 0;
         $flushBatchSize = 100;

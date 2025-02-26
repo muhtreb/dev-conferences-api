@@ -18,14 +18,14 @@ class TalksFixture extends Fixture implements DependentFixtureInterface
             $talk = (new Talk())
                 ->setName('Talk '.$i)
                 ->setSlug('talk-'.$i)
-                ->setConferenceEdition($this->getReference('conference_edition_'.rand(1, 10), ConferenceEdition::class))
+                ->setConferenceEdition($this->getReference('conference_edition_'.random_int(1, 10), ConferenceEdition::class))
                 ->setDate(new \DateTime())
                 ->setYoutubeId('youtube_id_'.$i)
                 ->setPosition($i)
                 ->setDescription('Description '.$i);
 
             $speakerTalk = (new SpeakerTalk())
-                ->setSpeaker($this->getReference('speaker_'.rand(1, 5), Speaker::class))
+                ->setSpeaker($this->getReference('speaker_'.random_int(1, 5), Speaker::class))
                 ->setTalk($talk)
                 ->setMain(true);
 

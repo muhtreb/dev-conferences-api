@@ -10,7 +10,7 @@ class SlugGenerator
 {
     private static int $count = 1;
 
-    private Slugify $slugify;
+    private readonly Slugify $slugify;
 
     public function __construct(private readonly CheckSlugExistsRepositoryInterface $repository)
     {

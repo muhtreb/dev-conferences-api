@@ -8,7 +8,7 @@ use App\Entity\Talk;
 class TalkDomainObject extends SearchDomainObject
 {
     public string $name;
-    public ?string $description;
+    public ?string $description = null;
     public int $date;
     public array $speakers;
     public string $editionName;

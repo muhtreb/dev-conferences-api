@@ -28,7 +28,7 @@ class FetchIdsController extends AbstractController
         ConferenceRepository $conferenceRepository,
         NormalizerInterface $normalizer,
     ): JsonResponse {
-        $ids = explode(',', trim(preg_replace('/\s+/', '', $request->getContent())));
+        $ids = explode(',', trim((string) preg_replace('/\s+/', '', $request->getContent())));
 
         if (0 === count($ids)) {
             return new JsonResponse([]);

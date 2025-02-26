@@ -7,8 +7,8 @@ use App\Entity\ConferenceEdition;
 class ConferenceEditionDomainObject extends SearchDomainObject
 {
     public string $name;
-    public ?string $description;
-    public ?string $date;
+    public ?string $description = null;
+    public ?string $date = null;
 
     public static function from(ConferenceEdition $conferenceEdition): self
     {

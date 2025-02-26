@@ -34,9 +34,7 @@ class UserFavoriteRepository extends AbstractRepository
 
         $results = $query->getResult();
 
-        return array_map(function ($result) {
-            return $result['id'];
-        }, $results);
+        return array_map(fn($result) => $result['id'], $results);
     }
 
     public function checkUserFavoriteTalkIds(User $user, array $talkIds): array
@@ -55,9 +53,7 @@ class UserFavoriteRepository extends AbstractRepository
 
         $results = $query->getResult();
 
-        return array_map(function ($result) {
-            return $result['id'];
-        }, $results);
+        return array_map(fn($result) => $result['id'], $results);
     }
 
     public function checkUserFavoriteConferenceIds(User $user, array $conferenceIds): array
@@ -77,9 +73,7 @@ class UserFavoriteRepository extends AbstractRepository
             ->getQuery()
             ->getResult();
 
-        return array_map(function ($result) {
-            return $result['id'];
-        }, $results);
+        return array_map(fn($result) => $result['id'], $results);
     }
 
     public function checkUserFavoriteConferenceEditionIds(User $user, array $editionIds): array
@@ -98,8 +92,6 @@ class UserFavoriteRepository extends AbstractRepository
 
         $results = $query->getResult();
 
-        return array_map(function ($result) {
-            return $result['id'];
-        }, $results);
+        return array_map(fn($result) => $result['id'], $results);
     }
 }

@@ -45,7 +45,7 @@ readonly class TalkIndexer
     {
         try {
             $this->searchClient->deleteObjects(self::INDEX_NAME, [$id]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
     }
 

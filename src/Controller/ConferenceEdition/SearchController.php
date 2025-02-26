@@ -47,9 +47,7 @@ class SearchController extends AbstractController
 
         $conferenceEditions = $conferenceEditionRepository->findBy(['id' => $conferenceEditionIds]);
 
-        usort($conferenceEditions, function (ConferenceEdition $a, ConferenceEdition $b) use ($conferenceEditionIds) {
-            return array_search($a->getId(), $conferenceEditionIds) - array_search($b->getId(), $conferenceEditionIds);
-        });
+        usort($conferenceEditions, fn(ConferenceEdition $a, ConferenceEdition $b) => array_search($a->getId(), $conferenceEditionIds) - array_search($b->getId(), $conferenceEditionIds));
 
         return new JsonResponse([
             'data' => $normalizer->normalize($conferenceEditions, null, [

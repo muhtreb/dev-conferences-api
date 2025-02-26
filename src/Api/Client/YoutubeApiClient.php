@@ -6,7 +6,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class YoutubeApiClient implements YoutubeApiClientInterface
 {
-    private HttpClientInterface $client;
+    private readonly HttpClientInterface $client;
 
     public function __construct(HttpClientInterface $client, private readonly string $googleApiKey)
     {

@@ -59,7 +59,7 @@ readonly class ConferenceIndexer
     {
         try {
             $this->searchClient->deleteObjects(self::INDEX_NAME, [$conferenceId]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
     }
 

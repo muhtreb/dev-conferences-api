@@ -6,7 +6,7 @@ use Meilisearch\Client;
 
 class MeilisearchClient implements SearchClient
 {
-    private Client $client;
+    private readonly Client $client;
 
     public function __construct(string $url, string $apiKey)
     {

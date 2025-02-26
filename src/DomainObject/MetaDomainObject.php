@@ -6,8 +6,8 @@ class MetaDomainObject
 {
     public int $page;
     public int $nbPages;
-    public ?int $nextPage;
-    public ?int $prevPage;
+    public ?int $nextPage = null;
+    public ?int $prevPage = null;
     public int $nbHits;
 
     public static function create(int $page, int $count): self

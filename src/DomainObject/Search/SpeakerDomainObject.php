@@ -8,12 +8,12 @@ class SpeakerDomainObject extends SearchDomainObject
 {
     public string $firstName;
     public string $lastName;
-    public ?string $description;
-    public ?string $githubUsername;
-    public ?string $xUsername;
-    public ?string $speakerDeckUsername;
-    public ?string $mastodonUsername;
-    public ?string $blueskyUsername;
+    public ?string $description = null;
+    public ?string $githubUsername = null;
+    public ?string $xUsername = null;
+    public ?string $speakerDeckUsername = null;
+    public ?string $mastodonUsername = null;
+    public ?string $blueskyUsername = null;
     public int $countTalks = 0;
 
     public static function from(Speaker $speaker): self

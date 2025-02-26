@@ -12,7 +12,7 @@ class YoutubePlaylistImport
     #[ORM\Id]
     #[ORM\Column(type: 'integer', unique: true)]
     #[ORM\GeneratedValue]
-    private ?int $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
     private string $playlistId;

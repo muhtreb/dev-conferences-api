@@ -7,7 +7,7 @@ use App\Entity\Conference;
 class ConferenceDomainObject extends SearchDomainObject
 {
     public string $name;
-    public ?string $description;
+    public ?string $description = null;
 
     public static function from(Conference $conference): self
     {

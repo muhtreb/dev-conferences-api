@@ -9,7 +9,7 @@ use Symfony\Component\Uid\Uuid;
 
 class TalkDomainObject
 {
-    public ?Uuid $id;
+    public ?Uuid $id = null;
     public string $name;
     public ?string $description = null;
     public \DateTimeInterface $date;
