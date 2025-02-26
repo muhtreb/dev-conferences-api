@@ -49,7 +49,7 @@ class SearchController extends AbstractController
 
         $conferences = $conferenceRepository->getConferencesByIds($conferenceIds);
 
-        usort($conferences, fn(Conference $a, Conference $b) => array_search($a->getId(), $conferenceIds) - array_search($b->getId(), $conferenceIds));
+        usort($conferences, fn (Conference $a, Conference $b) => array_search($a->getId(), $conferenceIds) - array_search($b->getId(), $conferenceIds));
 
         return new JsonResponse([
             'data' => $normalizer->normalize($conferences, null, [

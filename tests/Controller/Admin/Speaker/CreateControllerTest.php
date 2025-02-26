@@ -2,37 +2,41 @@
 
 namespace App\Tests\Controller\Admin\Speaker;
 
+use App\Tests\Controller\Admin\AdminAuthenticatedClientTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CreateControllerTest extends WebTestCase
 {
+    use AdminAuthenticatedClientTrait;
+
     public function testCreateWithoutAuthentication(): void
     {
         $client = static::createClient();
-        $client->request(Request::METHOD_POST, '/admin/speakers', content: json_encode([
-            'firstName' => 'Julien',
-            'lastName' => 'HUMBERT',
-        ]));
+        $client->jsonRequest(
+            method: Request::METHOD_POST,
+            uri: '/admin/speakers',
+            parameters: [
+                'firstName' => 'Julien',
+                'lastName' => 'HUMBERT',
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testCreateWithAuthentication(): void
     {
-        $client = static::createClient();
+        $client = static::createAdminAuthenticatedClient();
 
-        $client->request(
+        $client->jsonRequest(
             method: Request::METHOD_POST,
             uri: '/admin/speakers',
-            server: [
-                'HTTP_Authorization' => 'Bearer token',
-            ],
-            content: json_encode([
+            parameters: [
                 'firstName' => 'Julien',
                 'lastName' => 'HUMBERT',
-            ])
+            ]
         );
 
         $this->assertResponseIsSuccessful();

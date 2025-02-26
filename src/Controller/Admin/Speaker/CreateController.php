@@ -3,14 +3,12 @@
 namespace App\Controller\Admin\Speaker;
 
 use App\DomainObject\SpeakerDomainObject;
-use App\Form\Type\SpeakerFormType;
 use App\Manager\Admin\SpeakerManager;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -24,20 +22,12 @@ class CreateController extends AbstractController
     public function __invoke(
         NormalizerInterface $normalizer,
         SpeakerManager $speakerManager,
-        Request $request,
+        #[MapRequestPayload(
+            validationGroups: ['create']
+        )] SpeakerDomainObject $dto,
     ): JsonResponse {
-        $dto = new SpeakerDomainObject();
-        $form = $this->createForm(SpeakerFormType::class, $dto);
-        $form->submit($request->toArray(), false);
+        $speaker = $speakerManager->createSpeakerFromDTO($dto);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $speaker = $speakerManager->createSpeakerFromDTO($dto);
-
-            return new JsonResponse($normalizer->normalize($speaker));
-        }
-
-        return new JsonResponse([
-            'errors' => $normalizer->normalize($form),
-        ], Response::HTTP_BAD_REQUEST);
+        return new JsonResponse($normalizer->normalize($speaker));
     }
 }

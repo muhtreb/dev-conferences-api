@@ -39,7 +39,7 @@ class TopController extends AbstractController
 
         $speakers = $speakerRepository->findBy(['id' => $speakerIds]);
 
-        usort($speakers, fn(Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
+        usort($speakers, fn (Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
 
         return new JsonResponse(
             $normalizer->normalize($speakers, null, ['withTalks' => false])
