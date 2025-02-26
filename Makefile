@@ -46,3 +46,7 @@ phpstan:
 .PHONY: phpcsfixer
 phpcsfixer:
 	$(DOCKER_EXEC) -e PHP_CS_FIXER_IGNORE_ENV=1 php-fpm php vendor/bin/php-cs-fixer fix src
+
+.PHONY: rector
+rector:
+	$(DOCKER_EXEC) -e RECTOR=1 php-fpm php vendor/bin/rector process src

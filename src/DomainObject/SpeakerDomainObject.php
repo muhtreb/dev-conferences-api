@@ -4,12 +4,17 @@ namespace App\DomainObject;
 
 use App\Entity\Speaker;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class SpeakerDomainObject
 {
     public ?Uuid $id = null;
+    #[Assert\NotBlank(groups: ['create', 'edit'])]
     public string $firstName;
+
+    #[Assert\NotBlank(groups: ['create', 'edit'])]
     public string $lastName;
+
     public ?string $description = null;
     public ?string $githubUsername = null;
     public ?string $xUsername = null;

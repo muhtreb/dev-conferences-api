@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\Admin\ConferenceEdition;
+namespace App\Controller\Admin\Speaker;
 
-use App\Entity\ConferenceEdition;
-use App\Manager\Admin\ConferenceEditionManager;
+use App\Entity\Speaker;
+use App\Manager\Admin\SpeakerManager;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,18 +16,18 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class RemoveController extends AbstractController
 {
     #[Route(
-        path: '/admin/conferences/editions/{conferenceEdition}',
-        name: 'api_admin_conference_edition_remove',
-        requirements: ['conferenceEdition' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
+        path: '/admin/speakers/{speaker}',
+        name: 'api_admin_speaker_remove',
+        requirements: ['speaker' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
         methods: ['DELETE']
     )]
-    #[OA\Tag(name: 'Conference Edition')]
+    #[OA\Tag(name: 'Speaker')]
     #[Security(name: 'Bearer')]
     public function __invoke(
-        ConferenceEdition $conferenceEdition,
-        ConferenceEditionManager $conferenceEditionManager,
+        Speaker $speaker,
+        SpeakerManager $speakerManager,
     ): JsonResponse {
-        $conferenceEditionManager->removeConferenceEdition($conferenceEdition);
+        $speakerManager->removeSpeaker($speaker);
 
         return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }

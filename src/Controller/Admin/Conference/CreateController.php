@@ -3,14 +3,12 @@
 namespace App\Controller\Admin\Conference;
 
 use App\DomainObject\ConferenceDomainObject;
-use App\Form\Type\ConferenceFormType;
 use App\Manager\Admin\ConferenceManager;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -24,20 +22,12 @@ class CreateController extends AbstractController
     public function __invoke(
         NormalizerInterface $normalizer,
         ConferenceManager $conferenceManager,
-        Request $request,
+        #[MapRequestPayload(
+            validationGroups: ['create']
+        )] ConferenceDomainObject $dto,
     ): JsonResponse {
-        $dto = new ConferenceDomainObject();
-        $form = $this->createForm(ConferenceFormType::class, $dto);
-        $form->submit($request->toArray());
+        $conference = $conferenceManager->createConferenceFromDTO($dto);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $conference = $conferenceManager->createConferenceFromDTO($dto);
-
-            return new JsonResponse($normalizer->normalize($conference));
-        }
-
-        return new JsonResponse([
-            'errors' => $normalizer->normalize($form),
-        ], Response::HTTP_BAD_REQUEST);
+        return new JsonResponse($normalizer->normalize($conference));
     }
 }

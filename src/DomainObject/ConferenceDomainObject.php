@@ -4,10 +4,12 @@ namespace App\DomainObject;
 
 use App\Entity\Conference;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ConferenceDomainObject
 {
     public ?Uuid $id = null;
+    #[Assert\NotBlank(groups: ['create'])]
     public string $name;
     public ?string $description = null;
     public ?string $website = null;

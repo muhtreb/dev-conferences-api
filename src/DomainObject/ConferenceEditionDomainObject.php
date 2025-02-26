@@ -5,10 +5,12 @@ namespace App\DomainObject;
 use App\Entity\Conference;
 use App\Entity\ConferenceEdition;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ConferenceEditionDomainObject
 {
     public ?Uuid $id = null;
+    #[Assert\NotBlank(groups: ['create', 'edit'])]
     public string $name;
     public ?string $description = null;
     public ?\DateTimeInterface $startDate = null;
