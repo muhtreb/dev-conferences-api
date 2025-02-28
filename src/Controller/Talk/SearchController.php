@@ -47,7 +47,7 @@ class SearchController extends AbstractController
 
         $talks = $talkRepository->findBy(['id' => $talkIds]);
 
-        usort($talks, fn(Talk $a, Talk $b) => array_search($a->getId(), $talkIds) - array_search($b->getId(), $talkIds));
+        usort($talks, fn (Talk $a, Talk $b) => array_search($a->getId(), $talkIds) - array_search($b->getId(), $talkIds));
 
         return new JsonResponse([
             'data' => $normalizer->normalize($talks),

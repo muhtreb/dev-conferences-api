@@ -4,14 +4,12 @@ namespace App\Controller\Admin\ConferenceEdition;
 
 use App\DomainObject\ConferenceEditionDomainObject;
 use App\Entity\Conference;
-use App\Form\Type\ConferenceEditionFormType;
 use App\Manager\Admin\ConferenceEditionManager;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -26,21 +24,13 @@ class CreateController extends AbstractController
         Conference $conference,
         NormalizerInterface $normalizer,
         ConferenceEditionManager $conferenceEditionManager,
-        Request $request,
+        #[MapRequestPayload(
+            validationGroups: ['create']
+        )] ConferenceEditionDomainObject $dto,
     ): JsonResponse {
-        $dto = new ConferenceEditionDomainObject();
         $dto->conference = $conference;
-        $form = $this->createForm(ConferenceEditionFormType::class, $dto);
-        $form->submit($request->toArray(), false);
+        $conferenceEdition = $conferenceEditionManager->createConferenceEditionFromDTO($dto);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $conferenceEdition = $conferenceEditionManager->createConferenceEditionFromDTO($dto);
-
-            return new JsonResponse($normalizer->normalize($conferenceEdition));
-        }
-
-        return new JsonResponse([
-            'errors' => $normalizer->normalize($form),
-        ], Response::HTTP_BAD_REQUEST);
+        return new JsonResponse($normalizer->normalize($conferenceEdition));
     }
 }

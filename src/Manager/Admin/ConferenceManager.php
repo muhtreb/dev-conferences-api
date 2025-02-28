@@ -6,13 +6,14 @@ use App\DomainObject\ConferenceDomainObject;
 use App\Entity\Conference;
 use App\Repository\ConferenceRepository;
 use App\Service\Search\ConferenceIndexer;
-use Cocur\Slugify\Slugify;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 readonly class ConferenceManager
 {
     public function __construct(
         private ConferenceRepository $conferenceRepository,
         private ConferenceIndexer $conferenceIndexer,
+        private SluggerInterface $slugger,
     ) {
     }
 
@@ -20,7 +21,7 @@ readonly class ConferenceManager
     {
         $conference = (new Conference())
             ->setName($dto->name)
-            ->setSlug((new Slugify())->slugify($dto->name))
+            ->setSlug($this->slugger->slug($dto->name)->lower())
             ->setDescription($dto->description)
             ->setWebsite($dto->website)
             ->setTwitter($dto->twitter)
@@ -37,7 +38,7 @@ readonly class ConferenceManager
     {
         $conference
             ->setName($dto->name)
-            ->setSlug((new Slugify())->slugify($dto->name))
+            ->setSlug($this->slugger->slug($dto->name)->lower())
             ->setDescription($dto->description)
             ->setWebsite($dto->website)
             ->setTwitter($dto->twitter)

@@ -48,6 +48,11 @@ readonly class ConferenceEditionManager
         return $conferenceEdition;
     }
 
+    private function indexConferenceEdition(ConferenceEdition $edition): void
+    {
+        $this->conferenceEditionIndexer->indexConferenceEdition($edition);
+    }
+
     public function updateConferenceEditionFromDTO(ConferenceEdition $conferenceEdition, ConferenceEditionDomainObject $dto): ConferenceEdition
     {
         $slug = ($this->conferenceEditionSlugGenerator)($dto->name, $conferenceEdition->getId());
@@ -63,11 +68,6 @@ readonly class ConferenceEditionManager
         $this->indexConferenceEdition($conferenceEdition);
 
         return $conferenceEdition;
-    }
-
-    private function indexConferenceEdition(ConferenceEdition $edition): void
-    {
-        $this->conferenceEditionIndexer->indexConferenceEdition($edition);
     }
 
     public function createConferenceEditionNotificationFromDTO(ConferenceEditionNotificationDomainObject $dto): ConferenceEditionNotification
