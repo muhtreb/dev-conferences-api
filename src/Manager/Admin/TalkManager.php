@@ -8,8 +8,8 @@ use App\Entity\Talk;
 use App\Repository\SpeakerRepository;
 use App\Repository\SpeakerTalkRepository;
 use App\Repository\TalkRepository;
-use App\Service\Search\SpeakerIndexer;
-use App\Service\Search\TalkIndexer;
+use App\Service\Search\Indexer\SpeakerIndexer;
+use App\Service\Search\Indexer\TalkIndexer;
 use App\Service\SlugGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 

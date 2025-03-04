@@ -3,7 +3,7 @@
 namespace App\Command\Search;
 
 use App\Repository\ConferenceEditionRepository;
-use App\Service\Search\ConferenceEditionIndexer;
+use App\Service\Search\Indexer\ConferenceEditionIndexer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

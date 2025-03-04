@@ -24,10 +24,23 @@ services:
         arguments:
             $googleApiKey: '%env(GOOGLE_API_KEY)%'
 
-    App\Service\MeilisearchClient:
+    App\Service\Search\Client\MeilisearchClient:
+        lazy: true
         arguments:
             $url: '%env(MEILISEARCH_URL)%'
             $apiKey: '%env(MEILISEARCH_API_KEY)%'
+
+    App\Service\Search\Client\ElasticsearchClient:
+        lazy: true
+        arguments:
+            $hosts:
+                - '%env(ELASTICSEARCH_HOST)%'
+
+    App\Service\Search\Client\AlgoliaClient:
+        lazy: true
+        arguments:
+            $appId: '%env(ALGOLIA_APP_ID)%'
+            $apiKey: '%env(ALGOLIA_API_KEY)%'
 
     slug_generator.conference_edition:
         class: App\Service\SlugGenerator
@@ -47,3 +60,8 @@ services:
     App\EventListener\CorsEventListener:
         tags:
             - { name: kernel.event_subscriber }
+
+    App\Factory\SearchClientFactory: ~
+
+    App\Service\Search\Client\SearchClientInterface:
+        factory: ['@App\Factory\SearchClientFactory', 'create']

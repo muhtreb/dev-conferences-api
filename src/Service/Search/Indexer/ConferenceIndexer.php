@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Search;
+namespace App\Service\Search\Indexer;
 
-use App\DomainObject\Search\ConferenceDomainObject;
+use App\DomainObject\Indexation\ConferenceDomainObject;
 use App\Entity\Conference;
-use App\Service\SearchClient;
+use App\Service\Search\Client\SearchClientInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -13,7 +13,7 @@ readonly class ConferenceIndexer
     private const INDEX_NAME = 'conferences';
 
     public function __construct(
-        private SearchClient $searchClient,
+        private SearchClientInterface $searchClient,
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer,
     ) {
@@ -21,7 +21,18 @@ readonly class ConferenceIndexer
 
     public function reset(): void
     {
-        $this->searchClient->reset(self::INDEX_NAME);
+        $this->searchClient->resetIndex(self::INDEX_NAME, [
+            'elasticsearch' => [
+                'mappings' => [
+                    'properties' => [
+                        'name' => [
+                            'type' => 'text',
+                            'fielddata' => true,
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
         $this->searchClient->updateSortableAttributes(self::INDEX_NAME, [
             'name',

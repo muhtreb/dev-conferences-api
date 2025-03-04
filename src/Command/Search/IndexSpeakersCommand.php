@@ -3,7 +3,7 @@
 namespace App\Command\Search;
 
 use App\Repository\SpeakerRepository;
-use App\Service\Search\SpeakerIndexer;
+use App\Service\Search\Indexer\SpeakerIndexer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

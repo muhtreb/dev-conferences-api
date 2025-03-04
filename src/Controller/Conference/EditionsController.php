@@ -40,7 +40,11 @@ class EditionsController extends AbstractController
                 'withTalks' => false,
                 'withPlaylistImports' => false,
             ]),
-            'meta' => MetaDomainObject::create($page, $conferenceEditionRepository->count($filters)),
+            'meta' => new MetaDomainObject(
+                page: $page,
+                count: $conferenceEditionRepository->count($filters),
+                limit: $limit
+            ),
         ]);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Serializer\Search;
 
-use App\DomainObject\Search\ConferenceEditionDomainObject;
+use App\DomainObject\Indexation\ConferenceEditionDomainObject;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ConferenceEditionNormalizer implements NormalizerInterface

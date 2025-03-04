@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Search;
+namespace App\Service\Search\Indexer;
 
-use App\DomainObject\Search\SpeakerDomainObject;
+use App\DomainObject\Indexation\SpeakerDomainObject;
 use App\Entity\Speaker;
 use App\Repository\TalkRepository;
-use App\Service\SearchClient;
+use App\Service\Search\Client\SearchClientInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -14,7 +14,7 @@ readonly class SpeakerIndexer
     private const INDEX_NAME = 'speakers';
 
     public function __construct(
-        private SearchClient $searchClient,
+        private SearchClientInterface $searchClient,
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer,
         private TalkRepository $talkRepository,
@@ -23,7 +23,22 @@ readonly class SpeakerIndexer
 
     public function reset(): void
     {
-        $this->searchClient->reset(self::INDEX_NAME);
+        $this->searchClient->resetIndex(self::INDEX_NAME, [
+            'elasticsearch' => [
+                'mappings' => [
+                    'properties' => [
+                        'first_name' => [
+                            'type' => 'text',
+                            'fielddata' => true,
+                        ],
+                        'last_name' => [
+                            'type' => 'text',
+                            'fielddata' => true,
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
         $this->searchClient->updateSortableAttributes(self::INDEX_NAME, [
             'countTalks',

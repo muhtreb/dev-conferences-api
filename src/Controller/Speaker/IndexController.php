@@ -38,7 +38,11 @@ class IndexController extends AbstractController
                 'withTalks' => $request->query->getBoolean('withTalks'),
                 'withCountTalks' => $request->query->getBoolean('withCountTalks'),
             ]),
-            'meta' => MetaDomainObject::create($page, $speakerRepository->count($filters)),
+            'meta' => new MetaDomainObject(
+                page: $page,
+                count: $speakerRepository->count($filters),
+                limit: $limit
+            ),
         ]);
     }
 }

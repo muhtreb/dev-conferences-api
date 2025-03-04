@@ -5,7 +5,7 @@ namespace App\Manager\Admin;
 use App\DomainObject\ConferenceDomainObject;
 use App\Entity\Conference;
 use App\Repository\ConferenceRepository;
-use App\Service\Search\ConferenceIndexer;
+use App\Service\Search\Indexer\ConferenceIndexer;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 readonly class ConferenceManager

@@ -2,10 +2,11 @@
 
 namespace App\Controller\ConferenceEdition;
 
-use App\Controller\SearchTrait;
+use App\DomainObject\MetaDomainObject;
+use App\DomainObject\Search\SearchQueryDomainObject;
 use App\Entity\ConferenceEdition;
 use App\Repository\ConferenceEditionRepository;
-use App\Service\SearchClient;
+use App\Service\Search\Client\SearchClientInterface;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,8 +16,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SearchController extends AbstractController
 {
-    use SearchTrait;
-
     #[Route(
         path: '/conferences/editions/search',
         name: 'api_conference_edition_search',
@@ -27,22 +26,23 @@ class SearchController extends AbstractController
         Request $request,
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $normalizer,
-        SearchClient $searchClient,
+        SearchClientInterface $searchClient,
     ): JsonResponse {
-        $data = $searchClient->search('conference_editions', $request->query->get('query', ''), [
-            'attributesToRetrieve' => [
-                'objectID',
-            ],
-            'hitsPerPage' => $request->query->getInt('limit', 30),
-            'page' => $request->query->getInt('page', 1),
-            'sort' => [
-                'date:desc',
-            ],
-        ]);
+        $limit = $request->query->getInt('limit', 24);
+        $page = $request->query->getInt('page', 1);
+
+        $searchResults = $searchClient->search('conference_editions', new SearchQueryDomainObject(
+            query: $request->query->get('query', ''),
+            fields: ['name', 'description'],
+            limit: $limit,
+            page: $page,
+            sortField: 'date',
+            sortDirection: 'desc'
+        ));
 
         $conferenceEditionIds = [];
-        foreach ($data['hits'] as $hit) {
-            $conferenceEditionIds[] = $hit['objectID'];
+        foreach ($searchResults->items as $hit) {
+            $conferenceEditionIds[] = $hit->id;
         }
 
         $conferenceEditions = $conferenceEditionRepository->findBy(['id' => $conferenceEditionIds]);
@@ -54,7 +54,11 @@ class SearchController extends AbstractController
                 'withTalks' => false,
                 'withPlaylistImports' => false,
             ]),
-            'meta' => $this->getMeta($data),
+            'meta' => new MetaDomainObject(
+                page: $page,
+                count: $searchResults->meta->total,
+                limit: $limit,
+            ),
         ]);
     }
 }

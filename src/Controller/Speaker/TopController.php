@@ -2,9 +2,10 @@
 
 namespace App\Controller\Speaker;
 
+use App\DomainObject\Search\SearchQueryDomainObject;
 use App\Entity\Speaker;
 use App\Repository\SpeakerRepository;
-use App\Service\SearchClient;
+use App\Service\Search\Client\SearchClientInterface;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,17 +25,21 @@ class TopController extends AbstractController
         Request $request,
         SpeakerRepository $speakerRepository,
         NormalizerInterface $normalizer,
-        SearchClient $searchClient,
+        SearchClientInterface $searchClient,
     ): JsonResponse {
-        $data = $searchClient->search('speakers', '', [
-            'sort' => ['countTalks:desc'],
-            'limit' => $request->query->getInt('limit', 10),
-            'attributesToRetrieve' => ['objectID'],
-        ]);
+        $limit = $request->query->getInt('limit', 10);
+        $page = $request->query->get('page', 1);
+        $searchResults = $searchClient->search('speakers', new SearchQueryDomainObject(
+            query: $request->query->get('query', ''),
+            limit: $limit,
+            page: $page,
+            sortField: 'countTalks',
+            sortDirection: 'desc'
+        ));
 
         $speakerIds = [];
-        foreach ($data['hits'] as $hit) {
-            $speakerIds[] = $hit['objectID'];
+        foreach ($searchResults->items as $hit) {
+            $speakerIds[] = $hit->id;
         }
 
         $speakers = $speakerRepository->findBy(['id' => $speakerIds]);
