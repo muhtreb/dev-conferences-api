@@ -36,7 +36,7 @@ class SearchController extends AbstractController
             fields: ['name^2', 'description', 'speaker.firstName', 'speaker.lastName'],
             limit: $limit,
             page: $page,
-            sortField: '_score',
+            sortField: 'date',
             sortDirection: 'desc'
         ));
 
