@@ -1,21 +1,8 @@
-version: '3.9'
 services:
-    redis:
-        image: redis:6-alpine
-        container_name: dev-conferences-api-redis
-        restart: unless-stopped
-        command: [ '--appendonly', 'yes' ]
-        volumes:
-            - .data/redis:/data
-        networks:
-            - dev-conferences-services
-
     php-fpm:
         build: docker/php-fpm
         container_name: dev-conferences-api-php-fpm
         restart: always
-        links:
-            - 'redis'
         working_dir: /application
         volumes:
             - ~/.ssh:/root/.ssh:ro
@@ -23,7 +10,10 @@ services:
             - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.4/fpm/conf.d/99-overrides.ini
             - ./docker/php-fpm/docker-www.conf:/etc/php/8.4/fpm/conf.d/docker-www.conf
         user: "1000:1000"
+        extra_hosts:
+            - host.docker.internal:host-gateway
         networks:
+            - dev-conferences-traefik
             - dev-conferences-services
 
     webserver:

@@ -24,6 +24,12 @@ RUN apt-get update \
     && docker-php-ext-install -j$(nproc) zip \
     && docker-php-ext-install -j$(nproc) pdo_mysql
 
+# Install xdebug
+RUN pecl install xdebug-3.4.1 \
+    && docker-php-ext-enable xdebug \
+    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 # Install git
 RUN apt-get update \
     && apt-get -y install git \
