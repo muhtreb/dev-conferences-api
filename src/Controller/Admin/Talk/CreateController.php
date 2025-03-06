@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Talk;
 
+use App\Controller\FormViolationsTrait;
 use App\DomainObject\TalkDomainObject;
 use App\Form\Type\TalkFormType;
 use App\Manager\Admin\TalkManager;
@@ -10,14 +11,15 @@ use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
 class CreateController extends AbstractController
 {
+    use FormViolationsTrait;
+
     #[Route('/admin/talks', name: 'api_admin_talks_create', methods: ['POST'])]
     #[OA\Tag(name: 'Talk')]
     #[Security(name: 'Bearer')]
@@ -26,9 +28,10 @@ class CreateController extends AbstractController
         TalkManager $talkManager,
         Request $request,
     ): JsonResponse {
+        $payload = $request->toArray();
         $dto = new TalkDomainObject();
         $form = $this->createForm(TalkFormType::class, $dto);
-        $form->submit($request->toArray());
+        $form->submit($payload);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $talk = $talkManager->createTalkFromDTO($dto);
@@ -36,8 +39,6 @@ class CreateController extends AbstractController
             return new JsonResponse($normalizer->normalize($talk));
         }
 
-        return new JsonResponse([
-            'errors' => $normalizer->normalize($form),
-        ], Response::HTTP_BAD_REQUEST);
+        return $this->getFormErrorResponse($form, $normalizer);
     }
 }

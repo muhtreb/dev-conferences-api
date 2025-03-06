@@ -12,7 +12,7 @@ class TalkDomainObject
     public ?Uuid $id = null;
     public string $name;
     public ?string $description = null;
-    public \DateTimeInterface $date;
+    public ?\DateTimeInterface $date = null;
     public ConferenceEdition $conferenceEdition;
     public string $youtubeId;
     public ?string $speakerIds = null;

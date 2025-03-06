@@ -3,11 +3,10 @@
 namespace App\Controller\Tag;
 
 use App\Repository\TagRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class IndexController extends AbstractController
@@ -22,8 +21,10 @@ class IndexController extends AbstractController
         TagRepository $tagRepository,
         NormalizerInterface $normalizer,
     ): JsonResponse {
-        $tags = new ArrayCollection($tagRepository->findBy([], ['name' => 'ASC']));
+        $tags = $tagRepository->findBy([], ['name' => 'ASC']);
 
-        return new JsonResponse($normalizer->normalize($tags));
+        return new JsonResponse([
+            'data' => $normalizer->normalize($tags),
+        ]);
     }
 }

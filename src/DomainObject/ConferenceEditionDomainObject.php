@@ -13,7 +13,9 @@ class ConferenceEditionDomainObject
     #[Assert\NotBlank(groups: ['create', 'edit'])]
     public string $name;
     public ?string $description = null;
+    #[Assert\DateTime(format: 'yyyy-MM-dd', groups: ['create', 'edit'])]
     public ?\DateTimeInterface $startDate = null;
+    #[Assert\DateTime(format: 'yyyy-MM-dd', groups: ['create', 'edit'])]
     public ?\DateTimeInterface $endDate = null;
     public ?Conference $conference = null;
 
