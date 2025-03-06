@@ -5,7 +5,7 @@ namespace App\Manager\Admin;
 use App\DomainObject\SpeakerDomainObject;
 use App\Entity\Speaker;
 use App\Repository\SpeakerRepository;
-use App\Service\Search\SpeakerIndexer;
+use App\Service\Search\Indexer\SpeakerIndexer;
 use App\Service\SlugGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 

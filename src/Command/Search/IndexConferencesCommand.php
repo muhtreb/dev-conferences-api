@@ -3,7 +3,7 @@
 namespace App\Command\Search;
 
 use App\Repository\ConferenceRepository;
-use App\Service\Search\ConferenceIndexer;
+use App\Service\Search\Indexer\ConferenceIndexer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,8 +40,9 @@ class IndexConferencesCommand extends Command
         if ($input->getOption('reset')) {
             try {
                 $this->conferenceIndexer->reset();
-            } catch (\Exception) {
+            } catch (\Exception $e) {
                 // do nothing
+                dd($e);
             }
         }
 

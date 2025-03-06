@@ -1,7 +1,8 @@
 <?php
 
-namespace App\DomainObject\Search;
+namespace App\DomainObject\Indexation;
 
+use App\DomainObject\Search\SearchDomainObject;
 use App\Entity\Speaker;
 
 class SpeakerDomainObject extends SearchDomainObject

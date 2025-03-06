@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Serializer\Search;
 
-use App\DomainObject\Search\SpeakerDomainObject;
+use App\DomainObject\Indexation\SpeakerDomainObject;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SpeakerNormalizer implements NormalizerInterface

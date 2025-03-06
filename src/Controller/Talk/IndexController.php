@@ -48,7 +48,11 @@ class IndexController extends AbstractController
 
         return new JsonResponse([
             'data' => $normalizer->normalize($talks),
-            'meta' => MetaDomainObject::create($page, $talkRepository->countTalks($filters)),
+            'meta' => new MetaDomainObject(
+                page: $page,
+                count: $talkRepository->countTalks($filters),
+                limit: $limit
+            ),
         ]);
     }
 }

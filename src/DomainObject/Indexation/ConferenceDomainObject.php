@@ -1,7 +1,8 @@
 <?php
 
-namespace App\DomainObject\Search;
+namespace App\DomainObject\Indexation;
 
+use App\DomainObject\Search\SearchDomainObject;
 use App\Entity\Conference;
 
 class ConferenceDomainObject extends SearchDomainObject

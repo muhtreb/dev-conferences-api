@@ -1,29 +1,56 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Search\Client;
 
+use App\DomainObject\Search\SearchQueryDomainObject;
+use App\DomainObject\Search\SearchResultsDomainObject;
+use App\Enum\SearchClientEnum;
 use Meilisearch\Client;
 
-class MeilisearchClient implements SearchClient
+readonly class MeilisearchClient implements SearchClientInterface
 {
-    private readonly Client $client;
+    private Client $client;
 
     public function __construct(string $url, string $apiKey)
     {
         $this->client = new Client($url, $apiKey);
     }
 
-    public function reset(string $indexName): void
+    public function supports(SearchClientEnum $searchClientEnum): bool
+    {
+        return SearchClientEnum::Meilisearch === $searchClientEnum;
+    }
+
+    public function createIndex(string $indexName, array $options = []): void
+    {
+        $this->client->createIndex($indexName, $options);
+    }
+
+    public function resetIndex(string $indexName, array $options = []): void
     {
         $index = $this->client->index($indexName);
         $index->deleteAllDocuments();
     }
 
-    public function search(string $indexName, ?string $query = null, array $params = []): array
+    public function search(string $indexName, SearchQueryDomainObject $query): SearchResultsDomainObject
     {
         $index = $this->client->index($indexName);
 
-        return $index->search($query, $params)->toArray();
+        $result = $index->search($query->query, [
+            'attributesToRetrieve' => [
+                'objectID',
+            ],
+            'hitsPerPage' => $query->limit,
+            'page' => $query->page,
+            'sort' => [
+                $query->sort->field.':'.$query->sort->direction,
+            ],
+        ])->toArray();
+
+        return new SearchResultsDomainObject(
+            array_map(fn ($hit) => $hit['objectID'], $result['hits']),
+            $result['totalHits']
+        );
     }
 
     public function saveObjects(string $indexName, $objects): void

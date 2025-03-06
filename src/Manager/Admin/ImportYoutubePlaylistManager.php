@@ -9,7 +9,7 @@ use App\Enum\YoutubePlaylistImportStatusEnum;
 use App\Helper\YoutubeApiHelper;
 use App\Repository\TalkRepository;
 use App\Repository\YoutubePlaylistImportRepository;
-use App\Service\Search\TalkIndexer;
+use App\Service\Search\Indexer\TalkIndexer;
 use App\Service\SlugGenerator;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;

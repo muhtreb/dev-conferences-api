@@ -10,15 +10,12 @@ class MetaDomainObject
     public ?int $prevPage = null;
     public int $nbHits;
 
-    public static function create(int $page, int $count): self
+    public function __construct(int $page, int $count, int $limit)
     {
-        $meta = new self();
-        $meta->page = $page;
-        $meta->nbPages = (int) ceil($count / 10);
-        $meta->nextPage = $page < $meta->nbPages ? $page + 1 : null;
-        $meta->prevPage = $page > 1 ? $page - 1 : null;
-        $meta->nbHits = $count;
-
-        return $meta;
+        $this->page = $page;
+        $this->nbPages = (int) ceil($count / $limit);
+        $this->nextPage = $page < $this->nbPages ? $page + 1 : null;
+        $this->prevPage = $page > 1 ? $page - 1 : null;
+        $this->nbHits = $count;
     }
 }

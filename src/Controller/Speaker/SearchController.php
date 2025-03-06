@@ -2,10 +2,11 @@
 
 namespace App\Controller\Speaker;
 
-use App\Controller\SearchTrait;
+use App\DomainObject\MetaDomainObject;
+use App\DomainObject\Search\SearchQueryDomainObject;
 use App\Entity\Speaker;
 use App\Repository\SpeakerRepository;
-use App\Service\SearchClient;
+use App\Service\Search\Client\SearchClientInterface;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,8 +16,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SearchController extends AbstractController
 {
-    use SearchTrait;
-
     #[Route(
         path: '/speakers/search',
         name: 'api_speaker_search',
@@ -27,22 +26,22 @@ class SearchController extends AbstractController
         Request $request,
         SpeakerRepository $speakerRepository,
         NormalizerInterface $normalizer,
-        SearchClient $searchClient,
+        SearchClientInterface $searchClient,
     ): JsonResponse {
-        $data = $searchClient->search('speakers', $request->query->get('query', ''), [
-            'attributesToRetrieve' => [
-                'objectID',
-            ],
-            'hitsPerPage' => $request->query->getInt('limit', 30),
-            'page' => $request->query->getInt('page', 1),
-            'sort' => [
-                'countTalks:desc',
-            ],
-        ]);
+        $limit = $request->query->getInt('limit', 24);
+        $page = $request->query->getInt('page', 1);
+
+        $searchResults = $searchClient->search('speakers', new SearchQueryDomainObject(
+            query: $request->query->get('query', ''),
+            limit: $limit,
+            page: $page,
+            sortField: 'countTalks',
+            sortDirection: 'desc'
+        ));
 
         $speakerIds = [];
-        foreach ($data['hits'] as $hit) {
-            $speakerIds[] = $hit['objectID'];
+        foreach ($searchResults->items as $hit) {
+            $speakerIds[] = $hit->id;
         }
 
         $speakers = $speakerRepository->findBy(['id' => $speakerIds]);
@@ -51,7 +50,11 @@ class SearchController extends AbstractController
 
         return new JsonResponse([
             'data' => $normalizer->normalize($speakers, null, ['withTalks' => false]),
-            'meta' => $this->getMeta($data),
+            'meta' => new MetaDomainObject(
+                page: $page,
+                count: $searchResults->meta->total,
+                limit: $limit,
+            ),
         ]);
     }
 }

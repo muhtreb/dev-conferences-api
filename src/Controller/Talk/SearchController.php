@@ -2,10 +2,11 @@
 
 namespace App\Controller\Talk;
 
-use App\Controller\SearchTrait;
+use App\DomainObject\MetaDomainObject;
+use App\DomainObject\Search\SearchQueryDomainObject;
 use App\Entity\Talk;
 use App\Repository\TalkRepository;
-use App\Service\SearchClient;
+use App\Service\Search\Client\SearchClientInterface;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,8 +16,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SearchController extends AbstractController
 {
-    use SearchTrait;
-
     #[Route(
         path: '/talks/search',
         name: 'api_talk_search',
@@ -27,22 +26,23 @@ class SearchController extends AbstractController
         Request $request,
         TalkRepository $talkRepository,
         NormalizerInterface $normalizer,
-        SearchClient $searchClient,
+        SearchClientInterface $searchClient,
     ): JsonResponse {
-        $data = $searchClient->search('talks', $request->query->get('query', ''), [
-            'attributesToRetrieve' => [
-                'objectID',
-            ],
-            'hitsPerPage' => $request->query->getInt('limit', 30),
-            'page' => $request->query->getInt('page', 1),
-            'sort' => [
-                'date:desc',
-            ],
-        ]);
+        $limit = $request->query->getInt('limit', 24);
+        $page = $request->query->getInt('page', 1);
+
+        $searchResults = $searchClient->search('talks', new SearchQueryDomainObject(
+            query: $request->query->get('query', ''),
+            fields: ['name^2', 'description', 'speaker.firstName', 'speaker.lastName'],
+            limit: $limit,
+            page: $page,
+            sortField: '_score',
+            sortDirection: 'desc'
+        ));
 
         $talkIds = [];
-        foreach ($data['hits'] as $hit) {
-            $talkIds[] = $hit['objectID'];
+        foreach ($searchResults->items as $hit) {
+            $talkIds[] = $hit->id;
         }
 
         $talks = $talkRepository->findBy(['id' => $talkIds]);
@@ -51,7 +51,11 @@ class SearchController extends AbstractController
 
         return new JsonResponse([
             'data' => $normalizer->normalize($talks),
-            'meta' => $this->getMeta($data),
+            'meta' => new MetaDomainObject(
+                page: $page,
+                count: $searchResults->meta->total,
+                limit: $limit,
+            ),
         ]);
     }
 }

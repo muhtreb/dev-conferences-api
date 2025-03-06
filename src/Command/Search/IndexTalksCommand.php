@@ -3,7 +3,7 @@
 namespace App\Command\Search;
 
 use App\Repository\TalkRepository;
-use App\Service\Search\TalkIndexer;
+use App\Service\Search\Indexer\TalkIndexer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

@@ -42,7 +42,11 @@ class IndexController extends AbstractController
             'data' => $normalizer->normalize($conferences, null, [
                 'withEditions' => $withEditions,
             ]),
-            'meta' => MetaDomainObject::create($page, $countConferences),
+            'meta' => new MetaDomainObject(
+                page: $page,
+                count: $countConferences,
+                limit: $limit
+            ),
         ]);
     }
 }
