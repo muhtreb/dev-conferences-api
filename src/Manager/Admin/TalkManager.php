@@ -11,7 +11,6 @@ use App\Repository\TalkRepository;
 use App\Service\Search\SpeakerIndexer;
 use App\Service\Search\TalkIndexer;
 use App\Service\SlugGenerator;
-use Cocur\Slugify\Slugify;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class TalkManager
@@ -32,12 +31,13 @@ readonly class TalkManager
         $slug = ($this->talkSlugGenerator)($dto->name);
 
         $talk = (new Talk())
-            ->setName($dto->name)(new Slugify())->slugify($dto->name)
+            ->setName($dto->name)
             ->setSlug($slug)
             ->setDescription($dto->description)
             ->setDate($dto->date)
             ->setConferenceEdition($dto->conferenceEdition)
-            ->setYoutubeId($dto->youtubeId);
+            ->setYoutubeId($dto->youtubeId)
+            ->setPosition(0);
 
         $this->talkRepository->save($talk);
 

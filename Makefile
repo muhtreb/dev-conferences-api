@@ -41,7 +41,7 @@ composer-update:
 
 .PHONY: phpstan
 phpstan:
-	$(DOCKER_EXEC_PHP_FPM) php vendor/bin/phpstan analyse src
+	$(DOCKER_EXEC_PHP_FPM) php -d memory_limit=-1 vendor/bin/phpstan analyse src
 
 .PHONY: phpcsfixer
 phpcsfixer:

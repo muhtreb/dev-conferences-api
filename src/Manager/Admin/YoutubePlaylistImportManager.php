@@ -3,6 +3,7 @@
 namespace App\Manager\Admin;
 
 use App\DomainObject\YoutubePlaylistImportDomainObject;
+use App\Entity\ConferenceEdition;
 use App\Entity\YoutubePlaylistImport;
 use App\Enum\YoutubePlaylistImportStatusEnum;
 use App\Message\ImportYoutubePlaylistMessage;
@@ -19,13 +20,15 @@ readonly class YoutubePlaylistImportManager
     ) {
     }
 
-    public function createYoutubePlaylistImportFromDTO(YoutubePlaylistImportDomainObject $dto): YoutubePlaylistImport
-    {
+    public function createYoutubePlaylistImportFromDTO(
+        ConferenceEdition $conferenceEdition,
+        YoutubePlaylistImportDomainObject $dto,
+    ): YoutubePlaylistImport {
         $this->logger->info('Creating YoutubePlaylistImport from DTO', ['dto' => $dto]);
 
         $youtubePlaylistImport = (new YoutubePlaylistImport())
             ->setPlaylistId($dto->playlistId)
-            ->setConferenceEdition($dto->conferenceEdition)
+            ->setConferenceEdition($conferenceEdition)
             ->setStatus(YoutubePlaylistImportStatusEnum::Pending);
 
         $this->youtubePlaylistImportRepository->save($youtubePlaylistImport);

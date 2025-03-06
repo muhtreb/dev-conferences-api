@@ -15,6 +15,13 @@ readonly class TagManager
 
     public function createTagFromDTO(TagDomainObject $dto): Tag
     {
+        // Check if tag already exists
+        $tag = $this->tagRepository->findOneBy(['name' => $dto->name]);
+
+        if (null !== $tag) {
+            throw new \InvalidArgumentException('Tag already exists');
+        }
+
         $tag = (new Tag())
             ->setName($dto->name);
 

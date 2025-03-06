@@ -10,6 +10,7 @@ trait AdminAuthenticatedClientTrait
     {
         return static::createClient(server: [
             'HTTP_Authorization' => 'Bearer token',
+            'HTTP_Accept' => 'application/json',
         ]);
     }
 }
