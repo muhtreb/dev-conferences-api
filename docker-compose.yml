@@ -4,6 +4,8 @@ services:
         container_name: dev-conferences-api-php-fpm
         restart: always
         working_dir: /application
+        links:
+            - "redis"
         volumes:
             - ~/.ssh:/root/.ssh:ro
             - ./:/application
@@ -35,6 +37,13 @@ services:
             - "traefik.http.services.api.loadbalancer.server.port=8080"
         networks:
             - dev-conferences-traefik
+            - dev-conferences-services
+
+    redis:
+        image: redis:latest
+        container_name: dev-conferences-api-redis
+        restart: always
+        networks:
             - dev-conferences-services
 
 volumes:

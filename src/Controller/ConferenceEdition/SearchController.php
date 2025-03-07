@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class SearchController extends AbstractController
 {
@@ -27,38 +29,50 @@ class SearchController extends AbstractController
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $normalizer,
         SearchClientInterface $searchClient,
-    ): JsonResponse {
+        TagAwareCacheInterface $cache
+    ): JsonResponse
+    {
         $limit = $request->query->getInt('limit', 24);
         $page = $request->query->getInt('page', 1);
+        $query = $request->query->get('query', '');
 
-        $searchResults = $searchClient->search('conference_editions', new SearchQueryDomainObject(
-            query: $request->query->get('query', ''),
-            fields: ['name', 'description'],
-            limit: $limit,
-            page: $page,
-            sortField: 'date',
-            sortDirection: 'desc'
-        ));
+        $cacheKey = 'search-conference-editions-' . md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
+        $data = $cache->get(
+            $cacheKey,
+            function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $conferenceEditionRepository, $normalizer): array {
+                $item->tag(['conference-editions']);
 
-        $conferenceEditionIds = [];
-        foreach ($searchResults->items as $hit) {
-            $conferenceEditionIds[] = $hit->id;
-        }
+                $searchResults = $searchClient->search('conference_editions', new SearchQueryDomainObject(
+                    query: $query,
+                    fields: ['name', 'description'],
+                    limit: $limit,
+                    page: $page,
+                    sortField: 'date',
+                    sortDirection: 'desc'
+                ));
 
-        $conferenceEditions = $conferenceEditionRepository->findBy(['id' => $conferenceEditionIds]);
+                $conferenceEditionIds = [];
+                foreach ($searchResults->items as $hit) {
+                    $conferenceEditionIds[] = $hit->id;
+                }
 
-        usort($conferenceEditions, fn (ConferenceEdition $a, ConferenceEdition $b) => array_search($a->getId(), $conferenceEditionIds) - array_search($b->getId(), $conferenceEditionIds));
+                $conferenceEditions = $conferenceEditionRepository->findBy(['id' => $conferenceEditionIds]);
 
-        return new JsonResponse([
-            'data' => $normalizer->normalize($conferenceEditions, null, [
-                'withTalks' => false,
-                'withPlaylistImports' => false,
-            ]),
-            'meta' => new MetaDomainObject(
-                page: $page,
-                count: $searchResults->meta->total,
-                limit: $limit,
-            ),
-        ]);
+                usort($conferenceEditions, fn(ConferenceEdition $a, ConferenceEdition $b) => array_search($a->getId(), $conferenceEditionIds) - array_search($b->getId(), $conferenceEditionIds));
+
+                return [
+                    'data' => $normalizer->normalize($conferenceEditions, null, [
+                        'withTalks' => false,
+                        'withPlaylistImports' => false,
+                    ]),
+                    'meta' => new MetaDomainObject(
+                        page: $page,
+                        count: $searchResults->meta->total,
+                        limit: $limit,
+                    ),
+                ];
+            }
+        );
+        return new JsonResponse($data);
     }
 }

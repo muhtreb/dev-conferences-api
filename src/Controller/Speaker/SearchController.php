@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class SearchController extends AbstractController
 {
@@ -27,34 +29,47 @@ class SearchController extends AbstractController
         SpeakerRepository $speakerRepository,
         NormalizerInterface $normalizer,
         SearchClientInterface $searchClient,
-    ): JsonResponse {
+        TagAwareCacheInterface $cache
+    ): JsonResponse
+    {
         $limit = $request->query->getInt('limit', 24);
         $page = $request->query->getInt('page', 1);
+        $query = $request->query->get('query', '');
 
-        $searchResults = $searchClient->search('speakers', new SearchQueryDomainObject(
-            query: $request->query->get('query', ''),
-            limit: $limit,
-            page: $page,
-            sortField: 'countTalks',
-            sortDirection: 'desc'
-        ));
+        $cacheKey = 'search-talks-' . md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
+        $data = $cache->get(
+            $cacheKey,
+            function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $speakerRepository, $normalizer): array {
+                $item->tag(['speakers']);
 
-        $speakerIds = [];
-        foreach ($searchResults->items as $hit) {
-            $speakerIds[] = $hit->id;
-        }
+                $searchResults = $searchClient->search('speakers', new SearchQueryDomainObject(
+                    query: $query,
+                    limit: $limit,
+                    page: $page,
+                    sortField: 'countTalks',
+                    sortDirection: 'desc'
+                ));
 
-        $speakers = $speakerRepository->findBy(['id' => $speakerIds]);
+                $speakerIds = [];
+                foreach ($searchResults->items as $hit) {
+                    $speakerIds[] = $hit->id;
+                }
 
-        usort($speakers, fn (Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
+                $speakers = $speakerRepository->findBy(['id' => $speakerIds]);
 
-        return new JsonResponse([
-            'data' => $normalizer->normalize($speakers, null, ['withTalks' => false]),
-            'meta' => new MetaDomainObject(
-                page: $page,
-                count: $searchResults->meta->total,
-                limit: $limit,
-            ),
-        ]);
+                usort($speakers, fn(Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
+
+                return [
+                    'data' => $normalizer->normalize($speakers, null, ['withTalks' => false]),
+                    'meta' => new MetaDomainObject(
+                        page: $page,
+                        count: $searchResults->meta->total,
+                        limit: $limit,
+                    ),
+                ];
+            }
+        );
+
+        return new JsonResponse($data);
     }
 }

@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class SearchController extends AbstractController
 {
@@ -27,35 +29,47 @@ class SearchController extends AbstractController
         TalkRepository $talkRepository,
         NormalizerInterface $normalizer,
         SearchClientInterface $searchClient,
-    ): JsonResponse {
+        TagAwareCacheInterface $cache,
+    ): JsonResponse
+    {
         $limit = $request->query->getInt('limit', 24);
         $page = $request->query->getInt('page', 1);
+        $query = $request->query->get('query', '');
 
-        $searchResults = $searchClient->search('talks', new SearchQueryDomainObject(
-            query: $request->query->get('query', ''),
-            fields: ['name^2', 'description', 'speaker.firstName', 'speaker.lastName'],
-            limit: $limit,
-            page: $page,
-            sortField: 'date',
-            sortDirection: 'desc'
-        ));
+        $cacheKey = 'search-talks-' . md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
+        $data = $cache->get(
+            $cacheKey,
+            function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $talkRepository, $normalizer): array {
+                $item->tag(['talks']);
 
-        $talkIds = [];
-        foreach ($searchResults->items as $hit) {
-            $talkIds[] = $hit->id;
-        }
+                $searchResults = $searchClient->search('talks', new SearchQueryDomainObject(
+                    query: $query,
+                    fields: ['name^2', 'description', 'speaker.firstName', 'speaker.lastName'],
+                    limit: $limit,
+                    page: $page,
+                    sortField: 'date',
+                    sortDirection: 'desc'
+                ));
 
-        $talks = $talkRepository->findBy(['id' => $talkIds]);
+                $talkIds = [];
+                foreach ($searchResults->items as $hit) {
+                    $talkIds[] = $hit->id;
+                }
 
-        usort($talks, fn (Talk $a, Talk $b) => array_search($a->getId(), $talkIds) - array_search($b->getId(), $talkIds));
+                $talks = $talkRepository->findBy(['id' => $talkIds]);
 
-        return new JsonResponse([
-            'data' => $normalizer->normalize($talks),
-            'meta' => new MetaDomainObject(
-                page: $page,
-                count: $searchResults->meta->total,
-                limit: $limit,
-            ),
-        ]);
+                usort($talks, fn(Talk $a, Talk $b) => array_search($a->getId(), $talkIds) - array_search($b->getId(), $talkIds));
+
+                return [
+                    'data' => $normalizer->normalize($talks),
+                    'meta' => new MetaDomainObject(
+                        page: $page,
+                        count: $searchResults->meta->total,
+                        limit: $limit,
+                    ),
+                ];
+            });
+
+        return new JsonResponse($data);
     }
 }
