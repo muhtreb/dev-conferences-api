@@ -27,7 +27,8 @@ readonly class ConferenceEditionManager
         private TalkIndexer $talkIndexer,
         #[Autowire(service: 'slug_generator.conference_edition')]
         private SlugGenerator $conferenceEditionSlugGenerator,
-    ) {
+    )
+    {
     }
 
     public function createConferenceEditionFromDTO(ConferenceEditionDomainObject $dto): ConferenceEdition
@@ -37,8 +38,8 @@ readonly class ConferenceEditionManager
             ->setName($dto->name)
             ->setSlug($slug)
             ->setDescription($dto->description)
-            ->setStartDate($dto->startDate)
-            ->setEndDate($dto->endDate)
+            ->setStartDate(new \DateTimeImmutable($dto->startDate))
+            ->setEndDate(new \DateTimeImmutable($dto->endDate))
             ->setConference($dto->conference);
 
         $this->conferenceEditionRepository->save($conferenceEdition);
@@ -60,8 +61,8 @@ readonly class ConferenceEditionManager
             ->setName($dto->name)
             ->setSlug($slug)
             ->setDescription($dto->description)
-            ->setStartDate($dto->startDate)
-            ->setEndDate($dto->endDate);
+            ->setStartDate(new \DateTimeImmutable($dto->startDate))
+            ->setEndDate(new \DateTimeImmutable($dto->endDate));
 
         $this->conferenceEditionRepository->save($conferenceEdition);
 
