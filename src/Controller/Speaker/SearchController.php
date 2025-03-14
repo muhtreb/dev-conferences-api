@@ -29,14 +29,13 @@ class SearchController extends AbstractController
         SpeakerRepository $speakerRepository,
         NormalizerInterface $normalizer,
         SearchClientInterface $searchClient,
-        TagAwareCacheInterface $cache
-    ): JsonResponse
-    {
+        TagAwareCacheInterface $cache,
+    ): JsonResponse {
         $limit = $request->query->getInt('limit', 24);
         $page = $request->query->getInt('page', 1);
         $query = $request->query->get('query', '');
 
-        $cacheKey = 'search-talks-' . md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
+        $cacheKey = 'search-talks-'.md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
         $data = $cache->get(
             $cacheKey,
             function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $speakerRepository, $normalizer): array {
@@ -57,7 +56,7 @@ class SearchController extends AbstractController
 
                 $speakers = $speakerRepository->findBy(['id' => $speakerIds]);
 
-                usort($speakers, fn(Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
+                usort($speakers, fn (Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
 
                 return [
                     'data' => $normalizer->normalize($speakers, null, ['withTalks' => false]),

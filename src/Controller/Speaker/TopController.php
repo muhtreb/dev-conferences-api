@@ -29,13 +29,12 @@ class TopController extends AbstractController
         NormalizerInterface $normalizer,
         SearchClientInterface $searchClient,
         TagAwareCacheInterface $cache,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $limit = $request->query->getInt('limit', 10);
         $page = $request->query->get('page', 1);
         $query = $request->query->get('query', '');
 
-        $cacheKey = 'top-speakers-' . md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
+        $cacheKey = 'top-speakers-'.md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
 
         $data = $cache->get(
             $cacheKey,
@@ -57,7 +56,7 @@ class TopController extends AbstractController
 
                 $speakers = $speakerRepository->findBy(['id' => $speakerIds]);
 
-                usort($speakers, fn(Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
+                usort($speakers, fn (Speaker $a, Speaker $b) => array_search($a->getId(), $speakerIds) - array_search($b->getId(), $speakerIds));
 
                 return $normalizer->normalize($speakers, null, ['withTalks' => false]);
             }

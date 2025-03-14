@@ -21,7 +21,7 @@ class EditController extends AbstractController
         path: '/admin/conferences/editions/{conferenceEdition}',
         name: 'api_admin_conference_edition_edit',
         requirements: ['conferenceEdition' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
-        methods: ['PATCH']
+        methods: ['PUT']
     )]
     #[OA\Tag(name: 'Conference Edition')]
     #[Security(name: 'Bearer')]

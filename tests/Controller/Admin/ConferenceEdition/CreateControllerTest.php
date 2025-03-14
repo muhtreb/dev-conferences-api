@@ -44,6 +44,8 @@ class CreateControllerTest extends WebTestCase
             uri: '/admin/conferences/' . $existingConference['id'] . '/editions',
             parameters: [
                 'name' => 'Conference Edition Test',
+                'startDate' => '2022-01-01',
+                'endDate' => '2022-01-02',
             ],
         );
 
@@ -52,5 +54,7 @@ class CreateControllerTest extends WebTestCase
         $conferenceEdition = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Conference Edition Test', $conferenceEdition['name']);
         $this->assertEquals('conference-edition-test', $conferenceEdition['slug']);
+        $this->assertEquals('2022-01-01', $conferenceEdition['startDate']);
+        $this->assertEquals('2022-01-02', $conferenceEdition['endDate']);
     }
 }

@@ -27,8 +27,7 @@ readonly class ConferenceEditionManager
         private TalkIndexer $talkIndexer,
         #[Autowire(service: 'slug_generator.conference_edition')]
         private SlugGenerator $conferenceEditionSlugGenerator,
-    )
-    {
+    ) {
     }
 
     public function createConferenceEditionFromDTO(ConferenceEditionDomainObject $dto): ConferenceEdition

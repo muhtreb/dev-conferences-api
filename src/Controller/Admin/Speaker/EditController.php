@@ -21,7 +21,7 @@ class EditController extends AbstractController
         path: '/admin/speakers/{speaker}',
         name: 'api_admin_speaker_edit',
         requirements: ['speaker' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
-        methods: ['PATCH']
+        methods: ['PUT']
     )]
     #[OA\Tag(name: 'Speaker')]
     #[Security(name: 'Bearer')]

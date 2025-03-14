@@ -15,7 +15,7 @@ class EditControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->jsonRequest(
-            method: Request::METHOD_PATCH,
+            method: Request::METHOD_PUT,
             uri: '/admin/talks/00000000-0000-0000-0000-000000000000',
             parameters: [
                 'name' => 'New Talk name'
@@ -42,7 +42,7 @@ class EditControllerTest extends WebTestCase
         $newName = 'New Talk name';
 
         $client->jsonRequest(
-            method: Request::METHOD_PATCH,
+            method: Request::METHOD_PUT,
             uri: '/admin/talks/' . $existingTalk['id'],
             parameters: [
                 'name' => $newName,

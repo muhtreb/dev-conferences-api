@@ -33,8 +33,8 @@ class ConferenceEditionNormalizer implements NormalizerAwareInterface, Normalize
             'name' => $data->getName(),
             'slug' => $data->getSlug(),
             'description' => $data->getDescription(),
-            'startDate' => $startDate ? $startDate->format('Y-m-d H:i:s') : null,
-            'endDate' => $endDate ? $endDate->format('Y-m-d H:i:s') : null,
+            'startDate' => $startDate?->format('Y-m-d'),
+            'endDate' => $endDate?->format('Y-m-d'),
             'thumbnailImageUrl' => $data->getConference()->getThumbnailImageUrl(),
         ];
 

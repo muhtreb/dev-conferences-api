@@ -29,16 +29,15 @@ class SearchController extends AbstractController
         ConferenceRepository $conferenceRepository,
         NormalizerInterface $normalizer,
         SearchClientInterface $searchClient,
-        TagAwareCacheInterface $cache
-    ): JsonResponse
-    {
+        TagAwareCacheInterface $cache,
+    ): JsonResponse {
         $withEditions = $request->query->getBoolean('withEditions', true);
 
         $limit = $request->query->getInt('limit', 24);
         $page = $request->query->getInt('page', 1);
         $query = $request->query->get('query', '');
 
-        $cacheKey = 'search-conference-' . md5(sprintf('query=%s-limit=%d-page=%d-withEditions=%s', $query, $limit, $page, $withEditions ? 'true' : 'false'));
+        $cacheKey = 'search-conference-'.md5(sprintf('query=%s-limit=%d-page=%d-withEditions=%s', $query, $limit, $page, $withEditions ? 'true' : 'false'));
         $data = $cache->get(
             $cacheKey,
             function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $conferenceRepository, $normalizer, $withEditions): array {
@@ -60,7 +59,7 @@ class SearchController extends AbstractController
 
                 $conferences = $conferenceRepository->getConferencesByIds($conferenceIds);
 
-                usort($conferences, fn(Conference $a, Conference $b) => array_search($a->getId(), $conferenceIds) - array_search($b->getId(), $conferenceIds));
+                usort($conferences, fn (Conference $a, Conference $b) => array_search($a->getId(), $conferenceIds) - array_search($b->getId(), $conferenceIds));
 
                 return [
                     'data' => $normalizer->normalize($conferences, null, [

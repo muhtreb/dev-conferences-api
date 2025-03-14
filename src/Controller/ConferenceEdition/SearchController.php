@@ -29,14 +29,13 @@ class SearchController extends AbstractController
         ConferenceEditionRepository $conferenceEditionRepository,
         NormalizerInterface $normalizer,
         SearchClientInterface $searchClient,
-        TagAwareCacheInterface $cache
-    ): JsonResponse
-    {
+        TagAwareCacheInterface $cache,
+    ): JsonResponse {
         $limit = $request->query->getInt('limit', 24);
         $page = $request->query->getInt('page', 1);
         $query = $request->query->get('query', '');
 
-        $cacheKey = 'search-conference-editions-' . md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
+        $cacheKey = 'search-conference-editions-'.md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
         $data = $cache->get(
             $cacheKey,
             function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $conferenceEditionRepository, $normalizer): array {
@@ -58,7 +57,7 @@ class SearchController extends AbstractController
 
                 $conferenceEditions = $conferenceEditionRepository->findBy(['id' => $conferenceEditionIds]);
 
-                usort($conferenceEditions, fn(ConferenceEdition $a, ConferenceEdition $b) => array_search($a->getId(), $conferenceEditionIds) - array_search($b->getId(), $conferenceEditionIds));
+                usort($conferenceEditions, fn (ConferenceEdition $a, ConferenceEdition $b) => array_search($a->getId(), $conferenceEditionIds) - array_search($b->getId(), $conferenceEditionIds));
 
                 return [
                     'data' => $normalizer->normalize($conferenceEditions, null, [
@@ -73,6 +72,7 @@ class SearchController extends AbstractController
                 ];
             }
         );
+
         return new JsonResponse($data);
     }
 }

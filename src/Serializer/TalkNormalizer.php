@@ -30,7 +30,7 @@ class TalkNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'id' => $data->getId(),
             'name' => $data->getName(),
             'description' => $data->getDescription(),
-            'date' => $data->getDate()->format('Y-m-d H:i:s'),
+            'date' => $data->getDate()->format('Y-m-d'),
             'youtubeId' => $data->getYoutubeId(),
             'duration' => $data->getDuration(),
             'images' => [
