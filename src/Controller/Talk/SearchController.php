@@ -39,7 +39,7 @@ class SearchController extends AbstractController
         $data = $cache->get(
             $cacheKey,
             function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $talkRepository, $normalizer): array {
-                $item->tag(['talks']);
+                $item->tag(['search-talks']);
 
                 $searchResults = $searchClient->search('talks', new SearchQueryDomainObject(
                     query: $query,

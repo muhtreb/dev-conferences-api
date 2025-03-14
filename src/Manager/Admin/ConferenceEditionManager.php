@@ -15,6 +15,7 @@ use App\Service\Search\Indexer\TalkIndexer;
 use App\Service\SlugGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 readonly class ConferenceEditionManager
 {
@@ -27,6 +28,7 @@ readonly class ConferenceEditionManager
         private TalkIndexer $talkIndexer,
         #[Autowire(service: 'slug_generator.conference_edition')]
         private SlugGenerator $conferenceEditionSlugGenerator,
+        private TagAwareCacheInterface $cache,
     ) {
     }
 
@@ -44,6 +46,8 @@ readonly class ConferenceEditionManager
         $this->conferenceEditionRepository->save($conferenceEdition);
 
         $this->indexConferenceEdition($conferenceEdition);
+
+        $this->invalidateSearchCache();
 
         return $conferenceEdition;
     }
@@ -66,6 +70,8 @@ readonly class ConferenceEditionManager
         $this->conferenceEditionRepository->save($conferenceEdition);
 
         $this->indexConferenceEdition($conferenceEdition);
+
+        $this->invalidateSearchCache();
 
         return $conferenceEdition;
     }
@@ -99,6 +105,8 @@ readonly class ConferenceEditionManager
         foreach ($playlistImports as $playlistImport) {
             $this->bus->dispatch(new ImportYoutubePlaylistMessage($playlistImport->getId()));
         }
+
+        $this->invalidateSearchCache();
     }
 
     public function removeConferenceEdition(ConferenceEdition $conferenceEdition): void
@@ -112,5 +120,12 @@ readonly class ConferenceEditionManager
         $this->conferenceEditionRepository->remove($conferenceEdition);
 
         $this->conferenceEditionIndexer->removeConferenceEditionById($id);
+
+        $this->invalidateSearchCache();
+    }
+
+    private function invalidateSearchCache(): void
+    {
+        $this->cache->invalidateTags(['search-conference-editions']);
     }
 }

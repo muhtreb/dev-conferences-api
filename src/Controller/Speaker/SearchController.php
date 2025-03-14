@@ -35,11 +35,11 @@ class SearchController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $query = $request->query->get('query', '');
 
-        $cacheKey = 'search-talks-'.md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
+        $cacheKey = 'search-speakers-'.md5(sprintf('query=%s-limit=%d-page=%d', $query, $limit, $page));
         $data = $cache->get(
             $cacheKey,
             function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $speakerRepository, $normalizer): array {
-                $item->tag(['speakers']);
+                $item->tag(['search-speakers']);
 
                 $searchResults = $searchClient->search('speakers', new SearchQueryDomainObject(
                     query: $query,

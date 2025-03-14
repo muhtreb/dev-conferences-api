@@ -7,6 +7,7 @@ use App\Entity\Conference;
 use App\Repository\ConferenceRepository;
 use App\Service\Search\Indexer\ConferenceIndexer;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 readonly class ConferenceManager
 {
@@ -14,6 +15,7 @@ readonly class ConferenceManager
         private ConferenceRepository $conferenceRepository,
         private ConferenceIndexer $conferenceIndexer,
         private SluggerInterface $slugger,
+        private TagAwareCacheInterface $cache,
     ) {
     }
 
@@ -30,6 +32,8 @@ readonly class ConferenceManager
         $this->conferenceRepository->save($conference);
 
         $this->conferenceIndexer->indexConference($conference);
+
+        $this->invalidateSearchCache();
 
         return $conference;
     }
@@ -48,6 +52,8 @@ readonly class ConferenceManager
 
         $this->conferenceIndexer->indexConference($conference);
 
+        $this->invalidateSearchCache();
+
         return $conference;
     }
 
@@ -58,5 +64,12 @@ readonly class ConferenceManager
         $this->conferenceRepository->remove($conference);
 
         $this->conferenceIndexer->removeConferenceById($id);
+
+        $this->invalidateSearchCache();
+    }
+
+    private function invalidateSearchCache(): void
+    {
+        $this->cache->invalidateTags(['search-conferences']);
     }
 }

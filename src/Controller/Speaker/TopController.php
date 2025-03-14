@@ -39,7 +39,7 @@ class TopController extends AbstractController
         $data = $cache->get(
             $cacheKey,
             function (ItemInterface $item) use ($searchClient, $query, $limit, $page, $speakerRepository, $normalizer): array {
-                $item->tag(['speakers']);
+                $item->tag(['search-speakers']);
 
                 $searchResults = $searchClient->search('speakers', new SearchQueryDomainObject(
                     query: $query,

@@ -8,6 +8,7 @@ use App\Repository\SpeakerRepository;
 use App\Service\Search\Indexer\SpeakerIndexer;
 use App\Service\SlugGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 readonly class SpeakerManager
 {
@@ -16,6 +17,7 @@ readonly class SpeakerManager
         private SpeakerIndexer $speakerIndexer,
         #[Autowire(service: 'slug_generator.speaker')]
         private SlugGenerator $speakerSlugGenerator,
+        private TagAwareCacheInterface $cache,
     ) {
     }
 
@@ -29,6 +31,8 @@ readonly class SpeakerManager
 
         $this->speakerIndexer->indexSpeaker($speaker);
 
+        $this->invalidateSearchCache();
+
         return $speaker;
     }
 
@@ -39,6 +43,8 @@ readonly class SpeakerManager
         $this->speakerRepository->save($speaker);
 
         $this->speakerIndexer->indexSpeaker($speaker);
+
+        $this->invalidateSearchCache();
 
         return $speaker;
     }
@@ -65,5 +71,12 @@ readonly class SpeakerManager
         $this->speakerRepository->remove($speaker);
 
         $this->speakerIndexer->removeSpeakerById($id);
+
+        $this->invalidateSearchCache();
+    }
+
+    private function invalidateSearchCache(): void
+    {
+        $this->cache->invalidateTags(['search-speakers']);
     }
 }

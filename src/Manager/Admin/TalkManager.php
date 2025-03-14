@@ -12,6 +12,7 @@ use App\Service\Search\Indexer\SpeakerIndexer;
 use App\Service\Search\Indexer\TalkIndexer;
 use App\Service\SlugGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 readonly class TalkManager
 {
@@ -23,6 +24,7 @@ readonly class TalkManager
         private TalkIndexer $talkIndexer,
         #[Autowire(service: 'slug_generator.talk')]
         private SlugGenerator $talkSlugGenerator,
+        private TagAwareCacheInterface $cache,
     ) {
     }
 
@@ -42,6 +44,8 @@ readonly class TalkManager
         $this->talkRepository->save($talk);
 
         $this->talkIndexer->indexTalk($talk);
+
+        $this->invalidateSearchCache();
 
         return $talk;
     }
@@ -78,6 +82,8 @@ readonly class TalkManager
             $this->speakerIndexer->indexSpeaker($speaker);
         }
 
+        $this->invalidateSearchCache();
+
         return $talk;
     }
 
@@ -88,5 +94,12 @@ readonly class TalkManager
         $this->talkRepository->remove($talk);
 
         $this->talkIndexer->removeTalkById($id);
+
+        $this->invalidateSearchCache();
+    }
+
+    private function invalidateSearchCache()
+    {
+        $this->cache->invalidateTags(['search-talks']);
     }
 }
