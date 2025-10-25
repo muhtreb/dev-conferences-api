@@ -41,10 +41,12 @@ COPY . /application
 WORKDIR /application
 RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader --no-scripts
 
+# Run database migrations
+RUN php bin/console --no-interaction doctrine:migrations:migrate || true
+
 # Set up Nginx
-RUN mkdir -p /etc/nginx/http.d && \
-    rm -f /etc/nginx/http.d/default.conf
-COPY ./docker/prod/nginx/nginx.conf /etc/nginx/http.d/default.conf
+COPY ./docker/prod/nginx/nginx-main.conf /etc/nginx/nginx.conf
+COPY ./docker/prod/nginx/site.conf /etc/nginx/conf.d/default.conf
 
 # Configure Supervisor
 COPY ./docker/prod/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
