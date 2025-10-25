@@ -1,24 +1,21 @@
 # Base image
-FROM php:8.4-fpm
+FROM php:8.4-fpm-alpine
 
 # Install necessary packages for both PHP and Nginx
-RUN apt-get clean && apt-get update \
-    && apt-get -y --no-install-recommends install \
+RUN apk update \
+    && apk add --no-cache \
         nginx \
-        locales \
         vim \
         unzip \
-        iputils-ping \
-        libicu-dev \
-        libpq-dev \
-        zlib1g-dev \
+        iputils \
+        icu-dev \
+        postgresql-dev \
+        zlib-dev \
         libzip-dev \
         supervisor \
         git \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
-
-# Set up locales
-RUN locale-gen en_US.UTF-8 && locale-gen fr_FR.UTF-8
+        curl \
+    && rm -rf /var/cache/apk/*
 
 # Configure PHP
 COPY ./docker/prod/php-fpm/docker-www.conf /etc/php/8.4/fpm/conf.d/docker-www.conf
