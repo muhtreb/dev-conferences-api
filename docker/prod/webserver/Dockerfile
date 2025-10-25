@@ -18,8 +18,8 @@ RUN apk update \
     && rm -rf /var/cache/apk/*
 
 # Configure PHP
-COPY ./docker/prod/php-fpm/docker-www.conf /etc/php/8.4/fpm/conf.d/docker-www.conf
-COPY ./docker/prod/php-fpm/php-ini-overrides.ini /etc/php/8.4/fpm/conf.d/99-overrides.ini
+COPY ./docker/prod/php-fpm/docker-www.conf /usr/local/etc/php-fpm.d/zz-docker-www.conf
+COPY ./docker/prod/php-fpm/php-ini-overrides.ini /usr/local/etc/php/conf.d/99-overrides.ini
 
 # Install PHP extensions
 RUN docker-php-ext-install -j$(nproc) intl \
@@ -42,7 +42,9 @@ WORKDIR /application
 RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader --no-scripts
 
 # Set up Nginx
-COPY ./docker/prod/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+RUN mkdir -p /etc/nginx/http.d && \
+    rm -f /etc/nginx/http.d/default.conf
+COPY ./docker/prod/nginx/nginx.conf /etc/nginx/http.d/default.conf
 
 # Configure Supervisor
 COPY ./docker/prod/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
