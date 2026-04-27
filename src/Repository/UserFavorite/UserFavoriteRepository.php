@@ -21,7 +21,7 @@ class UserFavoriteRepository extends AbstractRepository
     public function checkUserFavoriteSpeakerIds(User $user, array $speakerIds): array
     {
         $query = $this
-            ->_em
+            ->getEntityManager()
             ->createQueryBuilder()
             ->from(UserFavoriteSpeaker::class, 'uf')
             ->select('s.id')
@@ -40,7 +40,7 @@ class UserFavoriteRepository extends AbstractRepository
     public function checkUserFavoriteTalkIds(User $user, array $talkIds): array
     {
         $query = $this
-            ->_em
+            ->getEntityManager()
             ->createQueryBuilder()
             ->from(UserFavoriteTalk::class, 'uf')
             ->select('t.id')
@@ -59,7 +59,7 @@ class UserFavoriteRepository extends AbstractRepository
     public function checkUserFavoriteConferenceIds(User $user, array $conferenceIds): array
     {
         $qb = $this
-            ->_em
+            ->getEntityManager()
             ->createQueryBuilder();
 
         $results = $qb
@@ -79,7 +79,7 @@ class UserFavoriteRepository extends AbstractRepository
     public function checkUserFavoriteConferenceEditionIds(User $user, array $editionIds): array
     {
         $query = $this
-            ->_em
+            ->getEntityManager()
             ->createQueryBuilder()
             ->from(UserFavoriteConferenceEdition::class, 'uf')
             ->select('e.id')

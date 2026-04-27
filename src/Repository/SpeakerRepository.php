@@ -18,7 +18,7 @@ class SpeakerRepository extends AbstractRepository implements CheckSlugExistsRep
 
     public function getTalkSpeakers(Talk $talk): ArrayCollection
     {
-        $results = $this->_em->createQueryBuilder()
+        $results = $this->getEntityManager()->createQueryBuilder()
             ->select('st', 's')
             ->from(SpeakerTalk::class, 'st')
             ->join('st.speaker', 's')
@@ -39,7 +39,7 @@ class SpeakerRepository extends AbstractRepository implements CheckSlugExistsRep
 
     public function checkSlugExists(string $slug, ?Uuid $uuid = null): bool
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $query = <<<SQL
            SELECT slug
            FROM speaker

@@ -19,7 +19,7 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
 
     public function getSpeakerTalks(Speaker $speaker): ArrayCollection
     {
-        $results = $this->_em->createQueryBuilder()
+        $results = $this->getEntityManager()->createQueryBuilder()
             ->select('st', 't')
             ->from(SpeakerTalk::class, 'st')
             ->join('st.talk', 't')
@@ -41,7 +41,7 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
 
     public function countSpeakerTalks(Speaker $speaker): int
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
 
         return $qb->select($qb->expr()->count('t'))
             ->from(SpeakerTalk::class, 'st')
@@ -54,7 +54,7 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
 
     public function checkSlugExists(string $slug, ?Uuid $uuid = null): bool
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $query = <<<SQL
            SELECT slug
            FROM talk
@@ -70,7 +70,7 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
         if (null !== $uuid) {
             $stmt->bindValue('talkId', $uuid);
         }
-        $result = $stmt->execute();
+        $result = $stmt->executeQuery();
 
         return false !== $result->fetchOne();
     }
@@ -111,7 +111,7 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
 
     public function getTalksStatsByYear(): array
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $query = <<<SQL
             SELECT COUNT(*) AS count, EXTRACT(YEAR FROM date) AS year
             FROM talk
@@ -120,7 +120,7 @@ class TalkRepository extends AbstractRepository implements CheckSlugExistsReposi
         SQL;
 
         $stmt = $connection->prepare($query);
-        $result = $stmt->execute();
+        $result = $stmt->executeQuery();
 
         return $result->fetchAllAssociative();
     }

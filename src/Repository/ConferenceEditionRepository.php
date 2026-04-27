@@ -65,7 +65,7 @@ class ConferenceEditionRepository extends AbstractRepository implements CheckSlu
 
     public function checkSlugExists(string $slug, ?Uuid $uuid = null): bool
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $query = <<<SQL
            SELECT slug
            FROM conference_edition
@@ -81,14 +81,14 @@ class ConferenceEditionRepository extends AbstractRepository implements CheckSlu
         if (null !== $uuid) {
             $stmt->bindValue('editionId', $uuid);
         }
-        $result = $stmt->execute();
+        $result = $stmt->executeQuery();
 
         return false !== $result->fetchOne();
     }
 
     public function getEditionsStatsByYear()
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $query = <<<SQL
             SELECT COUNT(*) AS count, EXTRACT(YEAR FROM start_date) AS year
             FROM conference_edition
@@ -97,7 +97,7 @@ class ConferenceEditionRepository extends AbstractRepository implements CheckSlu
         SQL;
 
         $stmt = $connection->prepare($query);
-        $result = $stmt->execute();
+        $result = $stmt->executeQuery();
 
         return $result->fetchAllAssociative();
     }

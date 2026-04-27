@@ -8,22 +8,24 @@ abstract class AbstractRepository extends ServiceEntityRepository
 {
     public function refresh(object $entity): void
     {
-        $this->_em->refresh($entity);
+        $this->getEntityManager()->refresh($entity);
     }
 
     public function save(object $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $em = $this->getEntityManager();
+        $em->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $em->flush();
         }
     }
 
     public function remove(object $entity, bool $flush = true): void
     {
-        $this->_em->remove($entity);
+        $em = $this->getEntityManager();
+        $em->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $em->flush();
         }
     }
 }

@@ -14,15 +14,15 @@ class YoutubePlaylistImportRepository extends AbstractRepository
 
     public function getPendingImports(): array
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $query = <<<SQL
            SELECT id, playlist_id, conference_edition_id
            FROM youtube_playlist_import
            WHERE NOT(jsonb_exists(data::jsonb, 'success'))
         SQL;
         $stmt = $connection->prepare($query);
-        $result = $stmt->execute();
+        $result = $stmt->executeQuery();
 
-        return $result->fetchAll();
+        return $result->fetchAllAssociative();
     }
 }
