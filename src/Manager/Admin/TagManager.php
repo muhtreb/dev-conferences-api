@@ -22,7 +22,7 @@ readonly class TagManager
             throw new \InvalidArgumentException('Tag already exists');
         }
 
-        $tag = (new Tag())
+        $tag = new Tag()
             ->setName($dto->name);
 
         $this->tagRepository->save($tag);

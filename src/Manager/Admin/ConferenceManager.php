@@ -21,7 +21,7 @@ readonly class ConferenceManager
 
     public function createConferenceFromDTO(ConferenceDomainObject $dto): Conference
     {
-        $conference = (new Conference())
+        $conference = new Conference()
             ->setName($dto->name)
             ->setSlug($this->slugger->slug($dto->name)->lower())
             ->setDescription($dto->description)

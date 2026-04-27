@@ -32,7 +32,7 @@ readonly class TalkManager
     {
         $slug = ($this->talkSlugGenerator)($dto->name);
 
-        $talk = (new Talk())
+        $talk = new Talk()
             ->setName($dto->name)
             ->setSlug($slug)
             ->setDescription($dto->description)
@@ -70,7 +70,7 @@ readonly class TalkManager
         }
 
         foreach ($speakers as $speaker) {
-            $this->speakerTalkRepository->save((new SpeakerTalk())->setTalk($talk)->setSpeaker($speaker)->setMain(true));
+            $this->speakerTalkRepository->save(new SpeakerTalk()->setTalk($talk)->setSpeaker($speaker)->setMain(true));
         }
 
         $this->talkRepository->save($talk);

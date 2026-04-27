@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 readonly class ConferenceEditionIndexer
 {
-    private const INDEX_NAME = 'conference_editions';
+    private const string INDEX_NAME = 'conference_editions';
 
     public function __construct(
         private SearchClientInterface $searchClient,

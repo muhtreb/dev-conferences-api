@@ -26,7 +26,7 @@ readonly class YoutubePlaylistImportManager
     ): YoutubePlaylistImport {
         $this->logger->info('Creating YoutubePlaylistImport from DTO', ['dto' => $dto]);
 
-        $youtubePlaylistImport = (new YoutubePlaylistImport())
+        $youtubePlaylistImport = new YoutubePlaylistImport()
             ->setPlaylistId($dto->playlistId)
             ->setConferenceEdition($conferenceEdition)
             ->setStatus(YoutubePlaylistImportStatusEnum::Pending);

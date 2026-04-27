@@ -63,7 +63,7 @@ readonly class ImportYoutubePlaylistManager
                 continue;
             }
 
-            $talk = (new Talk())
+            $talk = new Talk()
                 ->setConferenceEdition($youtubePlaylistImport->getConferenceEdition())
                 ->setName($playlistItem['snippet']['title'])
                 ->setSlug(($this->talkSlugGenerator)($playlistItem['snippet']['title']))

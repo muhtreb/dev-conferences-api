@@ -17,7 +17,7 @@ readonly class RegisterManager
 
     public function createUserFromDTO(RegisterDomainObject $dto): User
     {
-        $user = (new User())
+        $user = new User()
             ->setEmail($dto->email);
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->password));
 

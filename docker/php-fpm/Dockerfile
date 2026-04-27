@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM php:8.5-fpm
 WORKDIR "/application"
 
 # Fix debconf warnings upon build
@@ -25,7 +25,7 @@ RUN apt-get update \
     && docker-php-ext-install -j$(nproc) pdo_mysql
 
 # Install xdebug
-RUN pecl install xdebug-3.4.1 \
+RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini

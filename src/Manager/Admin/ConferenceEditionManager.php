@@ -35,7 +35,7 @@ readonly class ConferenceEditionManager
     public function createConferenceEditionFromDTO(ConferenceEditionDomainObject $dto): ConferenceEdition
     {
         $slug = ($this->conferenceEditionSlugGenerator)($dto->name);
-        $conferenceEdition = (new ConferenceEdition())
+        $conferenceEdition = new ConferenceEdition()
             ->setName($dto->name)
             ->setSlug($slug)
             ->setDescription($dto->description)
@@ -89,7 +89,7 @@ readonly class ConferenceEditionManager
             return $conferenceEditionNotification;
         }
 
-        $conferenceEditionNotification = (new ConferenceEditionNotification())
+        $conferenceEditionNotification = new ConferenceEditionNotification()
             ->setEmail($dto->email)
             ->setConferenceEdition($dto->conferenceEdition);
 

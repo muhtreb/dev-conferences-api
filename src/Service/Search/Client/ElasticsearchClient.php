@@ -28,7 +28,7 @@ readonly class ElasticsearchClient implements SearchClientInterface
     {
         try {
             $this->client->indices()->delete(['index' => $indexName]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         $this->createIndex($indexName, $options);

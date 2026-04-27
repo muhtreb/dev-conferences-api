@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Symfony\Set\SymfonySetList;
+use Rector\Symfony\CodeQuality\Rector\Class_\ControllerMethodInjectionToConstructorRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -12,11 +13,14 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
-    ->withPhpSets(php84: true)
+    ->withPhpSets(php85: true)
     ->withSymfonyContainerXml(__DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml')
     ->withSets([
         SymfonySetList::SYMFONY_71,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
+    ])
+    ->withSkip([
+        ControllerMethodInjectionToConstructorRector::class,
     ])
     ->withTypeCoverageLevel(0);

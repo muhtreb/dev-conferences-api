@@ -23,7 +23,6 @@ class CreateController extends AbstractController
     public function __invoke(
         NormalizerInterface $normalizer,
         TagManager $tagManager,
-        Request $request,
         #[MapRequestPayload(
             validationGroups: ['create']
         )] TagDomainObject $dto,

@@ -25,7 +25,6 @@ class CreateYoutubePlaylistImportController extends AbstractController
     #[Security(name: 'Bearer')]
     public function __invoke(
         ConferenceEdition $conferenceEdition,
-        Request $request,
         YoutubePlaylistImportManager $youtubePlaylistImportManager,
         NormalizerInterface $normalizer,
         #[MapRequestPayload(

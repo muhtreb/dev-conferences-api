@@ -24,11 +24,13 @@ class UniqueValueInEntity extends Constraint
         $this->ignoreId = $ignoreId ?? $this->ignoreId;
     }
 
+    #[\Override]
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
+    #[\Override]
     public function validatedBy(): string
     {
         return static::class.'Validator';

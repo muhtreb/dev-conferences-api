@@ -11,7 +11,7 @@ class TagFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         foreach (['PHP', 'Javascript', 'Java', 'Python', 'Ruby', 'C++', 'C#', 'Go', 'Swift', 'Kotlin'] as $tag) {
-            $manager->persist((new Tag())->setName($tag));
+            $manager->persist(new Tag()->setName($tag));
         }
 
         $manager->flush();

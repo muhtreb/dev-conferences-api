@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 readonly class TalkIndexer
 {
-    private const INDEX_NAME = 'talks';
+    private const string INDEX_NAME = 'talks';
 
     public function __construct(
         private SearchClientInterface $searchClient,

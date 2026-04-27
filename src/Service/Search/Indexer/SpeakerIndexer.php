@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 readonly class SpeakerIndexer
 {
-    private const INDEX_NAME = 'speakers';
+    private const string INDEX_NAME = 'speakers';
 
     public function __construct(
         private SearchClientInterface $searchClient,
