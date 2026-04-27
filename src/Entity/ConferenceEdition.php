@@ -39,11 +39,11 @@ class ConferenceEdition implements SluggableEntity
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $twitter = null;
 
-    #[ORM\Column(type: 'date', nullable: true)]
-    private ?\DateTimeInterface $startDate = null;
+    #[ORM\Column(type: 'date_immutable', nullable: true)]
+    private ?\DateTimeImmutable $startDate = null;
 
-    #[ORM\Column(type: 'date', nullable: true)]
-    private ?\DateTimeInterface $endDate = null;
+    #[ORM\Column(type: 'date_immutable', nullable: true)]
+    private ?\DateTimeImmutable $endDate = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?string $legacyId = null;
@@ -125,24 +125,24 @@ class ConferenceEdition implements SluggableEntity
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTimeImmutable
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?\DateTimeInterface $startDate): self
+    public function setStartDate(?\DateTimeImmutable $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?\DateTimeImmutable
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndDate(?\DateTimeImmutable $endDate): self
     {
         $this->endDate = $endDate;
 

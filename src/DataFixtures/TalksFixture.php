@@ -19,7 +19,7 @@ class TalksFixture extends Fixture implements DependentFixtureInterface
                 ->setName('Talk '.$i)
                 ->setSlug('talk-'.$i)
                 ->setConferenceEdition($this->getReference('conference_edition_'.random_int(1, 10), ConferenceEdition::class))
-                ->setDate(new \DateTime())
+                ->setDate(new \DateTimeImmutable())
                 ->setYoutubeId('youtube_id_'.$i)
                 ->setPosition($i)
                 ->setDescription('Description '.$i);

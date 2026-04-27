@@ -31,8 +31,8 @@ class Talk implements SluggableEntity
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'date', nullable: false)]
-    private \DateTimeInterface $date;
+    #[ORM\Column(type: 'date_immutable', nullable: false)]
+    private \DateTimeImmutable $date;
 
     #[ORM\Column(type: 'string', nullable: false)]
     private string $youtubeId;
@@ -120,12 +120,12 @@ class Talk implements SluggableEntity
         return $this;
     }
 
-    public function getDate(): \DateTimeInterface
+    public function getDate(): \DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTimeImmutable $date): self
     {
         $this->date = $date;
 
