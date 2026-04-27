@@ -6,6 +6,7 @@ use App\DomainObject\Search\SearchQueryDomainObject;
 use App\DomainObject\Search\SearchResultsDomainObject;
 use App\Enum\SearchClientEnum;
 use Meilisearch\Client;
+use Meilisearch\Exceptions\ApiException;
 
 readonly class MeilisearchClient implements SearchClientInterface
 {
@@ -29,23 +30,38 @@ readonly class MeilisearchClient implements SearchClientInterface
     public function resetIndex(string $indexName, array $options = []): void
     {
         $index = $this->client->index($indexName);
-        $index->deleteAllDocuments();
+
+        try {
+            $index->deleteAllDocuments();
+        } catch (ApiException $e) {
+            if ('index_not_found' !== $e->errorCode) {
+                throw $e;
+            }
+        }
     }
 
     public function search(string $indexName, SearchQueryDomainObject $query): SearchResultsDomainObject
     {
         $index = $this->client->index($indexName);
 
-        $result = $index->search($query->query, [
-            'attributesToRetrieve' => [
-                'objectID',
-            ],
-            'hitsPerPage' => $query->limit,
-            'page' => $query->page,
-            'sort' => [
-                $query->sort->field.':'.$query->sort->direction,
-            ],
-        ])->toArray();
+        try {
+            $result = $index->search($query->query, [
+                'attributesToRetrieve' => [
+                    'objectID',
+                ],
+                'hitsPerPage' => $query->limit,
+                'page' => $query->page,
+                'sort' => [
+                    $query->sort->field.':'.$query->sort->direction,
+                ],
+            ])->toArray();
+        } catch (ApiException $e) {
+            if ('index_not_found' === $e->errorCode) {
+                return new SearchResultsDomainObject([], 0);
+            }
+
+            throw $e;
+        }
 
         return new SearchResultsDomainObject(
             array_map(fn ($hit) => $hit['objectID'], $result['hits']),
